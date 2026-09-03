@@ -309,8 +309,12 @@
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   .card .card-note { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 16px; }
+  .h-icon { width: 18px; height: 18px; flex: none; color: var(--accent); }
 
   /* legend */
   .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 14px; }
@@ -350,6 +354,7 @@
     color: var(--ink-secondary);
     white-space: nowrap;
   }
+  .bar-tip-label.inside { color: var(--surface); font-weight: 600; }
   .group-divider {
     display: flex; align-items: center; gap: 10px;
     margin: 4px 0 2px;
@@ -577,8 +582,8 @@
     <a class="topnav-brand" href="#top">Condiciones de uso · Chile</a>
     <div class="topnav-links">
       <a href="#resumen" data-nav="resumen">Resumen</a>
+      <a href="#gobernanza" data-nav="gobernanza">Gobernanza de datos</a>
       <a href="#localizacion" data-nav="localizacion">Localización</a>
-      <a href="#sociality" data-nav="sociality">Gobernanza de datos</a>
       <a href="#explorar" data-nav="explorar">Explorar datos</a>
     </div>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro">
@@ -593,7 +598,7 @@
   <header class="masthead" id="resumen">
     <div class="eyebrow">Expediente comparado &middot; condiciones de uso digitales &middot; Chile</div>
     <h1>¿A quién le rinden cuentas las plataformas?</h1>
-    <p class="dek">Veinte servicios digitales de uso masivo en Chile, leídos como infraestructura contractual: qué datos autorizan recolectar, si reconocen jurisdicción chilena, y qué declaran sobre recomendación algorítmica e inteligencia artificial generativa.</p>
+    <p class="dek">Veinte servicios digitales de uso masivo en Chile, leídos como infraestructura contractual: qué datos autorizan recolectar, con quién declaran compartirlos, qué control real tienes sobre tu propia información — y si, además, reconocen las leyes chilenas al hacerlo.</p>
     <div class="meta-row">
       <span><strong>20</strong> plataformas</span>
       <span><strong>30</strong> variables codificadas</span>
@@ -604,56 +609,35 @@
 
   <section class="kpi-row" id="kpi-row"></section>
 
-  <section class="section" id="localizacion">
+  <section class="section" id="gobernanza">
     <div class="section-head">
-      <div class="section-eyebrow">Hallazgo central</div>
-      <h2>Las redes sociales no reconocen las leyes chilenas; la banca y el comercio sí</h2>
-      <p>Comparamos si cada plataforma tiene una versión de sus términos escrita específicamente para Chile —en español, con una entidad legal y tribunales locales— o si solo remite a un documento global, categoría por categoría.</p>
+      <div class="section-eyebrow">Gobernanza de datos</div>
+      <h2>El control sobre tus datos es la excepción, no la regla</h2>
+      <p>Cómo se pide tu consentimiento, si puedes apagar la personalización, quién controla cada plataforma, con quién comparte tus datos y qué actividad rastrea — con base en un <a href="docs/analisis_discurso_tos.md">análisis de discurso</a> de las 20 condiciones de uso.</p>
     </div>
-    <div class="card-grid">
-      <div class="card" style="grid-column: 1 / -1;">
-        <h3>¿Qué plataformas tienen términos pensados para Chile?</h3>
-        <div class="card-note">Composición de cada categoría según si sus plataformas declaran una versión localizada, parcial, o ninguna.</div>
-        <div class="legend" id="legend-localizacion"></div>
-        <div class="chart-rows" id="chart-localizacion"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
     <div class="card-grid">
       <div class="card">
-        <h3>¿Puedes desactivar la personalización algorítmica?</h3>
-        <div class="card-note">Las 20 plataformas, según si el usuario puede desactivar la curación algorítmica del contenido que se le muestra.</div>
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7.2" stroke-dasharray="2.2 2.6"/><path d="M6.6 10.3l2.3 2.3 4.5-5"/></svg>¿Cómo se pide tu consentimiento?</h3>
+        <div class="card-note">Mecanismo declarado para autorizar el tratamiento de datos, en las 20 plataformas.</div>
+        <div class="chart-rows" id="chart-consentimiento"></div>
+      </div>
+      <div class="card">
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6.4" width="16" height="7.2" rx="3.6"/><circle cx="7" cy="10" r="2.3" fill="currentColor" stroke="none"/></svg>¿Puedes desactivar la personalización algorítmica?</h3>
+        <div class="card-note">Según si el usuario puede desactivar la curación algorítmica del contenido que se le muestra.</div>
         <div class="chart-rows" id="chart-optout"></div>
       </div>
       <div class="card">
-        <h3>¿Qué tan claras son las reglas de moderación?</h3>
-        <div class="card-note">Nivel de detalle con que el documento legal describe sus reglas de moderación de comportamiento.</div>
-        <div class="chart-rows" id="chart-gobernanza"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="sociality">
-    <div class="section-head">
-      <div class="section-eyebrow">Gobernanza de datos</div>
-      <h2>La lógica contractual se extiende más allá de las redes sociales</h2>
-      <p>El reconocimiento de sistemas de recomendación y de inteligencia artificial generativa ya no es exclusivo de plataformas sociales: aparece también en banca y en servicios del Estado. Esta sección suma quién controla estas plataformas, con quién declaran compartir los datos, y qué actividad rastrean — con base en un <a href="docs/analisis_discurso_tos.md">análisis de discurso de las 20 condiciones de uso</a>.</p>
-    </div>
-    <div class="card-grid">
-      <div class="card">
-        <h3>¿Qué sectores ya declaran usar IA generativa?</h3>
-        <div class="card-note">Plataformas que declaran explícitamente el uso de IA generativa, sobre el total de cada categoría.</div>
-        <div class="chart-rows" id="chart-ia"></div>
-      </div>
-      <div class="card">
-        <h3>¿Tu actividad alimenta lo que te muestran?</h3>
-        <div class="card-note">Si el documento reconoce que el comportamiento de navegación alimenta la personalización de contenido (distinto de publicidad).</div>
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 11h3l1.8-5.5 3 10 2-8.5 1.6 4h3.6"/></svg>¿Tu actividad alimenta lo que te muestran?</h3>
+        <div class="card-note">Si el documento reconoce que el comportamiento de navegación alimenta la personalización de contenido.</div>
         <div class="chart-rows" id="chart-conductual"></div>
       </div>
+      <div class="card">
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.2v13.6M4.6 6h10.8"/><path d="M4.6 6L2.4 10.6a2.3 2.3 0 004.4 0L4.6 6zM15.4 6l-2.2 4.6a2.3 2.3 0 004.4 0L15.4 6z"/><path d="M6.6 16.8h6.8"/></svg>¿Qué tan claras son las reglas de moderación?</h3>
+        <div class="card-note">Nivel de detalle con que el documento describe sus reglas de moderación de comportamiento.</div>
+        <div class="chart-rows" id="chart-gobernanza"></div>
+      </div>
       <div class="card" style="grid-column: 1 / -1;">
-        <h3>¿Quién controla realmente estas 20 plataformas?</h3>
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="9.5" width="4" height="7.5"/><rect x="8" y="4.5" width="4" height="12.5"/><rect x="13.5" y="11.5" width="4" height="5.5"/></svg>¿Quién controla realmente estas 20 plataformas?</h3>
         <div class="card-note">Los 10 controladores corporativos o estatales con más plataformas en el corpus, y las que operan. Verificado desde <code>empresa_operadora</code> y <code>pais_origen_matriz</code>.</div>
         <div class="graph-legend" id="legend-ownership"></div>
         <figure class="graph-figure">
@@ -662,7 +646,7 @@
         </figure>
       </div>
       <div class="card" style="grid-column: 1 / -1;">
-        <h3>¿Con quién declaran compartir tus datos?</h3>
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="10" r="2.1"/><circle cx="15" cy="5.2" r="2.1"/><circle cx="15" cy="14.8" r="2.1"/><path d="M6.8 9.1l6.3-3M6.8 10.9l6.3 3"/></svg>¿Con quién declaran compartir tus datos?</h3>
         <div class="card-note">Las 20 plataformas conectadas a las tres prácticas de circulación de datos que el corpus permite codificar de forma comparable. Línea sólida = declarado; línea punteada = declarado parcialmente.</div>
         <div class="graph-legend" id="legend-thirdparty"></div>
         <figure class="graph-figure">
@@ -671,12 +655,28 @@
         <div class="card-note" style="margin-top:10px; margin-bottom:0;">Límite de método: los ToS rara vez nombran al tercero específico — hablan de "empresas afiliadas", "proveedores de servicios" o "socios comerciales". El grafo muestra la práctica declarada, no la identidad del receptor (ver análisis de discurso).</div>
       </div>
       <div class="card" style="grid-column: 1 / -1;">
-        <h3>¿Qué rastrean más: las redes sociales u otras plataformas?</h3>
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10s3-5.2 8-5.2 8 5.2 8 5.2-3 5.2-8 5.2-8-5.2-8-5.2z"/><circle cx="10" cy="10" r="2.4"/></svg>¿Qué rastrean más: las redes sociales u otras plataformas?</h3>
         <div class="card-note">Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato. Redes sociales y mensajería (n=5) frente al resto del corpus — comercio, delivery, banca, gobierno, salud y streaming (n=15).</div>
         <div class="graph-legend" id="legend-tracked"></div>
         <figure class="graph-figure">
           <svg class="graph-svg" id="graph-tracked" viewBox="0 0 680 420" role="img" aria-label="Actividades rastreadas: redes sociales y mensajería declaran recolectar identificación, contacto, ubicación, contenido generado, comportamiento de navegación y datos del dispositivo en el 100% de los casos; el resto del corpus lo hace en una proporción menor mediante datos financieros y biométricos."></svg>
         </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="localizacion">
+    <div class="section-head">
+      <div class="section-eyebrow">Jurisdicción</div>
+      <h2>Las redes sociales no reconocen las leyes chilenas; la banca y el comercio sí</h2>
+      <p>Si cada plataforma tiene una versión de sus términos escrita para Chile —en español, con entidad legal y tribunales locales— o si solo remite a un documento global.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 18s6-5.686 6-10a6 6 0 10-12 0c0 4.314 6 10 6 10z"/><circle cx="10" cy="8" r="2.1"/></svg>¿Qué plataformas tienen términos pensados para Chile?</h3>
+        <div class="card-note">Composición de cada categoría según si declara versión localizada, parcial, o ninguna.</div>
+        <div class="legend" id="legend-localizacion"></div>
+        <div class="chart-rows" id="chart-localizacion"></div>
       </div>
     </div>
   </section>
@@ -717,9 +717,9 @@
             <th data-key="plataforma">Plataforma</th>
             <th data-key="categoria">Categoría</th>
             <th data-key="naturaleza_publico_privado">Tipo de entidad</th>
-            <th data-key="version_localizada_chile">Términos para Chile</th>
+            <th data-key="comparte_datos_terceros">Comparte con terceros</th>
             <th data-key="posibilidad_opt_out_personalizacion">Control del usuario</th>
-            <th data-key="menciona_ia_generativa">Usa IA generativa</th>
+            <th data-key="version_localizada_chile">Términos para Chile</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -846,7 +846,12 @@ function renderMagnitudeRow(container, rowLabel, rowSub, value, max, color, valu
   track.style.background = 'var(--surface-2)';
   track.appendChild(bar);
   const tip = el('span', 'bar-tip-label', valueText);
-  tip.style.left = 'calc(' + pct + '% + 8px)';
+  if (pct > 78) {
+    tip.classList.add('inside');
+    tip.style.right = 'calc(' + (100 - pct) + '% + 8px)';
+  } else {
+    tip.style.left = 'calc(' + pct + '% + 8px)';
+  }
   track.appendChild(tip);
   row.appendChild(track);
   container.appendChild(row);
@@ -854,18 +859,16 @@ function renderMagnitudeRow(container, rowLabel, rowSub, value, max, color, valu
 
 /* ---------------- KPIs ---------------- */
 function computeKPIs() {
-  const atencion = DATA.filter(d => d.grupo === 'atencion_algoritmica');
-  const transacc = DATA.filter(d => d.grupo === 'transaccional');
-  const locAtencionSi = atencion.filter(d => d.version_localizada_chile === 'si').length;
-  const locTransaccSi = transacc.filter(d => d.version_localizada_chile === 'si').length;
   const optoutSi = DATA.filter(d => d.posibilidad_opt_out_personalizacion === 'si').length;
-  const iaSi = DATA.filter(d => d.menciona_ia_generativa === 'si').length;
+  const compartenTerceros = DATA.filter(d => d.comparte_datos_terceros === 'si' || d.comparte_datos_terceros === 'parcial').length;
+  const transfInternacional = DATA.filter(d => d.transferencia_internacional_datos === 'si').length;
+  const tacita = DATA.filter(d => d.mecanismo_consentimiento === 'aceptacion_tacita').length;
 
   const ICONS = {
-    pin: '<path d="M10 18s6-5.686 6-10a6 6 0 10-12 0c0 4.314 6 10 6 10z"/><circle cx="10" cy="8" r="2.1"/>',
-    shield: '<path d="M10 2.2l6 2.4v4.6c0 4.3-2.6 7.5-6 8.8-3.4-1.3-6-4.5-6-8.8V4.6l6-2.4z"/><path d="M7.1 10.1l1.9 1.9 3.9-4.2"/>',
+    share: '<circle cx="5" cy="10" r="2.1"/><circle cx="15" cy="5.2" r="2.1"/><circle cx="15" cy="14.8" r="2.1"/><path d="M6.8 9.1l6.3-3M6.8 10.9l6.3 3"/>',
+    globe: '<circle cx="10" cy="10" r="7.2"/><path d="M2.8 10h14.4"/><path d="M10 2.8c2.6 2 2.6 12.4 0 14.4c-2.6-2-2.6-12.4 0-14.4z"/>',
     toggle: '<rect x="2" y="6.4" width="16" height="7.2" rx="3.6"/><circle cx="7" cy="10" r="2.3" fill="currentColor" stroke="none"/>',
-    spark: '<path d="M10 2.5l1.5 4.9L16.5 9l-5 1.6L10 15.5 8.5 10.6 3.5 9l5-1.6L10 2.5z" fill="currentColor" stroke="none"/>'
+    nod: '<circle cx="10" cy="10" r="7.2" stroke-dasharray="2.2 2.6"/><path d="M6.6 10.3l2.3 2.3 4.5-5"/>'
   };
   function iconSvg(name) {
     return '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
@@ -873,32 +876,32 @@ function computeKPIs() {
 
   const kpis = [
     {
-      label: 'Redes, mensajería y streaming: casi ninguna reconoce las leyes chilenas',
-      value: locAtencionSi + ' de ' + atencion.length,
-      sub: 'tiene términos escritos específicamente para Chile',
+      label: 'Casi todas comparten tus datos con terceros',
+      value: compartenTerceros + ' de ' + DATA.length,
+      sub: 'declara compartir información con otras empresas, en todo o en parte',
       color: 'var(--status-critical)',
-      icon: 'pin'
+      icon: 'share'
     },
     {
-      label: 'Banca, comercio y gobierno: todas reconocen las leyes chilenas',
-      value: locTransaccSi + ' de ' + transacc.length,
-      sub: 'tiene una versión de sus términos localizada para Chile',
-      color: 'var(--status-good)',
-      icon: 'shield'
+      label: 'La mayoría envía tus datos fuera de Chile',
+      value: transfInternacional + ' de ' + DATA.length,
+      sub: 'declara transferencia internacional de datos personales',
+      color: 'var(--status-warning)',
+      icon: 'globe'
     },
     {
       label: 'Casi nadie puede apagar la personalización algorítmica',
       value: optoutSi + ' de ' + DATA.length,
       sub: 'ofrece opt-out completo; el resto, solo parcial o ninguno',
-      color: 'var(--status-warning)',
+      color: 'var(--status-critical)',
       icon: 'toggle'
     },
     {
-      label: 'La IA generativa ya se declara fuera de las redes sociales',
-      value: iaSi + ' de ' + DATA.length,
-      sub: 'declara usarla — incluye 3 de 4 bancos y el SII',
-      color: 'var(--accent)',
-      icon: 'spark'
+      label: 'Seguir usando el servicio cuenta como aceptar',
+      value: tacita + ' de ' + DATA.length,
+      sub: 'no pide un clic explícito: usa aceptación tácita por defecto',
+      color: 'var(--status-warning)',
+      icon: 'nod'
     }
   ];
 
@@ -984,16 +987,20 @@ function computeGobernanzaChart() {
   });
 }
 
-/* ---------------- Chart: IA generativa por categoría (magnitude) ---------------- */
-function computeIAChart() {
-  const container = document.getElementById('chart-ia');
-  const max = 1; // proportions 0-1
-  CATEGORY_ORDER.forEach(cat => {
-    const rows = DATA.filter(d => d.categoria === cat);
-    if (!rows.length) return;
-    const si = rows.filter(d => d.menciona_ia_generativa === 'si').length;
-    const prop = si / rows.length;
-    renderMagnitudeRow(container, CATEGORY_LABELS[cat], null, prop, max, 'var(--accent)', si + ' / ' + rows.length);
+/* ---------------- Chart: mecanismo de consentimiento (magnitude) ---------------- */
+function computeConsentimientoChart() {
+  const container = document.getElementById('chart-consentimiento');
+  const order = [
+    { key: 'aceptacion_tacita', label: 'Aceptación tácita', color: 'var(--status-critical)' },
+    { key: 'opt_in', label: 'Opt-in explícito', color: 'var(--status-good)' },
+    { key: 'obligatorio_por_ley', label: 'Obligatorio por ley', color: 'var(--status-neutral)' },
+    { key: 'no_especifica', label: 'No especifica', color: 'var(--status-neutral)' }
+  ];
+  const total = DATA.length;
+  const max = Math.max(...order.map(o => DATA.filter(d => d.mecanismo_consentimiento === o.key).length));
+  order.forEach(o => {
+    const count = DATA.filter(d => d.mecanismo_consentimiento === o.key).length;
+    renderMagnitudeRow(container, o.label, null, count, max, o.color, count + ' / ' + total);
   });
 }
 
@@ -1095,7 +1102,8 @@ function computeOwnershipGraph() {
     const g = sEl('g', {});
     g.appendChild(sEl('circle', { cx: rightX, cy: y, r: 4, fill: 'var(--surface)', stroke: 'var(--ink-muted)', 'stroke-width': 1.3 }));
     const label = sEl('text', { x: rightX + 10, y: y + 3.6, class: 'graph-node-label' });
-    label.textContent = row ? row.plataforma : p.id;
+    const fullName = row ? row.plataforma : p.id;
+    label.textContent = fullName.length > 34 ? fullName.slice(0, 32) + '…' : fullName;
     g.appendChild(label);
     if (row) attachTip(g, row.plataforma, row.empresa_operadora);
     svg.appendChild(g);
@@ -1189,7 +1197,7 @@ const TRACKED_TYPE_LABELS = {
 
 function computeTrackedActivitiesGraph() {
   const svg = document.getElementById('graph-tracked');
-  const W = 680, H = 420, leftX = 150, rightX = 480, topPad = 24, botPad = 24;
+  const W = 680, H = 420, leftX = 190, rightX = 480, topPad = 24, botPad = 24;
 
   const legend = document.getElementById('legend-tracked');
   legendSwatch(legend, 'Redes sociales y mensajería (n=5)', 'var(--cat-atencion)');
@@ -1242,10 +1250,15 @@ function computeTrackedActivitiesGraph() {
     const count = sEl('text', { x: leftX, y: y + 3.6, 'text-anchor': 'middle', class: 'graph-node-count' });
     count.textContent = 'n=' + total;
     gEl.appendChild(count);
-    const label = sEl('text', { x: leftX - r - 8, y: y + 3.6, class: 'graph-node-label right' });
-    label.textContent = g === 'rrss' ? 'Redes sociales y mensajería' : 'Resto del corpus';
+    const fullLabel = g === 'rrss' ? 'Redes sociales y mensajería' : 'Resto del corpus';
+    const label = sEl('text', { x: leftX - r - 8, y: y - 3, class: 'graph-node-label right' });
+    label.textContent = g === 'rrss' ? 'Redes sociales' : 'Resto del';
     gEl.appendChild(label);
-    attachTip(gEl, label.textContent, total + ' plataformas');
+    const label2 = sEl('text', { x: leftX - r - 8, y: y + 10, class: 'graph-node-sub' });
+    label2.setAttribute('text-anchor', 'end');
+    label2.textContent = g === 'rrss' ? 'y mensajería' : 'corpus';
+    gEl.appendChild(label2);
+    attachTip(gEl, fullLabel, total + ' plataformas');
     svg.appendChild(gEl);
   });
 
@@ -1270,7 +1283,7 @@ function pillFor(field, value) {
   const map = {
     version_localizada_chile: { si: ['good','Sí'], parcial: ['warning','Parcial'], no: ['critical','No'], no_especifica: ['neutral','No especifica'] },
     posibilidad_opt_out_personalizacion: { si: ['good','Completo'], parcial: ['warning','Parcial'], no_aplica: ['neutral','No aplica'], no_especifica: ['neutral','No especifica'] },
-    menciona_ia_generativa: { si: ['good','Sí'], no: ['neutral','No'], no_especifica: ['neutral','No especifica'] }
+    comparte_datos_terceros: { si: ['critical','Sí'], parcial: ['warning','Parcial'], no: ['good','No'], no_especifica: ['neutral','No especifica'] }
   };
   const conf = (map[field] || {})[value] || ['neutral', value];
   const span = el('span', 'pill ' + conf[0], conf[1]);
@@ -1341,10 +1354,10 @@ function renderTable() {
     const tdOpt = document.createElement('td');
     tdOpt.appendChild(pillFor('posibilidad_opt_out_personalizacion', r.posibilidad_opt_out_personalizacion));
 
-    const tdIA = document.createElement('td');
-    tdIA.appendChild(pillFor('menciona_ia_generativa', r.menciona_ia_generativa));
+    const tdTerceros = document.createElement('td');
+    tdTerceros.appendChild(pillFor('comparte_datos_terceros', r.comparte_datos_terceros));
 
-    [tdId, tdPlat, tdCat, tdNat, tdLoc, tdOpt, tdIA].forEach(td => tr.appendChild(td));
+    [tdId, tdPlat, tdCat, tdNat, tdTerceros, tdOpt, tdLoc].forEach(td => tr.appendChild(td));
     tbody.appendChild(tr);
   });
 
@@ -1410,13 +1423,11 @@ const FIELD_GROUPS = [
     ]
   },
   {
-    title: 'Sociality algorítmica',
+    title: 'Gobernanza y personalización',
     fields: [
       ['usa_recomendacion_algoritmica_declarada', 'Recomendación algorítmica declarada'],
       ['posibilidad_opt_out_personalizacion', 'Opt-out de personalización'],
       ['datos_conductuales_para_personalizacion', 'Datos conductuales para personalización'],
-      ['menciona_ia_generativa', 'Menciona IA generativa'],
-      ['uso_declarado_ia_generativa', 'Uso declarado de IA generativa'],
       ['version_localizada_chile', 'Versión localizada para Chile'],
       ['gobernanza_moderacion_comportamiento', 'Gobernanza de moderación'],
       ['regula_trabajo_creadores_o_relacional', 'Regula trabajo de creadores'],
@@ -1525,7 +1536,7 @@ function setupThemeToggle() {
 
 /* ---------------- scroll-spy nav ---------------- */
 function setupScrollSpy() {
-  const ids = ['resumen', 'localizacion', 'sociality', 'explorar'];
+  const ids = ['resumen', 'gobernanza', 'localizacion', 'explorar'];
   const links = {};
   ids.forEach(id => { links[id] = document.querySelector('.topnav-links a[data-nav="' + id + '"]'); });
   const targets = ids.map(id => document.getElementById(id)).filter(Boolean);
@@ -1548,7 +1559,7 @@ computeKPIs();
 computeLocalizacionChart();
 computeOptoutChart();
 computeGobernanzaChart();
-computeIAChart();
+computeConsentimientoChart();
 computeConductualChart();
 computeOwnershipGraph();
 computeThirdPartyGraph();
