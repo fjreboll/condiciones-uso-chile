@@ -553,6 +553,23 @@
     .card-grid { grid-template-columns: 1fr; }
     .chart-row { grid-template-columns: 96px 1fr; }
   }
+
+  /* ---------------- network graphs ---------------- */
+  .graph-figure { margin: 0; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+  .graph-svg { width: 100%; height: auto; display: block; overflow: visible; }
+  @media (max-width: 700px) {
+    .graph-svg { width: 680px; min-width: 680px; }
+  }
+  .graph-svg text { font-family: var(--font-body); }
+  .graph-node-label { font-size: 11px; font-weight: 500; fill: var(--ink); }
+  .graph-node-label.right { text-anchor: end; }
+  .graph-node-sub { font-size: 9.5px; fill: var(--ink-muted); }
+  .graph-node-count { font-size: 10.5px; font-weight: 600; fill: var(--surface); }
+  figure.graph-figure figcaption { font-size: 12.5px; color: var(--ink-muted); margin-top: 10px; }
+  .graph-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 14px; font-size: 12.5px; color: var(--ink-secondary); }
+  .graph-legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .graph-legend .sw.line { border-radius: 0; height: 2px; width: 16px; vertical-align: 2px; }
+  .graph-legend .sw.dashed { background: none; border-top: 2px dashed currentColor; height: 0; }
 </style>
 
 <nav class="topnav" id="topnav">
@@ -561,7 +578,7 @@
     <div class="topnav-links">
       <a href="#resumen" data-nav="resumen">Resumen</a>
       <a href="#localizacion" data-nav="localizacion">Localización</a>
-      <a href="#sociality" data-nav="sociality">Sociality algorítmica</a>
+      <a href="#sociality" data-nav="sociality">Gobernanza de datos</a>
       <a href="#explorar" data-nav="explorar">Explorar datos</a>
     </div>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro">
@@ -620,9 +637,9 @@
 
   <section class="section" id="sociality">
     <div class="section-head">
-      <div class="section-eyebrow">Sociality algorítmica</div>
+      <div class="section-eyebrow">Gobernanza de datos</div>
       <h2>La lógica contractual se extiende más allá de las redes sociales</h2>
-      <p>El reconocimiento de sistemas de recomendación y de inteligencia artificial generativa ya no es exclusivo de plataformas sociales: aparece también en banca y en servicios del Estado.</p>
+      <p>El reconocimiento de sistemas de recomendación y de inteligencia artificial generativa ya no es exclusivo de plataformas sociales: aparece también en banca y en servicios del Estado. Esta sección suma quién controla estas plataformas, con quién declaran compartir los datos, y qué actividad rastrean — con base en un <a href="docs/analisis_discurso_tos.md">análisis de discurso de las 20 condiciones de uso</a>.</p>
     </div>
     <div class="card-grid">
       <div class="card">
@@ -634,6 +651,32 @@
         <h3>¿Tu actividad alimenta lo que te muestran?</h3>
         <div class="card-note">Si el documento reconoce que el comportamiento de navegación alimenta la personalización de contenido (distinto de publicidad).</div>
         <div class="chart-rows" id="chart-conductual"></div>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3>¿Quién controla realmente estas 20 plataformas?</h3>
+        <div class="card-note">Los 10 controladores corporativos o estatales con más plataformas en el corpus, y las que operan. Verificado desde <code>empresa_operadora</code> y <code>pais_origen_matriz</code>.</div>
+        <div class="graph-legend" id="legend-ownership"></div>
+        <figure class="graph-figure">
+          <svg class="graph-svg" id="graph-ownership" viewBox="0 0 740 470" role="img" aria-label="Red de propiedad corporativa: el Estado de Chile controla 4 plataformas (BancoEstado, ClaveÚnica/ChileAtiende, SII, Fonasa); Meta y Alphabet controlan 2 cada una; los otros 7 controladores del top 10, 1 cada uno."></svg>
+          <figcaption>Cubre 15 de las 20 plataformas del corpus. Las 5 restantes (Rappi, Banco Santander Chile, Banco de Chile, BCI, Spotify) tienen controladores individuales fuera del top 10.</figcaption>
+        </figure>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3>¿Con quién declaran compartir tus datos?</h3>
+        <div class="card-note">Las 20 plataformas conectadas a las tres prácticas de circulación de datos que el corpus permite codificar de forma comparable. Línea sólida = declarado; línea punteada = declarado parcialmente.</div>
+        <div class="graph-legend" id="legend-thirdparty"></div>
+        <figure class="graph-figure">
+          <svg class="graph-svg" id="graph-thirdparty" viewBox="0 0 760 560" role="img" aria-label="Red de intercambio de datos con terceros: la gran mayoría de las 20 plataformas declara compartir datos con terceros y transferirlos fuera de Chile; el perfilamiento publicitario es la práctica menos extendida y no aplica a la banca ni al Estado."></svg>
+        </figure>
+        <div class="card-note" style="margin-top:10px; margin-bottom:0;">Límite de método: los ToS rara vez nombran al tercero específico — hablan de "empresas afiliadas", "proveedores de servicios" o "socios comerciales". El grafo muestra la práctica declarada, no la identidad del receptor (ver análisis de discurso).</div>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3>¿Qué rastrean más: las redes sociales u otras plataformas?</h3>
+        <div class="card-note">Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato. Redes sociales y mensajería (n=5) frente al resto del corpus — comercio, delivery, banca, gobierno, salud y streaming (n=15).</div>
+        <div class="graph-legend" id="legend-tracked"></div>
+        <figure class="graph-figure">
+          <svg class="graph-svg" id="graph-tracked" viewBox="0 0 680 420" role="img" aria-label="Actividades rastreadas: redes sociales y mensajería declaran recolectar identificación, contacto, ubicación, contenido generado, comportamiento de navegación y datos del dispositivo en el 100% de los casos; el resto del corpus lo hace en una proporción menor mediante datos financieros y biométricos."></svg>
+        </figure>
       </div>
     </div>
   </section>
@@ -969,6 +1012,259 @@ function computeConductualChart() {
   });
 }
 
+/* ---------------- network graphs ---------------- */
+const SVGNS = 'http://www.w3.org/2000/svg';
+function sEl(tag, attrs) {
+  const e = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+function legendSwatch(container, label, color, shape) {
+  const span = el('span', null);
+  const sw = document.createElement('span');
+  sw.className = 'sw' + (shape === 'dashed' ? ' dashed' : '');
+  if (shape !== 'dashed') sw.style.background = color;
+  else sw.style.borderColor = color;
+  sw.style.color = color;
+  span.appendChild(sw);
+  span.appendChild(document.createTextNode(label));
+  container.appendChild(span);
+}
+
+/* Verificado contra empresa_operadora / pais_origen_matriz del CSV (2-sep-2026).
+   Cubre los 10 controladores con más plataformas del corpus; ids referencian DATA. */
+const OWNERSHIP = [
+  { owner: 'Estado de Chile', country: 'Chile', ids: ['13','14','15','16'] },
+  { owner: 'Meta Platforms, Inc.', country: 'Extranjero', ids: ['1','2'] },
+  { owner: 'Alphabet Inc. (Google LLC)', country: 'Extranjero', ids: ['18','19'] },
+  { owner: 'ByteDance Ltd.', country: 'Extranjero', ids: ['3'] },
+  { owner: 'Microsoft Corporation', country: 'Extranjero', ids: ['5'] },
+  { owner: 'X Holdings Corp.', country: 'Extranjero', ids: ['4'] },
+  { owner: 'MercadoLibre Inc.', country: 'Extranjero', ids: ['6'] },
+  { owner: 'Uber Technologies, Inc.', country: 'Extranjero', ids: ['8'] },
+  { owner: 'S.A.C.I. Falabella', country: 'Chile', ids: ['7'] },
+  { owner: 'Netflix, Inc.', country: 'Extranjero', ids: ['17'] }
+];
+
+function computeOwnershipGraph() {
+  const svg = document.getElementById('graph-ownership');
+  const W = 740, H = 470, leftX = 190, rightX = 480, topPad = 26, botPad = 26;
+
+  const legend = document.getElementById('legend-ownership');
+  legendSwatch(legend, 'Matriz en Chile', 'var(--status-good)');
+  legendSwatch(legend, 'Matriz extranjera', 'var(--accent)');
+
+  const platformRows = [];
+  OWNERSHIP.forEach(o => o.ids.forEach(id => platformRows.push({ id: id, owner: o.owner })));
+  const n = platformRows.length;
+
+  const ownerY = {};
+  OWNERSHIP.forEach((o, i) => { ownerY[o.owner] = topPad + i * ((H - topPad - botPad) / (OWNERSHIP.length - 1)); });
+  const platY = {};
+  platformRows.forEach((p, i) => { platY[p.id] = topPad + i * ((H - topPad - botPad) / (n - 1)); });
+
+  OWNERSHIP.forEach(o => {
+    const color = o.country === 'Chile' ? 'var(--status-good)' : 'var(--accent)';
+    const y1 = ownerY[o.owner];
+    o.ids.forEach(id => {
+      const y2 = platY[id];
+      const x1 = leftX + 10, x2 = rightX - 7, mx = (x1 + x2) / 2;
+      svg.appendChild(sEl('path', { d: 'M ' + x1 + ',' + y1 + ' C ' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2, fill: 'none', stroke: color, 'stroke-width': 1.3, opacity: 0.38 }));
+    });
+  });
+
+  OWNERSHIP.forEach(o => {
+    const color = o.country === 'Chile' ? 'var(--status-good)' : 'var(--accent)';
+    const y = ownerY[o.owner];
+    const r = 7 + o.ids.length * 2.2;
+    const g = sEl('g', {});
+    g.appendChild(sEl('circle', { cx: leftX, cy: y, r: r, fill: color }));
+    const count = sEl('text', { x: leftX, y: y + 3.6, 'text-anchor': 'middle', class: 'graph-node-count' });
+    count.textContent = o.ids.length;
+    g.appendChild(count);
+    const label = sEl('text', { x: leftX - r - 8, y: y + 3.6, class: 'graph-node-label right' });
+    label.textContent = o.owner;
+    g.appendChild(label);
+    attachTip(g, o.owner, o.ids.length + ' plataforma' + (o.ids.length > 1 ? 's' : '') + ' en el corpus · matriz: ' + (o.country === 'Chile' ? 'Chile' : 'extranjera'));
+    svg.appendChild(g);
+  });
+
+  platformRows.forEach(p => {
+    const y = platY[p.id];
+    const row = DATA.find(d => d.id === p.id);
+    const g = sEl('g', {});
+    g.appendChild(sEl('circle', { cx: rightX, cy: y, r: 4, fill: 'var(--surface)', stroke: 'var(--ink-muted)', 'stroke-width': 1.3 }));
+    const label = sEl('text', { x: rightX + 10, y: y + 3.6, class: 'graph-node-label' });
+    label.textContent = row ? row.plataforma : p.id;
+    g.appendChild(label);
+    if (row) attachTip(g, row.plataforma, row.empresa_operadora);
+    svg.appendChild(g);
+  });
+}
+
+const PRACTICES = [
+  { key: 'comparte_datos_terceros', label: 'Comparte con terceros' },
+  { key: 'transferencia_internacional_datos', label: 'Transferencia internacional' },
+  { key: 'uso_publicitario_perfilamiento', label: 'Perfilamiento publicitario' }
+];
+
+function computeThirdPartyGraph() {
+  const svg = document.getElementById('graph-thirdparty');
+  const W = 760, H = 560, leftX = 230, rightX = 540, topPad = 20, botPad = 20;
+
+  const legend = document.getElementById('legend-thirdparty');
+  legendSwatch(legend, 'Declarado ("sí")', 'var(--accent)', 'line');
+  legendSwatch(legend, 'Declarado parcialmente', 'var(--accent)', 'dashed');
+
+  const rows = [];
+  CATEGORY_ORDER.forEach(cat => DATA.filter(d => d.categoria === cat).forEach(d => rows.push(d)));
+  const n = rows.length;
+  const platY = {};
+  rows.forEach((r, i) => { platY[r.id] = topPad + i * ((H - topPad - botPad) / (n - 1)); });
+  const practiceY = {};
+  PRACTICES.forEach((p, i) => { practiceY[p.key] = 70 + i * ((H - 140) / (PRACTICES.length - 1)); });
+
+  const counts = {};
+  PRACTICES.forEach(p => { counts[p.key] = { si: 0, parcial: 0 }; });
+
+  rows.forEach(r => {
+    const y1 = platY[r.id];
+    PRACTICES.forEach(p => {
+      const val = r[p.key];
+      if (val !== 'si' && val !== 'parcial') return;
+      counts[p.key][val]++;
+      const y2 = practiceY[p.key];
+      const x1 = leftX + 6, x2 = rightX - 10, mx = (x1 + x2) / 2;
+      const attrs = { d: 'M ' + x1 + ',' + y1 + ' C ' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2, fill: 'none', stroke: 'var(--accent)' };
+      if (val === 'si') { attrs['stroke-width'] = 1.1; attrs.opacity = 0.4; }
+      else { attrs['stroke-width'] = 1; attrs.opacity = 0.28; attrs['stroke-dasharray'] = '3,3'; }
+      svg.appendChild(sEl('path', attrs));
+    });
+  });
+
+  rows.forEach(r => {
+    const y = platY[r.id];
+    const g = sEl('g', {});
+    g.appendChild(sEl('circle', { cx: leftX, cy: y, r: 3.2, fill: 'var(--surface)', stroke: 'var(--ink-muted)', 'stroke-width': 1.1 }));
+    const label = sEl('text', { x: leftX - 11, y: y + 3.2, class: 'graph-node-label right', style: 'font-size:9.5px;' });
+    label.textContent = r.plataforma.length > 26 ? r.plataforma.slice(0, 24) + '…' : r.plataforma;
+    g.appendChild(label);
+    attachTip(g, r.plataforma, CATEGORY_LABELS[r.categoria]);
+    svg.appendChild(g);
+  });
+
+  PRACTICES.forEach(p => {
+    const y = practiceY[p.key];
+    const total = counts[p.key].si + counts[p.key].parcial;
+    const r = 11 + total * 0.9;
+    const g = sEl('g', {});
+    g.appendChild(sEl('circle', { cx: rightX, cy: y, r: r, fill: 'var(--accent)' }));
+    const count = sEl('text', { x: rightX, y: y + 3.6, 'text-anchor': 'middle', class: 'graph-node-count' });
+    count.textContent = total;
+    g.appendChild(count);
+    const label = sEl('text', { x: rightX + r + 10, y: y - 2, class: 'graph-node-label' });
+    label.textContent = p.label;
+    g.appendChild(label);
+    const sub = sEl('text', { x: rightX + r + 10, y: y + 12, class: 'graph-node-sub' });
+    sub.textContent = counts[p.key].si + ' declaran · ' + counts[p.key].parcial + ' parcial';
+    g.appendChild(sub);
+    attachTip(g, p.label, total + ' de 20 plataformas (' + counts[p.key].si + ' sí, ' + counts[p.key].parcial + ' parcial)');
+    svg.appendChild(g);
+  });
+}
+
+const RRSS_CATS = ['red_social', 'mensajeria'];
+const TRACKED_TYPE_LABELS = {
+  identificacion: 'Identificación',
+  contacto: 'Contacto',
+  ubicacion: 'Ubicación',
+  contenido_generado: 'Contenido generado',
+  comportamiento_navegacion: 'Comportamiento de navegación',
+  datos_dispositivo: 'Datos del dispositivo',
+  biometricos: 'Datos biométricos',
+  financieros: 'Datos financieros',
+  datos_laborales: 'Datos laborales',
+  datos_salud: 'Datos de salud'
+};
+
+function computeTrackedActivitiesGraph() {
+  const svg = document.getElementById('graph-tracked');
+  const W = 680, H = 420, leftX = 150, rightX = 480, topPad = 24, botPad = 24;
+
+  const legend = document.getElementById('legend-tracked');
+  legendSwatch(legend, 'Redes sociales y mensajería (n=5)', 'var(--cat-atencion)');
+  legendSwatch(legend, 'Resto del corpus (n=15)', 'var(--cat-transaccional)');
+
+  const groups = { rrss: DATA.filter(d => RRSS_CATS.includes(d.categoria)), otras: DATA.filter(d => !RRSS_CATS.includes(d.categoria)) };
+  const counts = { rrss: {}, otras: {} };
+  ['rrss', 'otras'].forEach(g => {
+    groups[g].forEach(d => {
+      const raw = d.datos_personales_recolectados;
+      if (!raw || raw === 'no_especifica') return;
+      raw.split(';').map(s => s.trim()).filter(Boolean).forEach(t => { counts[g][t] = (counts[g][t] || 0) + 1; });
+    });
+  });
+
+  const allTypes = new Set([...Object.keys(counts.rrss), ...Object.keys(counts.otras)]);
+  const types = Array.from(allTypes).sort((a, b) => {
+    const ta = (counts.rrss[a] || 0) + (counts.otras[a] || 0);
+    const tb = (counts.rrss[b] || 0) + (counts.otras[b] || 0);
+    return tb - ta;
+  }).slice(0, 8);
+
+  const leftY = { rrss: H * 0.34, otras: H * 0.7 };
+  const typeY = {};
+  types.forEach((t, i) => { typeY[t] = topPad + i * ((H - topPad - botPad) / (types.length - 1)); });
+
+  ['rrss', 'otras'].forEach(g => {
+    const color = g === 'rrss' ? 'var(--cat-atencion)' : 'var(--cat-transaccional)';
+    const total = groups[g].length;
+    types.forEach(t => {
+      const count = counts[g][t] || 0;
+      if (!count) return;
+      const pct = count / total;
+      const y1 = leftY[g], y2 = typeY[t];
+      const x1 = leftX + 12, x2 = rightX - 9, mx = (x1 + x2) / 2;
+      svg.appendChild(sEl('path', {
+        d: 'M ' + x1 + ',' + y1 + ' C ' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2,
+        fill: 'none', stroke: color, 'stroke-width': (1 + pct * 5).toFixed(2), opacity: 0.42
+      }));
+    });
+  });
+
+  ['rrss', 'otras'].forEach(g => {
+    const color = g === 'rrss' ? 'var(--cat-atencion)' : 'var(--cat-transaccional)';
+    const total = groups[g].length;
+    const y = leftY[g];
+    const r = 10 + total * 1.6;
+    const gEl = sEl('g', {});
+    gEl.appendChild(sEl('circle', { cx: leftX, cy: y, r: r, fill: color }));
+    const count = sEl('text', { x: leftX, y: y + 3.6, 'text-anchor': 'middle', class: 'graph-node-count' });
+    count.textContent = 'n=' + total;
+    gEl.appendChild(count);
+    const label = sEl('text', { x: leftX - r - 8, y: y + 3.6, class: 'graph-node-label right' });
+    label.textContent = g === 'rrss' ? 'Redes sociales y mensajería' : 'Resto del corpus';
+    gEl.appendChild(label);
+    attachTip(gEl, label.textContent, total + ' plataformas');
+    svg.appendChild(gEl);
+  });
+
+  types.forEach(t => {
+    const y = typeY[t];
+    const rrssCount = counts.rrss[t] || 0, otrasCount = counts.otras[t] || 0;
+    const g = sEl('g', {});
+    g.appendChild(sEl('circle', { cx: rightX, cy: y, r: 4.5, fill: 'var(--surface)', stroke: 'var(--ink-muted)', 'stroke-width': 1.3 }));
+    const label = sEl('text', { x: rightX + 11, y: y - 2, class: 'graph-node-label' });
+    label.textContent = TRACKED_TYPE_LABELS[t] || t;
+    g.appendChild(label);
+    const sub = sEl('text', { x: rightX + 11, y: y + 12, class: 'graph-node-sub' });
+    sub.textContent = 'RRSS ' + rrssCount + '/5 · Resto ' + otrasCount + '/15';
+    g.appendChild(sub);
+    attachTip(g, TRACKED_TYPE_LABELS[t] || t, 'RRSS: ' + rrssCount + ' de 5 · Resto: ' + otrasCount + ' de 15');
+    svg.appendChild(g);
+  });
+}
+
 /* ---------------- pills ---------------- */
 function pillFor(field, value) {
   const map = {
@@ -1254,6 +1550,9 @@ computeOptoutChart();
 computeGobernanzaChart();
 computeIAChart();
 computeConductualChart();
+computeOwnershipGraph();
+computeThirdPartyGraph();
+computeTrackedActivitiesGraph();
 setupTableHeaders();
 setupFilters();
 renderTable();
