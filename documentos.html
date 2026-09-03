@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentos — Condiciones de uso digitales en Chile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    color-scheme: light;
+    --bg: #EEF1F5;
+    --surface: #FFFFFF;
+    --surface-2: #F4F6F9;
+    --ink: #12151C;
+    --ink-secondary: #4B5568;
+    --ink-muted: #7A8394;
+    --border: #DBE1E8;
+    --accent: #1F3864;
+    --accent-soft: #DCE5F2;
+    --accent-panel: #1F3864;
+    --accent-panel-ink: #FFFFFF;
+    --shadow: 0 1px 2px rgba(18,21,28,0.04), 0 6px 20px -8px rgba(18,21,28,0.12);
+    --radius: 12px;
+    --font-display: 'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0F131A; --surface: #171B24; --surface-2: #1C212C;
+      --ink: #EDEFF3; --ink-secondary: #B7BFCC; --ink-muted: #8891A0;
+      --border: #2B3140; --accent: #8FADDD; --accent-soft: #1E2A3E;
+      --accent-panel: #1B2C4D; --accent-panel-ink: #F3F6FC;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0F131A; --surface: #171B24; --surface-2: #1C212C;
+    --ink: #EDEFF3; --ink-secondary: #B7BFCC; --ink-muted: #8891A0;
+    --border: #2B3140; --accent: #8FADDD; --accent-soft: #1E2A3E;
+    --accent-panel: #1B2C4D; --accent-panel-ink: #F3F6FC;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:15px; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:28px 24px 80px; }
+  a { color:var(--accent); }
+  .masthead { background:var(--accent-panel); color:var(--accent-panel-ink); border-radius:var(--radius); padding:26px 30px; box-shadow:var(--shadow); margin-bottom:28px; }
+  .masthead a.back { font-family:var(--font-mono); font-size:12px; color:rgba(255,255,255,0.75); text-decoration:none; }
+  .masthead a.back:hover { color:#fff; }
+  .masthead h1 { font-family:var(--font-display); font-weight:600; font-size:28px; margin:10px 0 6px; text-wrap:balance; }
+  .masthead p { color:rgba(255,255,255,0.85); font-size:14px; max-width:60ch; }
+  .group { margin-bottom:30px; }
+  .group h2 { font-family:var(--font-display); font-size:18px; font-weight:600; margin-bottom:12px; }
+  .doc-card { display:flex; justify-content:space-between; align-items:center; gap:16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; box-shadow:var(--shadow); margin-bottom:10px; }
+  .doc-card .meta h3 { font-size:15px; font-weight:600; margin-bottom:3px; }
+  .doc-card .meta p { font-size:13px; color:var(--ink-secondary); }
+  .doc-card .tag { font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-muted); background:var(--surface-2); border:1px solid var(--border); padding:2px 7px; border-radius:5px; margin-right:8px; }
+  .dl-btn { flex:none; font-size:13px; font-weight:600; color:var(--accent); background:var(--accent-soft); border-radius:8px; padding:8px 14px; text-decoration:none; white-space:nowrap; }
+  .dl-btn:hover { filter:brightness(0.97); }
+  footer { margin-top:30px; padding-top:18px; border-top:1px solid var(--border); font-size:12.5px; color:var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <a class="back" href="index.html">&larr; Volver al dashboard</a>
+    <h1>Documentos del proyecto</h1>
+    <p>Marco teórico, propuesta de paper y datos crudos del repositorio de condiciones de uso digitales en Chile — proyecto "Agentes de especulación".</p>
+  </header>
+
+  <div class="group">
+    <h2>Documentos</h2>
+    <div class="doc-card">
+      <div class="meta">
+        <span class="tag">DOCX</span>
+        <h3>Marco teórico: diseño especulativo, artes mediales, humanidades digitales y STS</h3>
+        <p>Capítulo teórico extenso (APA 7) que sustenta la construcción de la base de datos.</p>
+      </div>
+      <a class="dl-btn" href="docs/Marco_teorico_condiciones_de_uso.docx">Descargar</a>
+    </div>
+    <div class="doc-card">
+      <div class="meta">
+        <span class="tag">DOCX</span>
+        <h3>Propuesta de paper — "Algorithmic Sociality" (Convergence, SAGE)</h3>
+        <p>Extended abstract, biografía de autor/a, evidencia empírica y estructura de paper completo.</p>
+      </div>
+      <a class="dl-btn" href="docs/Propuesta_paper_algorithmic_sociality.docx">Descargar</a>
+    </div>
+    <div class="doc-card">
+      <div class="meta">
+        <span class="tag">MD</span>
+        <h3>Análisis crítico del llamado a papers</h3>
+        <p>Lectura crítica de la convocatoria y las variables agregadas a la base de datos.</p>
+      </div>
+      <a class="dl-btn" href="docs/analisis_cfp_algorithmic_sociality.md">Descargar</a>
+    </div>
+    <div class="doc-card">
+      <div class="meta">
+        <span class="tag">MD</span>
+        <h3>Marco teórico (fuente en Markdown)</h3>
+        <p>Texto fuente del marco teórico, previo a su conversión a Word.</p>
+      </div>
+      <a class="dl-btn" href="docs/marco_teorico.md">Descargar</a>
+    </div>
+  </div>
+
+  <div class="group">
+    <h2>Datos</h2>
+    <div class="doc-card">
+      <div class="meta">
+        <span class="tag">CSV</span>
+        <h3>condiciones_de_uso_chile.csv</h3>
+        <p>20 plataformas × 30 variables — los datos que alimentan el dashboard.</p>
+      </div>
+      <a class="dl-btn" href="data/condiciones_de_uso_chile.csv">Descargar</a>
+    </div>
+  </div>
+
+  <div class="group">
+    <h2>Scripts de generación</h2>
+    <div class="doc-card">
+      <div class="meta">
+        <span class="tag">CÓDIGO</span>
+        <h3>scripts/</h3>
+        <p>Scripts Python/Node usados para construir el CSV y los documentos Word a partir de los datos investigados.</p>
+      </div>
+      <a class="dl-btn" href="scripts/">Ver carpeta</a>
+    </div>
+  </div>
+
+  <footer>Proyecto "Agentes de especulación" — repositorio de datos de condiciones de uso digitales en Chile.</footer>
+</div>
+</body>
+</html>

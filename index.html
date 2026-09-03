@@ -1,0 +1,1132 @@
+<title>¿A quién le rinden cuentas?</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    color-scheme: light;
+    --bg: #EEF1F5;
+    --surface: #FFFFFF;
+    --surface-2: #F4F6F9;
+    --ink: #12151C;
+    --ink-secondary: #4B5568;
+    --ink-muted: #7A8394;
+    --border: #DBE1E8;
+    --border-strong: #C3CBD6;
+
+    --accent: #1F3864;
+    --accent-soft: #DCE5F2;
+    --accent-ink: #14264A;
+    --accent-panel: #1F3864;
+    --accent-panel-ink: #FFFFFF;
+
+    --cat-atencion: #2a78d6;
+    --cat-atencion-soft: #DBEAFC;
+    --cat-transaccional: #b2551e;
+    --cat-transaccional-soft: #F7E4D5;
+
+    --status-good: #0c8f0c;
+    --status-good-soft: #DFF3DE;
+    --status-warning: #a8730b;
+    --status-warning-soft: #FBEDD2;
+    --status-critical: #bd3232;
+    --status-critical-soft: #FAE1E1;
+    --status-neutral: #7A8394;
+    --status-neutral-soft: #E7EAEF;
+
+    --ord-1: #86b6ef;
+    --ord-2: #2a78d6;
+    --ord-3: #104281;
+    --ord-4: #0d366b;
+
+    --shadow: 0 1px 2px rgba(18,21,28,0.04), 0 6px 20px -8px rgba(18,21,28,0.12);
+    --radius: 12px;
+    --font-display: 'Spectral', Georgia, 'Times New Roman', serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0F131A;
+      --surface: #171B24;
+      --surface-2: #1C212C;
+      --ink: #EDEFF3;
+      --ink-secondary: #B7BFCC;
+      --ink-muted: #8891A0;
+      --border: #2B3140;
+      --border-strong: #3A4152;
+
+      --accent: #8FADDD;
+      --accent-soft: #1E2A3E;
+      --accent-ink: #DCE7F8;
+      --accent-panel: #1B2C4D;
+      --accent-panel-ink: #F3F6FC;
+
+      --cat-atencion: #4a94ea;
+      --cat-atencion-soft: #1B2E47;
+      --cat-transaccional: #e0975a;
+      --cat-transaccional-soft: #3A2A1C;
+
+      --status-good: #4fbf4f;
+      --status-good-soft: #17301A;
+      --status-warning: #e0ac3e;
+      --status-warning-soft: #34290F;
+      --status-critical: #e2726b;
+      --status-critical-soft: #3A1B1B;
+      --status-neutral: #8891A0;
+      --status-neutral-soft: #262C38;
+
+      --ord-1: #2c496e;
+      --ord-2: #3987e5;
+      --ord-3: #6da7ec;
+      --ord-4: #b7d3f6;
+
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0F131A;
+    --surface: #171B24;
+    --surface-2: #1C212C;
+    --ink: #EDEFF3;
+    --ink-secondary: #B7BFCC;
+    --ink-muted: #8891A0;
+    --border: #2B3140;
+    --border-strong: #3A4152;
+
+    --accent: #8FADDD;
+    --accent-soft: #1E2A3E;
+    --accent-ink: #DCE7F8;
+
+    --cat-atencion: #4a94ea;
+    --cat-atencion-soft: #1B2E47;
+    --cat-transaccional: #e0975a;
+    --cat-transaccional-soft: #3A2A1C;
+
+    --status-good: #4fbf4f;
+    --status-good-soft: #17301A;
+    --status-warning: #e0ac3e;
+    --status-warning-soft: #34290F;
+    --status-critical: #e2726b;
+    --status-critical-soft: #3A1B1B;
+    --status-neutral: #8891A0;
+    --status-neutral-soft: #262C38;
+
+    --ord-1: #2c496e;
+    --ord-2: #3987e5;
+    --ord-3: #6da7ec;
+    --ord-4: #b7d3f6;
+
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
+
+  a { color: var(--accent); }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    background: var(--accent-panel);
+    color: var(--accent-panel-ink);
+    border-radius: var(--radius);
+    padding: 30px 34px 26px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 26px);
+    pointer-events: none;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 12px;
+  }
+  .masthead h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.15;
+    text-wrap: balance;
+    max-width: 23ch;
+    margin-bottom: 14px;
+  }
+  .masthead p.dek {
+    max-width: 62ch;
+    font-size: 15.5px;
+    color: rgba(255,255,255,0.86);
+    margin-bottom: 18px;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.75);
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding-top: 14px;
+  }
+  .meta-row strong { color: #fff; font-weight: 600; }
+
+  /* ---------- KPI strip ---------- */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .kpi-card .bar {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+  .kpi-label {
+    font-size: 12px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    line-height: 1.35;
+    min-height: 32px;
+  }
+  .kpi-value {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .kpi-sub { font-size: 12.5px; color: var(--ink-secondary); }
+  .kpi-sub b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Section framing ---------- */
+  .section { margin-top: 40px; }
+  .section-head { margin-bottom: 16px; max-width: 74ch; }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    text-wrap: balance;
+    margin-bottom: 6px;
+  }
+  .section-head p { color: var(--ink-secondary); font-size: 14px; }
+
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+  }
+  .card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .card .card-note { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 16px; }
+
+  /* legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-secondary); }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+
+  /* chart rows (hand-built horizontal bars) */
+  .chart-rows { display: flex; flex-direction: column; gap: 12px; }
+  .chart-row { display: grid; grid-template-columns: 128px 1fr; gap: 12px; align-items: center; }
+  .chart-row .row-label { font-size: 12.5px; color: var(--ink-secondary); text-align: right; line-height: 1.3; }
+  .chart-row .row-label .sub { display:block; font-size: 10.5px; color: var(--ink-muted); }
+  .bar-track {
+    position: relative;
+    height: 20px;
+    background: var(--surface-2);
+    border-radius: 4px;
+    display: flex;
+    gap: 2px;
+    overflow: visible;
+  }
+  .bar-seg {
+    height: 100%;
+    background: var(--status-neutral);
+    outline-offset: 2px;
+    cursor: pointer;
+    transition: filter 0.12s ease;
+  }
+  .bar-seg:first-child { border-radius: 4px 0 0 4px; }
+  .bar-seg:last-child { border-radius: 0 4px 4px 0; }
+  .bar-seg:only-child { border-radius: 4px; }
+  .bar-seg:hover, .bar-seg:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ink); }
+  .bar-tip-label {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-secondary);
+    white-space: nowrap;
+  }
+  .group-divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 4px 0 2px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .group-divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+  /* shared tooltip */
+  #chart-tooltip {
+    position: fixed;
+    z-index: 60;
+    pointer-events: none;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 12.5px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    max-width: 240px;
+    opacity: 0;
+    transform: translate(-50%, -100%) translateY(-8px);
+    transition: opacity 0.1s ease;
+  }
+  #chart-tooltip.visible { opacity: 1; }
+  #chart-tooltip .tt-value { font-weight: 700; font-family: var(--font-mono); }
+  #chart-tooltip .tt-label { color: color-mix(in srgb, var(--bg) 70%, transparent); }
+
+  /* ---------- Explore / filters ---------- */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+  }
+  .filters input[type="search"], .filters select {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 7px 10px;
+  }
+  .filters input[type="search"] { min-width: 220px; }
+  .filters label { font-size: 11.5px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
+  .filter-group { display: flex; align-items: center; gap: 6px; }
+  .result-count { margin-left: auto; font-size: 12.5px; color: var(--ink-muted); font-family: var(--font-mono); }
+  .reset-btn {
+    font-family: var(--font-body); font-size: 12.5px; color: var(--accent);
+    background: var(--accent-soft); border: none; border-radius: 7px; padding: 7px 12px; cursor: pointer;
+  }
+  .reset-btn:hover { filter: brightness(0.97); }
+
+  /* ---------- Table ---------- */
+  .table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  table.data { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 760px; }
+  table.data thead th {
+    text-align: left;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    background: var(--surface-2);
+    position: sticky; top: 0;
+  }
+  table.data thead th:hover { color: var(--ink); }
+  table.data thead th .arrow { opacity: 0.5; margin-left: 3px; }
+  table.data tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  table.data tbody tr { cursor: pointer; }
+  table.data tbody tr:hover { background: var(--surface-2); }
+  table.data tbody tr:last-child td { border-bottom: none; }
+  td.platform-cell { font-weight: 600; }
+  td.platform-cell .operator { display:block; font-weight: 400; font-size: 11.5px; color: var(--ink-muted); margin-top:1px; }
+
+  .chip {
+    display: inline-block;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--ink-secondary);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11.5px; font-weight: 600;
+    padding: 3px 9px 3px 7px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex: none; }
+  .pill.good { background: var(--status-good-soft); color: var(--status-good); }
+  .pill.good::before { background: var(--status-good); }
+  .pill.warning { background: var(--status-warning-soft); color: var(--status-warning); }
+  .pill.warning::before { background: var(--status-warning); }
+  .pill.critical { background: var(--status-critical-soft); color: var(--status-critical); }
+  .pill.critical::before { background: var(--status-critical); }
+  .pill.neutral { background: var(--status-neutral-soft); color: var(--status-neutral); }
+  .pill.neutral::before { background: var(--status-neutral); }
+
+  /* ---------- Detail drawer ---------- */
+  .scrim {
+    position: fixed; inset: 0; background: rgba(10,12,16,0.42);
+    opacity: 0; pointer-events: none; transition: opacity 0.18s ease; z-index: 70;
+  }
+  .scrim.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(480px, 92vw);
+    background: var(--surface);
+    box-shadow: -18px 0 40px -18px rgba(0,0,0,0.35);
+    transform: translateX(100%);
+    transition: transform 0.22s ease;
+    z-index: 71;
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--accent-panel);
+    color: var(--accent-panel-ink);
+    flex: none;
+  }
+  .drawer-head .cat-chip {
+    display:inline-block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.05em;
+    text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 8px;
+  }
+  .drawer-head h3 { font-family: var(--font-display); font-size: 21px; font-weight: 600; margin-bottom: 3px; text-wrap: balance;}
+  .drawer-head .operator { font-size: 12.5px; color: rgba(255,255,255,0.78); }
+  .drawer-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(255,255,255,0.14); border: none; color: #fff;
+    font-size: 15px; cursor: pointer; line-height: 1;
+  }
+  .drawer-close:hover { background: rgba(255,255,255,0.24); }
+  .drawer-body { padding: 18px 24px 32px; overflow-y: auto; flex: 1; }
+  .dgroup { margin-bottom: 22px; }
+  .dgroup:last-child { margin-bottom: 0; }
+  .dgroup h4 {
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border);
+  }
+  .dfield { margin-bottom: 12px; }
+  .dfield:last-child { margin-bottom: 0; }
+  .dfield .dlabel { font-size: 11px; color: var(--ink-muted); margin-bottom: 2px; }
+  .dfield .dvalue { font-size: 13.5px; color: var(--ink); line-height: 1.45; }
+  .dfield .dvalue.mono { font-family: var(--font-mono); font-size: 12.5px; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { font-size: 11px; background: var(--surface-2); border: 1px solid var(--border); padding: 3px 8px; border-radius: 6px; color: var(--ink-secondary); }
+
+  /* ---------- Callout / footer ---------- */
+  .callout {
+    background: var(--status-warning-soft);
+    border: 1px solid color-mix(in srgb, var(--status-warning) 35%, var(--border));
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: var(--ink-secondary);
+    margin-top: 40px;
+  }
+  .callout strong { color: var(--ink); }
+
+  footer.page-footer {
+    margin-top: 34px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  footer.page-footer span b { color: var(--ink-secondary); }
+
+  @media (max-width: 860px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .card-grid { grid-template-columns: 1fr; }
+    .chart-row { grid-template-columns: 96px 1fr; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Expediente comparado &middot; condiciones de uso digitales &middot; Chile</div>
+    <h1>¿A quién le rinden cuentas las plataformas?</h1>
+    <p class="dek">Veinte servicios digitales de uso masivo en Chile, leídos como infraestructura contractual: qué datos autorizan recolectar, si reconocen jurisdicción chilena, y qué declaran sobre recomendación algorítmica e inteligencia artificial generativa.</p>
+    <div class="meta-row">
+      <span><strong>20</strong> plataformas</span>
+      <span><strong>30</strong> variables codificadas</span>
+      <span>corte de investigación: <strong>2 sep 2026</strong></span>
+      <span>marco regulatorio: Ley 19.628 &rarr; <strong>Ley 21.719</strong> (vigencia dic 2026)</span>
+    </div>
+  </header>
+
+  <section class="kpi-row" id="kpi-row"></section>
+
+  <section class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">Hallazgo central</div>
+      <h2>La localización jurídica sigue al modelo de negocio, no al volumen de usuarios</h2>
+      <p>Comparación de si los términos de servicio tienen una versión redactada específicamente para Chile (idioma, entidad legal, jurisdicción) o si remiten a un documento global, por categoría de plataforma.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3>Localización de los términos para Chile, por categoría</h3>
+        <div class="card-note">Composición de cada categoría según si sus plataformas declaran una versión localizada, parcial, o ninguna.</div>
+        <div class="legend" id="legend-localizacion"></div>
+        <div class="chart-rows" id="chart-localizacion"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="card-grid">
+      <div class="card">
+        <h3>Opt-out de personalización algorítmica</h3>
+        <div class="card-note">Las 20 plataformas, según si el usuario puede desactivar la curación algorítmica del contenido que se le muestra.</div>
+        <div class="chart-rows" id="chart-optout"></div>
+      </div>
+      <div class="card">
+        <h3>Gobernanza de moderación de comportamiento</h3>
+        <div class="card-note">Nivel de detalle con que el documento legal describe sus reglas de moderación.</div>
+        <div class="chart-rows" id="chart-gobernanza"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">Sociality algorítmica</div>
+      <h2>La lógica contractual se extiende más allá de las redes sociales</h2>
+      <p>El reconocimiento de sistemas de recomendación y de inteligencia artificial generativa ya no es exclusivo de plataformas sociales: aparece también en banca y en servicios del Estado.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Reconocimiento contractual de IA generativa, por categoría</h3>
+        <div class="card-note">Plataformas que declaran explícitamente el uso de IA generativa, sobre el total de cada categoría.</div>
+        <div class="chart-rows" id="chart-ia"></div>
+      </div>
+      <div class="card">
+        <h3>Uso de datos de comportamiento para personalización</h3>
+        <div class="card-note">Si el documento reconoce que el comportamiento de navegación alimenta la personalización de contenido (distinto de publicidad).</div>
+        <div class="chart-rows" id="chart-conductual"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div class="section-eyebrow">Explorar el corpus</div>
+      <h2>Las 20 plataformas, variable por variable</h2>
+      <p>Filtra y ordena la tabla; haz clic en una fila para ver el expediente completo de esa plataforma (30 variables).</p>
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label for="f-search">Buscar</label>
+        <input type="search" id="f-search" placeholder="Plataforma o empresa…">
+      </div>
+      <div class="filter-group">
+        <label for="f-grupo">Grupo</label>
+        <select id="f-grupo"><option value="">Todos</option></select>
+      </div>
+      <div class="filter-group">
+        <label for="f-categoria">Categoría</label>
+        <select id="f-categoria"><option value="">Todas</option></select>
+      </div>
+      <div class="filter-group">
+        <label for="f-naturaleza">Naturaleza</label>
+        <select id="f-naturaleza"><option value="">Todas</option></select>
+      </div>
+      <button class="reset-btn" id="reset-filters">Limpiar filtros</button>
+      <span class="result-count" id="result-count"></span>
+    </div>
+
+    <div class="table-card">
+      <table class="data" id="platform-table">
+        <thead>
+          <tr>
+            <th data-key="id" style="width:34px;">#</th>
+            <th data-key="plataforma">Plataforma</th>
+            <th data-key="categoria">Categoría</th>
+            <th data-key="naturaleza_publico_privado">Naturaleza</th>
+            <th data-key="version_localizada_chile">Localizada CL</th>
+            <th data-key="posibilidad_opt_out_personalizacion">Opt-out</th>
+            <th data-key="menciona_ia_generativa">IA generativa</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="callout">
+    <strong>Nota de método.</strong> Los datos provienen de lectura directa de los documentos legales publicados por cada plataforma (política de privacidad y términos de servicio), consultados entre agosto y septiembre de 2026. Meta, TikTok y LinkedIn bloquearon el acceso automatizado (robots.txt), por lo que esas filas combinan fuentes primarias con reportes secundarios verificados. BancoEstado y ChileAtiende devolvieron errores de acceso persistentes (404/403) y quedan marcados para verificación manual. Donde el documento no permite determinar un valor, se registra como <code>no_especifica</code> en vez de inferirlo.
+  </div>
+
+  <footer class="page-footer">
+    <span>Proyecto <b>Agentes de especulación</b> — repositorio de condiciones de uso digitales</span>
+    <span><a href="documentos.html">Marco teórico, propuesta de paper y CSV &rarr;</a></span>
+  </footer>
+</div>
+
+<div id="chart-tooltip" role="tooltip"></div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <button class="drawer-close" id="drawer-close" aria-label="Cerrar">&times;</button>
+    <div class="cat-chip" id="drawer-cat"></div>
+    <h3 id="drawer-title"></h3>
+    <div class="operator" id="drawer-operator"></div>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+</aside>
+
+<script>
+const DATA = [{"id":"1","plataforma":"Facebook e Instagram","empresa_operadora":"Meta Platforms, Inc. (Meta Platforms Ireland Ltd. para usuarios fuera de EE.UU./Canadá)","categoria":"red_social","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Estados Unidos","marco_legal_declarado":"GDPR (UE/EEE); CCPA/leyes estatales de EE.UU.; no menciona Ley 19.628 ni Ley 21.719 de Chile","datos_personales_recolectados":"identificacion; contacto; ubicacion; biometricos; contenido_generado; comportamiento_navegacion; datos_dispositivo","comparte_datos_terceros":"parcial","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"si","exposicion_publica_contenido_por_defecto":"configurable","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"jurisdiccion_extranjera","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://www.facebook.com/privacy/policy/","fecha_version_politica":"Actualización relevante 16-dic-2025 (uso de chats de Meta AI para publicidad); fecha exacta no verificable (bloqueo robots.txt)","fecha_consulta":"2026-09-02","notas":"Desde dic-2025 Meta usa contenido de chats con Meta AI para personalizar anuncios, sin opción clara de exclusión total. Resolución de disputas ante tribunales de EE.UU. (Norte de California/San Mateo), no arbitraje forzado.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Desde dic-2025 chats con Meta AI alimentan anuncios (sin opt-out); desde jun-2026 los datos de 'actividad en otras empresas' también personalizan el Feed y las respuestas de IA, eliminando el control específico de esa fuente de datos.","version_localizada_chile":"no","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://about.fb.com/news/2026/06/better-personalization-and-changes-to-controls-for-your-activity-from-other-businesses/","notas_ampliacion":"Mantiene pestañas 'Feeds' (cronológica) vs 'Home' (algorítmica) e Instagram tiene 'Favoritos'/cronológico y 'Recommendations Reset', pero el opt-out de personalización vía datos de terceros para ads/IA fue eliminado en 2026.","grupo":"atencion_algoritmica"},{"id":"2","plataforma":"WhatsApp","empresa_operadora":"WhatsApp LLC (Meta Platforms, Inc.); WhatsApp Ireland Ltd. fuera de EE.UU./Canadá","categoria":"mensajeria","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Estados Unidos","marco_legal_declarado":"GDPR (UE/EEE); CCPA (aviso separado California); no menciona leyes chilenas","datos_personales_recolectados":"identificacion; contacto; ubicacion; datos_dispositivo; contenido_generado; comportamiento_navegacion","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"parcial","exposicion_publica_contenido_por_defecto":"privado_por_defecto","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"no_especifica","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://www.whatsapp.com/legal/privacy-policy","fecha_version_politica":"4 de enero de 2021 (última actualización mayor confirmada; documento global)","fecha_consulta":"2026-09-02","notas":"Mensajes cifrados extremo a extremo, pero se comparte metadata con 'Meta Companies'. La FNE de Chile investigó su actualización de 2021 y archivó el caso en 2025. Sin publicidad dentro de chats; sí en Estados/Canales.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"no_aplica","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Meta AI integrado en chats (datos usados para ads en FB/IG desde dic-2025, actualmente excluido en WhatsApp); mayo-2026 lanza 'Incognito Chat' con Meta AI (procesamiento privado, sin guardar conversación); oct-2025 prohíbe chatbots de IA de terceros de propósito general en la API de negocios.","version_localizada_chile":"no","gobernanza_moderacion_comportamiento":"mencionada_sin_detalle","datos_conductuales_para_personalizacion":"no_especifica","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://blog.whatsapp.com/introducing-incognito-chat-with-meta-ai-a-completely-private-way-to-chat-with-ai","notas_ampliacion":"No hay feed de contenido personalizado en chats; solo la pestaña 'Actualizaciones/Canales' tiene descubrimiento algorítmico ('Promoted Channels', jun-2025), con monetización incipiente vía Business Solution Terms.","grupo":"atencion_algoritmica"},{"id":"3","plataforma":"TikTok","empresa_operadora":"TikTok Pte. Ltd. / TikTok Technology Ltd. (matriz ByteDance Ltd.); entidad EE.UU. reestructurada como 'TikTok USDS Joint Venture LLC' desde ene-2026","categoria":"red_social","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"China (ByteDance Ltd., con operación dual en Singapur)","marco_legal_declarado":"GDPR (versión EEE); ley de California rige los ToS; sin mención de leyes chilenas","datos_personales_recolectados":"identificacion; contacto; ubicacion; biometricos; comportamiento_navegacion; contenido_generado; datos_dispositivo","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"si","exposicion_publica_contenido_por_defecto":"configurable","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"arbitraje_privado","derecho_eliminacion_portabilidad_datos":"parcial","url_politica_privacidad":"https://www.tiktok.com/legal/page/row/privacy-policy/en","fecha_version_politica":"No verificable con certeza (bloqueo robots.txt); versión EEE conocida de 2-nov-2022; versión EE.UU. reformulada vigente desde 22-ene-2026 (no aplica a Chile)","fecha_consulta":"2026-09-02","notas":"En 2026 TikTok separó su entidad de EE.UU. (venta forzada, joint venture con Oracle); Chile queda bajo la entidad internacional 'Rest of World'. Arbitraje vinculante en California (condado de Santa Clara) para disputas no arbitrables ante cortes menores.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Etiquetado obligatorio de contenido generado por IA (política de 4 niveles); ofrece herramientas de IA generativa para creadores; no se halló declaración explícita de entrenamiento de modelos con datos de usuarios.","version_localizada_chile":"no","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://www.tiktok.com/transparency/en/recommendation-system","notas_ampliacion":"La página de soporte declara explícitamente qué señales conductuales alimentan el 'For You' (compras, likes, tiempo visto, búsquedas); existen 'Screen Time'/'Family Pairing'/'Restricted Mode' para todos los usuarios, no solo menores.","grupo":"atencion_algoritmica"},{"id":"4","plataforma":"X (antes Twitter)","empresa_operadora":"X Corp. (matriz X Holdings Corp.)","categoria":"red_social","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Estados Unidos","marco_legal_declarado":"Declara cumplimiento con DSA (UE), Online Safety Act (UK) y regulaciones australianas; ley de Texas rige el ToS; sin mención de leyes chilenas","datos_personales_recolectados":"identificacion; contacto; ubicacion; biometricos; comportamiento_navegacion; contenido_generado; datos_dispositivo","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"si","exposicion_publica_contenido_por_defecto":"publico_por_defecto","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"jurisdiccion_extranjera","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://x.com/es/privacy","fecha_version_politica":"15 de enero de 2026","fecha_consulta":"2026-09-02","notas":"Verificación de identidad usa datos biométricos vía proveedor externo AU10TIX, retenidos ~30 días. Publicaciones públicas por defecto salvo cuenta 'protegida'. Renuncia a acciones colectivas; jurisdicción en Texas.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Grok (xAI) se entrena con posts públicos e interacciones del usuario en X, con opt-out en Privacidad y seguridad; ToS de ene-2026 amplía 'Contenido' a prompts/inputs/outputs de IA y otorga licencia mundial para entrenar modelos de IA.","version_localizada_chile":"parcial","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://help.x.com/en/using-x/about-grok","notas_ampliacion":"Existe versión en español (x.com/es/tos) pero la jurisdicción sigue en Tarrant County, Texas, sin entidad chilena; el programa de reparto de ingresos por ads cierra el 7-sep-2026 y es reemplazado por el 'Original Content Rewards Program' (pago por contenido original, no por impresiones).","grupo":"atencion_algoritmica"},{"id":"5","plataforma":"LinkedIn","empresa_operadora":"LinkedIn Corporation (matriz Microsoft Corporation); LinkedIn Ireland Unlimited Company fuera de EE.UU./Canadá","categoria":"red_social","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Estados Unidos","marco_legal_declarado":"GDPR; EU-US Data Privacy Framework; Swiss-US DPF; leyes estatales de EE.UU. (vía Declaración de Privacidad de Microsoft); sin mención de leyes chilenas","datos_personales_recolectados":"identificacion; contacto; ubicacion; comportamiento_navegacion; contenido_generado; datos_dispositivo; datos_laborales","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"parcial","exposicion_publica_contenido_por_defecto":"configurable","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"no_especifica","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://www.linkedin.com/legal/privacy-policy","fecha_version_politica":"Actualización relevante 3-nov-2025 (uso de datos de perfil para entrenar IA de Microsoft); fecha exacta no verificable (bloqueo robots.txt)","fecha_consulta":"2026-09-02","notas":"Desde nov-2025 LinkedIn usa datos de perfil para entrenar modelos de IA de Microsoft, con opción de exclusión disponible en configuración. Mecanismo exacto de resolución de disputas del User Agreement no verificable por bloqueo de acceso directo.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Desde nov-2025 usa datos de perfil para entrenar IA de Microsoft, con opt-out; el feed usa señales de comportamiento (clics, likes, comentarios, tiempo de visualización) vía un sistema de ranking en dos fases.","version_localizada_chile":"parcial","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://engineering.linkedin.com/teams/data/artificial-intelligence/feed","notas_ampliacion":"Existe versión en español pero probablemente bajo LinkedIn Ireland, no entidad chilena; Professional Community Policies detalla 5 categorías con moderación en 3 capas; programa de monetización para creadores (BrandLink) es incipiente.","grupo":"atencion_algoritmica"},{"id":"6","plataforma":"Mercado Libre / Mercado Pago","empresa_operadora":"Mercado Libre Chile Limitada (RUT 77.398.220-1) y Mercado Pago S.A. (RUT 76.516.950-K); matriz MercadoLibre Inc.","categoria":"ecommerce","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Argentina (matriz operativa; MercadoLibre Inc. incorporada en Delaware, EE.UU.)","marco_legal_declarado":"Normativa chilena de protección de la vida privada (Ley 19.628 implícita, sin número explícito) y regulación de cada país donde opera; no menciona Ley 21.719","datos_personales_recolectados":"identificacion; contacto; ubicacion; biometricos; financieros; comportamiento_navegacion; datos_dispositivo; contenido_generado","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"si","exposicion_publica_contenido_por_defecto":"configurable","mecanismo_consentimiento":"opt_in","resolucion_disputas":"tribunales_chile","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://www.mercadolibre.cl/privacidad/declaracion-privacidad/31199","fecha_version_politica":"31 de agosto de 2021 (fecha mostrada en el anexo consultado)","fecha_consulta":"2026-09-02","notas":"Declara uso de IA/machine learning/big data para perfilamiento y decisiones automatizadas (con derecho a revisión). Reputación/calificaciones del vendedor son públicas por defecto aunque el resto del perfil es configurable. La fecha de 'última actualización' visible (2021) parece desactualizada para septiembre 2026; no se confirmó una fecha más reciente (bloqueo robots.txt).","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Buscador con IA generativa (Vertex AI de Google) que interpreta la intención del usuario y personaliza resultados según historial de compra; no aparece mencionado en la Declaración de Privacidad vigente.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"mencionada_sin_detalle","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://www.mercadopago.cl/privacidad/declaracion-privacidad/current","notas_ampliacion":"'Programa de Afiliados y Creadores' activo en Chile permite monetizar recomendaciones de productos vía comisión — nueva capa 'creator economy' sobre el marketplace; no hay opt-out claro del motor de recomendación en sí.","grupo":"transaccional"},{"id":"7","plataforma":"Falabella.com (Falabella Retail)","empresa_operadora":"Falabella.com SpA (RUT 76.212.492-0) / Falabella Retail S.A.; comparte 'Habeas Data' corporativo con Banco Falabella, CMR, Sodimac, Tottus e Ikea Chile","categoria":"ecommerce","naturaleza_publico_privado":"privada_nacional","pais_origen_matriz":"Chile (S.A.C.I. Falabella)","marco_legal_declarado":"'Normas que regulan la protección de la vida privada' (Ley 19.628 implícita, sin número explícito); no menciona Ley 21.719","datos_personales_recolectados":"identificacion; contacto; financieros; biometricos; ubicacion; comportamiento_navegacion; datos_dispositivo","comparte_datos_terceros":"si","transferencia_internacional_datos":"no_especifica","uso_publicitario_perfilamiento":"si","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"no_especifica","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://www.falabella.com/falabella-cl/page/politica-privacidad-falabella-retail","fecha_version_politica":"28 de febrero de 2023 (según metadatos); documento protocolizado notarialmente el 14-12-2021","fecha_consulta":"2026-09-02","notas":"Comparte datos entre empresas del grupo Falabella (incluida su tarjeta CMR / Banco Falabella) bajo un esquema de 'Habeas Data' corporativo compartido. No se verificó con fuente directa el mecanismo de resolución de disputas ni el detalle completo de transferencias internacionales (solo se mencionan operaciones regionales en Chile, Perú y Colombia).","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Proveedor externo (Adereso) con 'suite de IA Generativa' automatiza atención al cliente (caso de terceros, no confirmado en T&C propios); campaña educativa promueve herramientas de IA de terceros, no declara IA propia.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://sellercenter.falabella.com/templates/default/files/terminos_y_condiciones_marketplace_falabella.pdf","notas_ampliacion":"T&C de Marketplace detallan prohibiciones específicas para vendedores (falsear reseñas) con sanciones hasta eliminación. Programa 'Creators F' (2025) para creadores de contenido que monetizan recomendaciones — sin T&C públicos detallados verificables.","grupo":"transaccional"},{"id":"8","plataforma":"Uber / Uber Eats","empresa_operadora":"Nivel local (T&C Chile): Uber Rides Chile SpA y Uber Portier Chile SpA; controlador de datos global: Uber Technologies, Inc. / Uber B.V.","categoria":"delivery","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Estados Unidos","marco_legal_declarado":"T&C Chile: legislación chilena, tribunales de Santiago. Aviso de privacidad global: RGPD (UE/EEE/Reino Unido/Suiza), LGPD (Brasil), KVKK (Turquía), CCPA (California); no cita Ley 19.628 ni Ley 21.719 de Chile","datos_personales_recolectados":"identificacion; contacto; ubicacion; biometricos; financieros; comportamiento_navegacion; datos_dispositivo; contenido_generado","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"tribunales_chile","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://www.uber.com/global/es/privacy/notice/","fecha_version_politica":"Aviso de privacidad: 13 de julio de 2026; Términos de Uso Chile: 12 de agosto de 2026","fecha_consulta":"2026-09-02","notas":"Cubre viajes (Uber) y reparto de comida (Uber Eats) bajo el mismo aviso de privacidad global; los T&C sí tienen versión localizada para Chile con jurisdicción en tribunales de Santiago. Comparte datos con socios de marketing (Meta, TikTok, Google) y procesadores de pago internacionales; certificada bajo el Marco de Privacidad de Datos UE-EE.UU.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"si","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"El Aviso de privacidad de conductores y repartidores declara explícitamente: 'Uber may use GenAI tools for customer support'.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://www.uber.com/global/en/privacy-notice-drivers-delivery-people/","notas_ampliacion":"Guías Comunitarias (versión Chile) detallan tres pilares de conducta y derecho a apelar desactivación; el Aviso de privacidad describe uso de patrones de conducción 'atípicos' para acciones automatizadas, incluida desactivación de cuenta.","grupo":"transaccional"},{"id":"9","plataforma":"Rappi","empresa_operadora":"Rappi Chile SpA (RUT 76.837.223-3); matriz Rappi S.A.S., de origen colombiano","categoria":"delivery","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Colombia","marco_legal_declarado":"Ley N°19.628 sobre Protección de la Vida Privada; Ley N°19.496 (protección al consumidor); Art. 28 B (anti-spam); no menciona Ley 21.719 ni la nueva Agencia de Protección de Datos","datos_personales_recolectados":"identificacion; contacto; ubicacion; financieros; comportamiento_navegacion; datos_dispositivo; contenido_generado","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"opt_in","resolucion_disputas":"tribunales_chile","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://legal.rappi.com/chile/politica-de-privacidad/","fecha_version_politica":"no_especifica (no se encontró fecha de última actualización en el documento)","fecha_consulta":"2026-09-02","notas":"Única de las 4 plataformas de e-commerce/delivery que cita explícitamente el número de ley chilena vigente (Ley 19.628) y el tribunal competente ('Juez de letras en lo civil de Santiago'). Comparte datos con Itaú Corpbanca (RappiPay/RappiBank), Amplitude (analítica) y Jumio (verificación de identidad); ofrece plazo de 2 días hábiles para solicitudes de eliminación de datos.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Asistente conversacional de IA vía WhatsApp para pedidos; IA que aprende 'de los gustos y hábitos de los usuarios' para ofertas personalizadas; 'Recomendaciones de Menú con IA' para restaurantes (B2B). No confirmado en Política de Privacidad ni T&C de Chile.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"mencionada_sin_detalle","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://legal.rappi.com.co/chile/politica-de-privacidad/","notas_ampliacion":"Permite excluirse de listas promocionales ('No Molestar', Ley 19.496), pero no hay opt-out explícito del motor de recomendación. Sistema de calificación 1-5 para repartidores; no se pudo verificar el T&C específico 'Soy Rappi' para Chile.","grupo":"transaccional"},{"id":"10","plataforma":"Banco Santander Chile","empresa_operadora":"Banco Santander Chile (filial de Banco Santander S.A., España)","categoria":"banca","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"España","marco_legal_declarado":"Ley N°19.628; Ley N°20.009; Capítulo 20-7 normativa CMF; Art. 154 Ley General de Bancos (secreto bancario)","datos_personales_recolectados":"identificacion; contacto; ubicacion; biometricos; financieros; comportamiento_navegacion; datos_dispositivo","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"opt_in","resolucion_disputas":"tribunales_chile","derecho_eliminacion_portabilidad_datos":"parcial","url_politica_privacidad":"https://banco.santander.cl/personas/politica-de-privacidad-portal-santander","fecha_version_politica":"no_especifica","fecha_consulta":"2026-09-02","notas":"Constituido como banco establecido en Chile pero de control accionario español, por eso se clasifica como transnacional; comparte datos con empresas del grupo Santander a nivel mundial; no se verificó mención explícita a DICOM/Boletín Comercial ni a la Ley 21.719 en el texto consultado.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Grupo Santander anunció alianza con OpenAI (ago-2025, nivel global); en Chile opera desde 2021 el asistente conversacional 'Santi' (WhatsApp/web), sin confirmación pública de IA generativa específica en la operación chilena.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"no_menciona","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"no_aplica","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://saladecomunicacion.santander.cl/opinion/carmen-gloria-silva/detalles/finanzas-saludables-el-viaje-hacia-el-bienestar-comienza-en-la-infancia","notas_ampliacion":"Política de privacidad cita elaboración de 'perfil de usuario aplicando o no modelos predictivos'; el opt-out solo cubre comunicaciones comerciales, no el perfilamiento general. 'Santi' es marca de chatbot compartida por el Grupo Santander en varios países.","grupo":"transaccional"},{"id":"11","plataforma":"Banco de Chile","empresa_operadora":"Banco de Chile (RUT 97.004.000-5)","categoria":"banca","naturaleza_publico_privado":"privada_nacional","pais_origen_matriz":"Chile","marco_legal_declarado":"Ley N°19.628; Arts. 14 y 154 Ley General de Bancos; Art. 155 LGB; Capítulo 20-7 normativa CMF","datos_personales_recolectados":"identificacion; contacto; financieros; comportamiento_navegacion","comparte_datos_terceros":"si","transferencia_internacional_datos":"no_especifica","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"opt_in","resolucion_disputas":"no_especifica","derecho_eliminacion_portabilidad_datos":"parcial","url_politica_privacidad":"https://sitiospublicos.bancochile.cl/personas/politica-de-privacidad","fecha_version_politica":"no_especifica","fecha_consulta":"2026-09-02","notas":"Controlado mayoritariamente por Quiñenco (grupo Luksic, Chile), con participación minoritaria de Citigroup vía LQ Inversiones Financieras. El documento menciona comunicar deudas morosas a 'registros o bancos de datos personales' (referencia funcional a burós tipo Boletín Comercial/DICOM, sin nombrarlos); no se encontró mención de transferencia internacional ni de la Ley 21.719.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Chatbot 'FANi' (Dialogflow CX de Google + IA generativa) para apertura de Cuenta FAN; alianza estratégica con Microsoft (oct-2025) que incorpora IA generativa para atención al cliente, análisis predictivo y Copilot Chat para ~12.000 empleados.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"mencionada_sin_detalle","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"no_aplica","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://news.microsoft.com/source/latam/noticias-de-microsoft/banco-de-chile-es-la-primera-empresa-privada-del-pais-en-sellar-alianza-estrategica-en-ia-con-microsoft/","notas_ampliacion":"Primera empresa privada de Chile con alianza estratégica de IA con Microsoft; política de privacidad menciona 'soluciones personalizadas' y análisis del comportamiento financiero. Programa de educación financiera 'Cuentas con el Chile'.","grupo":"transaccional"},{"id":"12","plataforma":"BCI (Banco de Crédito e Inversiones)","empresa_operadora":"Banco de Crédito e Inversiones (BCI)","categoria":"banca","naturaleza_publico_privado":"privada_nacional","pais_origen_matriz":"Chile","marco_legal_declarado":"Ley N°19.628; Capítulo 20-7 normativa CMF; menciona UAF y SII","datos_personales_recolectados":"identificacion; contacto; financieros; biometricos","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"opt_in","resolucion_disputas":"no_especifica","derecho_eliminacion_portabilidad_datos":"parcial","url_politica_privacidad":"https://cdn3.bci.cl/uploads/80238e39-0122-4737-a288-7c3468b3c964/original/Terminos_politicas_y_condiciones_b49b786d21_72b5394e31.pdf","fecha_version_politica":"no_especifica","fecha_consulta":"2026-09-02","notas":"Controlado por familia Yarur (Chile); posee filiales en el extranjero (City National Bank of Florida, EE.UU.). Menciona explícitamente comunicar deudas impagas a 'registros o bancos de datos personales' (referencia funcional a burós de crédito tipo DICOM/Boletín Comercial, sin nombrarlos); no menciona la Ley 21.719.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Centro de Excelencia en IA Generativa (desde 2024): asistentes con 'humano en el loop' en áreas legal, gestión de activos y atención al cliente; pilotaje de agentes de IA autónomos para 2025. 'Recomendador de Tarjetas' público basado en hábitos de consumo.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"no_menciona","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"no_aplica","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://www.df.cl/df-lab/tecnologia/centro-de-inteligencia-artificial-de-bci-busca-implementar-los-primeros","notas_ampliacion":"El banco con evidencia más explícita de IA generativa declarada públicamente entre los cuatro. Programas 'Con Letra Grande', 'Mis Finanzas' y 'Alcancía' para educación financiera y prevención de sobreendeudamiento.","grupo":"transaccional"},{"id":"13","plataforma":"BancoEstado","empresa_operadora":"Banco del Estado de Chile (BancoEstado)","categoria":"banca","naturaleza_publico_privado":"publica_estatal","pais_origen_matriz":"Chile","marco_legal_declarado":"no_especifica","datos_personales_recolectados":"no_especifica","comparte_datos_terceros":"no_especifica","transferencia_internacional_datos":"no_especifica","uso_publicitario_perfilamiento":"no_especifica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"no_especifica","resolucion_disputas":"no_especifica","derecho_eliminacion_portabilidad_datos":"no_especifica","url_politica_privacidad":"https://www.bancoestado.cl/content/bancoestado-public/cl/es/home/politica-de-privacidad-y-uso---bancoestado.html","fecha_version_politica":"no_especifica","fecha_consulta":"2026-09-02","notas":"No fue posible verificar el contenido: el dominio bancoestado.cl devolvió error 404 ante todas las solicitudes automatizadas, pese a múltiples intentos. Por ser banco estatal, su tratamiento de datos estaría sujeto además a normativa de administración pública/transparencia, pero esto no se pudo confirmar en la política vigente. Requiere verificación manual directa (navegador) antes de incorporar al análisis final.","usa_recomendacion_algoritmica_declarada":"no_especifica","posibilidad_opt_out_personalizacion":"no_especifica","menciona_ia_generativa":"no","uso_declarado_ia_generativa":"No se encontró declaración pública de IA generativa. Opera un 'asistente virtual' en WhatsApp desde ~2021 para consultas de cuenta, aparentemente basado en menús/reglas, no confirmado como IA generativa.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"no_especifica","datos_conductuales_para_personalizacion":"no_especifica","regula_trabajo_creadores_o_relacional":"no_aplica","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://www.educacionfinanciera.cl/quienes-somos","notas_ampliacion":"El dominio bancoestado.cl volvió a devolver error 404 en todos los accesos automatizados en un segundo intento de investigación independiente. Programa robusto de educación financiera verificado en subdominio separado. La marca 'si' en version_localizada_chile se infiere estructuralmente (banco 100% estatal), no de un documento verificado.","grupo":"transaccional"},{"id":"14","plataforma":"ClaveÚnica / ChileAtiende (gob.cl)","empresa_operadora":"Instituto de Previsión Social (IPS, opera ChileAtiende); ClaveÚnica administrada por la Secretaría de Gobierno Digital (SGD, Min. Hacienda) junto al Servicio de Registro Civil e Identificación","categoria":"gobierno","naturaleza_publico_privado":"publica_estatal","pais_origen_matriz":"Chile","marco_legal_declarado":"Ley 19.628 (art. 20); Art. 19 N°4 Constitución; Ley 20.255 art.56; Ley 18.834 art.61 h); Ley 20.530 art.10; Ley 20.584 art.12; Ley 21.663 (Marco Ciberseguridad); Ley 21.658 (crea la SGD); Ley 21.719 (mencionada como reforma entrante por la política de la SGD)","datos_personales_recolectados":"identificacion; contacto; ubicacion; comportamiento_navegacion; datos_dispositivo","comparte_datos_terceros":"si","transferencia_internacional_datos":"no_especifica","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"obligatorio_por_ley","resolucion_disputas":"via_administrativa_estado","derecho_eliminacion_portabilidad_datos":"parcial","url_politica_privacidad":"https://www.chileatiende.gob.cl/politica-de-privacidad","fecha_version_politica":"no_especifica","fecha_consulta":"2026-09-02","notas":"La política de ChileAtiende autoriza expresamente comunicar datos a 'otros organismos del Estado u otros terceros' (interoperabilidad estatal) y no menciona la Ley 21.719; en cambio, la política de tratamiento de datos de la SGD (que administra ClaveÚnica) sí la referencia explícitamente como reforma entrante (vigencia plena 01-12-2026, aún no alcanzada a la fecha de consulta) y declara no realizar perfilamiento ni decisiones automatizadas.","usa_recomendacion_algoritmica_declarada":"no","posibilidad_opt_out_personalizacion":"no_aplica","menciona_ia_generativa":"no_especifica","uso_declarado_ia_generativa":"ChileAtiende ofrece 'Sucursal Virtual' (videollamada humana, explícitamente descrita como 'mejor que un chatbot'); no se halló chatbot/IA generativa propio verificable.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"no_especifica","regula_trabajo_creadores_o_relacional":"no_aplica","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://claveunica.gob.cl/terminos-y-condiciones","notas_ampliacion":"No se pudo acceder al texto de T&C ni Política de Privacidad de ChileAtiende (error 403); análisis se apoya en su home y fuentes secundarias. Los T&C de ClaveÚnica no mencionan personalización, recomendación ni IA; se centran en seguridad de credenciales.","grupo":"transaccional"},{"id":"15","plataforma":"Servicio de Impuestos Internos (SII)","empresa_operadora":"Servicio de Impuestos Internos","categoria":"gobierno","naturaleza_publico_privado":"publica_estatal","pais_origen_matriz":"Chile","marco_legal_declarado":"Art. 19 N°4 Constitución; Ley 19.628 arts. 4 y 20; DS N°14/2014; DS N°1/2015; Ley Orgánica del SII art. 4° bis; Ley 17.336 (propiedad intelectual); Ley 20.285 (transparencia)","datos_personales_recolectados":"identificacion; contacto; ubicacion; comportamiento_navegacion; datos_dispositivo; datos_laborales","comparte_datos_terceros":"parcial","transferencia_internacional_datos":"no_especifica","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"obligatorio_por_ley","resolucion_disputas":"via_administrativa_estado","derecho_eliminacion_portabilidad_datos":"parcial","url_politica_privacidad":"https://www.sii.cl/sobre_el_sii/declaracion_de_privacidad.html","fecha_version_politica":"no_especifica","fecha_consulta":"2026-09-02","notas":"Ni la declaración de privacidad ni los términos del sitio mencionan la Ley 21.719 ni la nueva Agencia de Protección de Datos. Los derechos de acceso/rectificación/cancelación/oposición (Ley 19.628) se ejercen por 'canales tributarios internos' (art. 16). El documento no itemiza explícitamente datos tributarios/financieros pese a ser el núcleo de la función del SII.","usa_recomendacion_algoritmica_declarada":"no","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Chatbot 'Sofía' (2021, híbrido no generativo); función de 'Resumen elaborado por IA' en el buscador de sii.cl con descargo de no reemplazar la fuente oficial; uso de IA/algoritmos en fiscalización (Operación Renta 2026) para detección de riesgo.","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"no_aplica","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://www.sii.cl/ayudas/asistencia/contactenos.html","notas_ampliacion":"El caso más rico en IA de las tres plataformas estatales: chatbot histórico, resumen automático con IA en buscador, y fiscalización predictiva de riesgo — pero sin evidencia de recomendación de contenido/personalización de experiencia al estilo plataformas sociales.","grupo":"transaccional"},{"id":"16","plataforma":"Fondo Nacional de Salud (Fonasa)","empresa_operadora":"Fondo Nacional de Salud (Fonasa), organismo público dependiente del Ministerio de Salud","categoria":"salud","naturaleza_publico_privado":"publica_estatal","pais_origen_matriz":"Chile","marco_legal_declarado":"Ley 20.285 (transparencia); Ley 19.223 (delitos informáticos); Ley 19.628 (protección vida privada); Ley 19.880 (procedimiento administrativo); Ley 19.927 (delitos pornografía infantil)","datos_personales_recolectados":"no_especifica","comparte_datos_terceros":"parcial","transferencia_internacional_datos":"no_especifica","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"no_especifica","derecho_eliminacion_portabilidad_datos":"no_especifica","url_politica_privacidad":"https://www.fonasa.gob.cl/condiciones-de-uso/","fecha_version_politica":"2024-11-14","fecha_consulta":"2026-09-02","notas":"Fonasa no presenta una política de privacidad separada: el tratamiento de datos se describe dentro de 'Condiciones de Uso', que declara no compartir datos con terceros salvo prestadores con relación directa y autorización previa del usuario. No itemiza categorías de datos (p. ej. datos de salud) ni menciona la Ley 21.719; tampoco detalla mecanismo formal de resolución de disputas ni derechos de eliminación/portabilidad.","usa_recomendacion_algoritmica_declarada":"no","posibilidad_opt_out_personalizacion":"no_aplica","menciona_ia_generativa":"no","uso_declarado_ia_generativa":"no_aplica","version_localizada_chile":"si","gobernanza_moderacion_comportamiento":"mencionada_sin_detalle","datos_conductuales_para_personalizacion":"no_especifica","regula_trabajo_creadores_o_relacional":"no_aplica","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://www.fonasa.gob.cl/condiciones-de-uso/","notas_ampliacion":"Las Condiciones de Uso de Fonasa son las más escuetas de las tres estatales: no abordan personalización, datos conductuales, IA ni bienestar; solo referencian marco legal general y sanciones penales.","grupo":"transaccional"},{"id":"17","plataforma":"Netflix","empresa_operadora":"Netflix, Inc.","categoria":"streaming","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Estados Unidos","marco_legal_declarado":"CCPA; leyes estatales de privacidad de EE.UU.; referencia genérica al Pacto Internacional de Derechos Civiles y Políticos; no menciona Ley 19.628 ni Ley 21.719","datos_personales_recolectados":"identificacion; contacto; ubicacion; financieros; comportamiento_navegacion; contenido_generado; datos_dispositivo; biometricos","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"no_aplica","exposicion_publica_contenido_por_defecto":"no_aplica","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"arbitraje_privado","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://help.netflix.com/legal/privacy","fecha_version_politica":"10 de abril de 2026","fecha_consulta":"2026-09-02","notas":"Términos de Uso (misma fecha de versión) fijan arbitraje vía JAMS bajo ley de Delaware, con posibilidad de litigios coordinados en tribunales de Los Ángeles/California; no se identificó subsidiaria chilena como controlador de datos. Ofrece opt-out específico para publicidad conductual (DAA/EDAA/DAAC).","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"IA generativa documentada en producción de contenido (~300 títulos en 2026, VFX/doblaje), dirigida a estudios/proveedores; el Privacy Statement/ToS dirigido al usuario final NO menciona IA generativa en el tratamiento de datos personales.","version_localizada_chile":"no_especifica","gobernanza_moderacion_comportamiento":"no_menciona","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"no","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://help.netflix.com/en/node/100637","notas_ampliacion":"Distinguir 'IA generativa en producción' (B2B, pública) de 'IA generativa en tratamiento de datos del usuario' (no declarada) — son documentos distintos. Toggle de 'Behavioral Advertising' existe, pero no hay opción de apagar el motor de recomendación de contenido.","grupo":"atencion_algoritmica"},{"id":"18","plataforma":"Google (Cuenta de Google: Gmail, Search, YouTube, etc.)","empresa_operadora":"Google LLC (matriz: Alphabet Inc.)","categoria":"servicios_generales","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Estados Unidos","marco_legal_declarado":"Menciona 'marcos legales de transferencia de datos' sin nombrar explícitamente RGPD/CCPA/LGPD en el cuerpo principal consultado; Términos de Servicio regidos por ley de California, EE.UU.; no menciona Ley 19.628 ni Ley 21.719","datos_personales_recolectados":"identificacion; contacto; ubicacion; biometricos; financieros; comportamiento_navegacion; contenido_generado; datos_dispositivo; datos_salud","comparte_datos_terceros":"parcial","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"si","exposicion_publica_contenido_por_defecto":"configurable","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"jurisdiccion_extranjera","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://policies.google.com/privacy?hl=es-419","fecha_version_politica":"26 de mayo de 2026 (Política de Privacidad); Términos de Servicio vigentes desde 30 de julio de 2026","fecha_consulta":"2026-09-02","notas":"Disputas resueltas en tribunales estatales/federales de Santa Clara County, California, salvo que la ley local lo impida. Declara no usar contenido de Drive/Gmail/Fotos ni categorías sensibles (salud, orientación, etc.) para publicidad personalizada; menciona 'compliance con reguladores locales' de forma genérica, sin citar la futura Agencia de Protección de Datos chilena.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Gemini (asistente conversacional) tiene aviso de privacidad separado (Gemini Apps Privacy Hub); la Política de Privacidad general no detalla exhaustivamente el uso de datos de usuario para entrenar modelos.","version_localizada_chile":"parcial","gobernanza_moderacion_comportamiento":"mencionada_sin_detalle","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"no_aplica","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://support.google.com/gemini/answer/13594961","notas_ampliacion":"Confirma dato ya conocido: 'We don't show you personalized ads based on your content from Drive, Gmail, or Photos'. Google promueve herramientas de 'Digital Wellbeing' (Android) como característica declarada del ecosistema.","grupo":"atencion_algoritmica"},{"id":"19","plataforma":"YouTube","empresa_operadora":"YouTube, LLC (subsidiaria de Google LLC / Alphabet Inc.)","categoria":"streaming","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Estados Unidos","marco_legal_declarado":"ToS propio cita 'California law' (excluyendo reglas de conflicto de leyes); no cita GDPR/CCPA por nombre en el ToS mismo. El tratamiento de datos se rige por la Política de Privacidad de Google, que sí referencia marcos regionales vía anexos/centros de ayuda regionales.","datos_personales_recolectados":"identificacion; contacto; ubicacion; comportamiento_navegacion; contenido_generado; datos_dispositivo; financieros","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"si","exposicion_publica_contenido_por_defecto":"configurable","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"jurisdiccion_extranjera","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://www.youtube.com/t/terms","fecha_version_politica":"ToS de YouTube: 15 de diciembre de 2023; Política de Privacidad de Google: efectiva 26 de mayo de 2026","fecha_consulta":"2026-09-02","notas":"Perfil nuevo agregado en la ampliación del corpus (eje 'algorithmic sociality'). YouTube no tiene política de privacidad propia; hereda la de Google (cuenta unificada).","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"Etiquetado obligatorio de contenido alterado/sintético realista (deepfakes, voces sintéticas); política de contenido 'inauténtico'/masivo generado por IA que puede restringir monetización en el Programa de Socios (YPP).","version_localizada_chile":"parcial","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"si","url_fuente_adicional":"https://support.google.com/youtube/answer/9288567","notas_ampliacion":"El sistema de recomendación se declara en documentación separada ('How YouTube Works'), NO en el ToS mismo, que es notablemente escueto al respecto — un patrón de desplazamiento de la transparencia hacia documentos no contractuales que se repite en varias plataformas del corpus.","grupo":"atencion_algoritmica"},{"id":"20","plataforma":"Spotify","empresa_operadora":"Spotify AB (Suecia); Spotify USA Inc. en EE.UU.; matriz bursátil Spotify Technology S.A. (Luxemburgo)","categoria":"streaming","naturaleza_publico_privado":"privada_transnacional","pais_origen_matriz":"Suecia","marco_legal_declarado":"Versión Chile/internacional: ley sueca aplica, con arbitraje ICC; referencias explícitas a GDPR (Art. 15). Versión EE.UU.: ley de Nueva York + arbitraje NAM.","datos_personales_recolectados":"identificacion; contacto; ubicacion; financieros; comportamiento_navegacion; contenido_generado; datos_dispositivo","comparte_datos_terceros":"si","transferencia_internacional_datos":"si","uso_publicitario_perfilamiento":"si","exposicion_publica_contenido_por_defecto":"configurable","mecanismo_consentimiento":"aceptacion_tacita","resolucion_disputas":"arbitraje_privado","derecho_eliminacion_portabilidad_datos":"si_explicito","url_politica_privacidad":"https://www.spotify.com/cl/legal/end-user-agreement/","fecha_version_politica":"Acuerdo de usuario final (versión Chile): 26 de agosto de 2025; Política de Privacidad (versión US consultada): efectiva 1 de julio de 2026","fecha_consulta":"2026-09-02","notas":"Perfil nuevo agregado en la ampliación del corpus. Playlists nuevas y perfil/actividad ('Friend Activity') son públicos por defecto salvo que el usuario los cambie.","usa_recomendacion_algoritmica_declarada":"si","posibilidad_opt_out_personalizacion":"parcial","menciona_ia_generativa":"si","uso_declarado_ia_generativa":"AI DJ: locutor con voz generada por IA que selecciona y presenta música personalizada; AI Playlist: generación de listas de reproducción a partir de prompts de texto.","version_localizada_chile":"parcial","gobernanza_moderacion_comportamiento":"explicita_y_detallada","datos_conductuales_para_personalizacion":"si","regula_trabajo_creadores_o_relacional":"si","menciona_bienestar_o_uso_saludable":"no","url_fuente_adicional":"https://www.spotify.com/platform-rules/","notas_ampliacion":"Existe URL localizada (/cl/legal/end-user-agreement/) en español, pero el contenido legal (ley sueca, arbitraje ICC) es idéntico al default internacional, sin cláusulas propias de Chile — mismo patrón de 'localización cosmética' observado en Google/YouTube.","grupo":"atencion_algoritmica"}]
+;
+
+const CATEGORY_LABELS = {
+  red_social: "Redes sociales",
+  mensajeria: "Mensajería",
+  ecommerce: "Comercio electrónico",
+  delivery: "Delivery",
+  banca: "Banca",
+  gobierno: "Gobierno",
+  salud: "Salud",
+  streaming: "Streaming",
+  servicios_generales: "Servicios generales"
+};
+const GRUPO_LABELS = {
+  atencion_algoritmica: "Economía de la atención",
+  transaccional: "Servicios transaccionales"
+};
+const CATEGORY_ORDER = ["red_social","mensajeria","streaming","servicios_generales","ecommerce","delivery","banca","gobierno","salud"];
+const NATURALEZA_LABELS = {
+  privada_transnacional: "Privada transnacional",
+  privada_nacional: "Privada nacional",
+  publica_estatal: "Pública estatal"
+};
+
+/* ---------------- tooltip ---------------- */
+const tt = document.getElementById('chart-tooltip');
+function showTip(evt, label, value) {
+  tt.innerHTML = "";
+  const v = document.createElement('span'); v.className = 'tt-value'; v.textContent = value;
+  const l = document.createElement('span'); l.className = 'tt-label'; l.textContent = ' — ' + label;
+  tt.appendChild(v); tt.appendChild(l);
+  const r = evt.currentTarget.getBoundingClientRect();
+  tt.style.left = (r.left + r.width/2) + 'px';
+  tt.style.top = r.top + 'px';
+  tt.classList.add('visible');
+}
+function hideTip() { tt.classList.remove('visible'); }
+
+function attachTip(el, label, value) {
+  el.tabIndex = 0;
+  el.setAttribute('role', 'img');
+  el.setAttribute('aria-label', label + ': ' + value);
+  el.addEventListener('pointerenter', (e) => showTip(e, label, value));
+  el.addEventListener('focus', (e) => showTip(e, label, value));
+  el.addEventListener('pointerleave', hideTip);
+  el.addEventListener('blur', hideTip);
+}
+
+/* ---------------- generic stacked bar row ---------------- */
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function renderStackedRow(container, rowLabel, rowSub, segments, total) {
+  const row = el('div', 'chart-row');
+  const lab = el('div', 'row-label');
+  lab.appendChild(document.createTextNode(rowLabel));
+  if (rowSub) { const s = el('span', 'sub', rowSub); lab.appendChild(s); }
+  row.appendChild(lab);
+
+  const track = el('div', 'bar-track');
+  segments.forEach(seg => {
+    if (seg.value <= 0) return;
+    const pct = (seg.value / total) * 100;
+    const bar = el('div', 'bar-seg');
+    bar.style.width = pct + '%';
+    bar.style.background = seg.color;
+    attachTip(bar, seg.label, seg.value + ' de ' + total);
+    track.appendChild(bar);
+  });
+  row.appendChild(track);
+  container.appendChild(row);
+}
+
+function renderMagnitudeRow(container, rowLabel, rowSub, value, max, color, valueText) {
+  const row = el('div', 'chart-row');
+  const lab = el('div', 'row-label');
+  lab.appendChild(document.createTextNode(rowLabel));
+  if (rowSub) { const s = el('span', 'sub', rowSub); lab.appendChild(s); }
+  row.appendChild(lab);
+
+  const track = el('div', 'bar-track');
+  track.style.background = 'transparent';
+  const pct = Math.max((value / max) * 100, value > 0 ? 3 : 0);
+  const bar = el('div', 'bar-seg');
+  bar.style.width = pct + '%';
+  bar.style.background = color;
+  bar.style.minWidth = value > 0 ? '2px' : '0';
+  attachTip(bar, rowLabel, valueText);
+  track.style.background = 'var(--surface-2)';
+  track.appendChild(bar);
+  const tip = el('span', 'bar-tip-label', valueText);
+  tip.style.left = 'calc(' + pct + '% + 8px)';
+  track.appendChild(tip);
+  row.appendChild(track);
+  container.appendChild(row);
+}
+
+/* ---------------- KPIs ---------------- */
+function computeKPIs() {
+  const atencion = DATA.filter(d => d.grupo === 'atencion_algoritmica');
+  const transacc = DATA.filter(d => d.grupo === 'transaccional');
+  const locAtencionSi = atencion.filter(d => d.version_localizada_chile === 'si').length;
+  const locTransaccSi = transacc.filter(d => d.version_localizada_chile === 'si').length;
+  const optoutSi = DATA.filter(d => d.posibilidad_opt_out_personalizacion === 'si').length;
+  const iaSi = DATA.filter(d => d.menciona_ia_generativa === 'si').length;
+
+  const kpis = [
+    {
+      label: 'Localización CL — economía de la atención',
+      value: locAtencionSi + ' de ' + atencion.length,
+      sub: 'Redes sociales, mensajería, streaming, servicios generales',
+      color: 'var(--status-critical)'
+    },
+    {
+      label: 'Localización CL — servicios transaccionales',
+      value: locTransaccSi + ' de ' + transacc.length,
+      sub: 'E-commerce, delivery, banca, gobierno, salud',
+      color: 'var(--status-good)'
+    },
+    {
+      label: 'Opt-out completo de personalización',
+      value: optoutSi + ' de ' + DATA.length,
+      sub: 'El resto ofrece solo control parcial o ninguno',
+      color: 'var(--status-warning)'
+    },
+    {
+      label: 'Declaran uso de IA generativa',
+      value: iaSi + ' de ' + DATA.length,
+      sub: 'Incluye 3 de 4 bancos estudiados y el SII',
+      color: 'var(--accent)'
+    }
+  ];
+
+  const row = document.getElementById('kpi-row');
+  kpis.forEach(k => {
+    const card = el('div', 'kpi-card');
+    const bar = el('div', 'bar'); bar.style.background = k.color;
+    const label = el('div', 'kpi-label', k.label);
+    const value = el('div', 'kpi-value', k.value);
+    const sub = el('div', 'kpi-sub'); sub.textContent = k.sub;
+    card.appendChild(bar); card.appendChild(label); card.appendChild(value); card.appendChild(sub);
+    row.appendChild(card);
+  });
+}
+
+/* ---------------- Chart: localización por categoría (stacked) ---------------- */
+function computeLocalizacionChart() {
+  const legend = document.getElementById('legend-localizacion');
+  const items = [
+    { key: 'si', label: 'Versión localizada', cls: 'good', color: 'var(--status-good)' },
+    { key: 'parcial', label: 'Parcial', cls: 'warning', color: 'var(--status-warning)' },
+    { key: 'no', label: 'Sin localizar', cls: 'critical', color: 'var(--status-critical)' },
+    { key: 'no_especifica', label: 'No especifica', cls: 'neutral', color: 'var(--status-neutral)' }
+  ];
+  items.forEach(it => {
+    const li = el('div', 'legend-item');
+    const sw = el('span', 'legend-swatch'); sw.style.background = it.color;
+    li.appendChild(sw); li.appendChild(document.createTextNode(it.label));
+    legend.appendChild(li);
+  });
+
+  const container = document.getElementById('chart-localizacion');
+  let lastGrupo = null;
+  CATEGORY_ORDER.forEach(cat => {
+    const rows = DATA.filter(d => d.categoria === cat);
+    if (!rows.length) return;
+    const grupo = rows[0].grupo;
+    if (grupo !== lastGrupo) {
+      const div = el('div', 'group-divider', GRUPO_LABELS[grupo]);
+      container.appendChild(div);
+      lastGrupo = grupo;
+    }
+    const counts = { si: 0, parcial: 0, no: 0, no_especifica: 0 };
+    rows.forEach(r => { counts[r.version_localizada_chile] = (counts[r.version_localizada_chile] || 0) + 1; });
+    const segments = items.map(it => ({ value: counts[it.key] || 0, color: it.color, label: it.label }));
+    renderStackedRow(container, CATEGORY_LABELS[cat], rows.length + ' plataforma' + (rows.length > 1 ? 's' : ''), segments, rows.length);
+  });
+}
+
+/* ---------------- Chart: opt-out (single distribution) ---------------- */
+function computeOptoutChart() {
+  const container = document.getElementById('chart-optout');
+  const order = [
+    { key: 'si', label: 'Opt-out completo', color: 'var(--status-good)' },
+    { key: 'parcial', label: 'Control parcial', color: 'var(--status-warning)' },
+    { key: 'no_aplica', label: 'No aplica', color: 'var(--status-neutral)' },
+    { key: 'no_especifica', label: 'No especifica', color: 'var(--status-neutral)' }
+  ];
+  const total = DATA.length;
+  const max = Math.max(...order.map(o => DATA.filter(d => d.posibilidad_opt_out_personalizacion === o.key).length));
+  order.forEach(o => {
+    const count = DATA.filter(d => d.posibilidad_opt_out_personalizacion === o.key).length;
+    renderMagnitudeRow(container, o.label, null, count, max, o.color, count + ' / ' + total);
+  });
+}
+
+/* ---------------- Chart: gobernanza (ordinal) ---------------- */
+function computeGobernanzaChart() {
+  const container = document.getElementById('chart-gobernanza');
+  const order = [
+    { key: 'explicita_y_detallada', label: 'Explícita y detallada', color: 'var(--ord-4)' },
+    { key: 'mencionada_sin_detalle', label: 'Mencionada sin detalle', color: 'var(--ord-3)' },
+    { key: 'no_menciona', label: 'No menciona', color: 'var(--ord-2)' },
+    { key: 'no_especifica', label: 'No especifica', color: 'var(--ord-1)' }
+  ];
+  const total = DATA.length;
+  const max = Math.max(...order.map(o => DATA.filter(d => d.gobernanza_moderacion_comportamiento === o.key).length));
+  order.forEach(o => {
+    const count = DATA.filter(d => d.gobernanza_moderacion_comportamiento === o.key).length;
+    renderMagnitudeRow(container, o.label, null, count, max, o.color, count + ' / ' + total);
+  });
+}
+
+/* ---------------- Chart: IA generativa por categoría (magnitude) ---------------- */
+function computeIAChart() {
+  const container = document.getElementById('chart-ia');
+  const max = 1; // proportions 0-1
+  CATEGORY_ORDER.forEach(cat => {
+    const rows = DATA.filter(d => d.categoria === cat);
+    if (!rows.length) return;
+    const si = rows.filter(d => d.menciona_ia_generativa === 'si').length;
+    const prop = si / rows.length;
+    renderMagnitudeRow(container, CATEGORY_LABELS[cat], null, prop, max, 'var(--accent)', si + ' / ' + rows.length);
+  });
+}
+
+/* ---------------- Chart: datos conductuales (magnitude) ---------------- */
+function computeConductualChart() {
+  const container = document.getElementById('chart-conductual');
+  const order = [
+    { key: 'si', label: 'Sí, lo reconoce', color: 'var(--status-good)' },
+    { key: 'no_especifica', label: 'No especifica', color: 'var(--status-neutral)' }
+  ];
+  const total = DATA.length;
+  const max = Math.max(...order.map(o => DATA.filter(d => d.datos_conductuales_para_personalizacion === o.key).length));
+  order.forEach(o => {
+    const count = DATA.filter(d => d.datos_conductuales_para_personalizacion === o.key).length;
+    renderMagnitudeRow(container, o.label, null, count, max, o.color, count + ' / ' + total);
+  });
+}
+
+/* ---------------- pills ---------------- */
+function pillFor(field, value) {
+  const map = {
+    version_localizada_chile: { si: ['good','Sí'], parcial: ['warning','Parcial'], no: ['critical','No'], no_especifica: ['neutral','No especifica'] },
+    posibilidad_opt_out_personalizacion: { si: ['good','Completo'], parcial: ['warning','Parcial'], no_aplica: ['neutral','No aplica'], no_especifica: ['neutral','No especifica'] },
+    menciona_ia_generativa: { si: ['good','Sí'], no: ['neutral','No'], no_especifica: ['neutral','No especifica'] }
+  };
+  const conf = (map[field] || {})[value] || ['neutral', value];
+  const span = el('span', 'pill ' + conf[0], conf[1]);
+  return span;
+}
+
+/* ---------------- table ---------------- */
+let currentSort = { key: 'id', dir: 'asc' };
+let currentFilters = { search: '', grupo: '', categoria: '', naturaleza: '' };
+
+function populateSelect(id, values, labels) {
+  const sel = document.getElementById(id);
+  values.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = labels ? (labels[v] || v) : v;
+    sel.appendChild(opt);
+  });
+}
+
+function getFilteredData() {
+  return DATA.filter(d => {
+    if (currentFilters.grupo && d.grupo !== currentFilters.grupo) return false;
+    if (currentFilters.categoria && d.categoria !== currentFilters.categoria) return false;
+    if (currentFilters.naturaleza && d.naturaleza_publico_privado !== currentFilters.naturaleza) return false;
+    if (currentFilters.search) {
+      const q = currentFilters.search.toLowerCase();
+      const hay = (d.plataforma + ' ' + d.empresa_operadora).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderTable() {
+  let rows = getFilteredData();
+  rows = rows.slice().sort((a, b) => {
+    let av = a[currentSort.key], bv = b[currentSort.key];
+    if (currentSort.key === 'id') { av = +av; bv = +bv; }
+    else { av = (av || '').toString().toLowerCase(); bv = (bv || '').toString().toLowerCase(); }
+    const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+    return currentSort.dir === 'asc' ? cmp : -cmp;
+  });
+
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.addEventListener('click', () => openDrawer(r));
+
+    const tdId = el('td', null, r.id);
+    tdId.style.color = 'var(--ink-muted)'; tdId.style.fontFamily = 'var(--font-mono)'; tdId.style.fontSize = '12px';
+
+    const tdPlat = el('td', 'platform-cell');
+    tdPlat.appendChild(document.createTextNode(r.plataforma));
+    const opEl = el('span', 'operator', r.empresa_operadora.split('(')[0].trim());
+    tdPlat.appendChild(opEl);
+
+    const tdCat = document.createElement('td');
+    tdCat.appendChild(el('span', 'chip', CATEGORY_LABELS[r.categoria] || r.categoria));
+
+    const tdNat = document.createElement('td');
+    tdNat.appendChild(el('span', 'chip', NATURALEZA_LABELS[r.naturaleza_publico_privado] || r.naturaleza_publico_privado));
+
+    const tdLoc = document.createElement('td');
+    tdLoc.appendChild(pillFor('version_localizada_chile', r.version_localizada_chile));
+
+    const tdOpt = document.createElement('td');
+    tdOpt.appendChild(pillFor('posibilidad_opt_out_personalizacion', r.posibilidad_opt_out_personalizacion));
+
+    const tdIA = document.createElement('td');
+    tdIA.appendChild(pillFor('menciona_ia_generativa', r.menciona_ia_generativa));
+
+    [tdId, tdPlat, tdCat, tdNat, tdLoc, tdOpt, tdIA].forEach(td => tr.appendChild(td));
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('result-count').textContent = rows.length + ' de ' + DATA.length + ' plataformas';
+}
+
+function setupTableHeaders() {
+  document.querySelectorAll('#platform-table thead th').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      if (currentSort.key === key) currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+      else { currentSort.key = key; currentSort.dir = 'asc'; }
+      renderTable();
+    });
+  });
+}
+
+function setupFilters() {
+  const grupos = [...new Set(DATA.map(d => d.grupo))];
+  const categorias = CATEGORY_ORDER.filter(c => DATA.some(d => d.categoria === c));
+  const naturalezas = [...new Set(DATA.map(d => d.naturaleza_publico_privado))];
+
+  populateSelect('f-grupo', grupos, GRUPO_LABELS);
+  populateSelect('f-categoria', categorias, CATEGORY_LABELS);
+  populateSelect('f-naturaleza', naturalezas, NATURALEZA_LABELS);
+
+  document.getElementById('f-search').addEventListener('input', (e) => { currentFilters.search = e.target.value; renderTable(); });
+  document.getElementById('f-grupo').addEventListener('change', (e) => { currentFilters.grupo = e.target.value; renderTable(); });
+  document.getElementById('f-categoria').addEventListener('change', (e) => { currentFilters.categoria = e.target.value; renderTable(); });
+  document.getElementById('f-naturaleza').addEventListener('change', (e) => { currentFilters.naturaleza = e.target.value; renderTable(); });
+  document.getElementById('reset-filters').addEventListener('click', () => {
+    currentFilters = { search: '', grupo: '', categoria: '', naturaleza: '' };
+    document.getElementById('f-search').value = '';
+    document.getElementById('f-grupo').value = '';
+    document.getElementById('f-categoria').value = '';
+    document.getElementById('f-naturaleza').value = '';
+    renderTable();
+  });
+}
+
+/* ---------------- drawer ---------------- */
+const FIELD_GROUPS = [
+  {
+    title: 'Identificación',
+    fields: [
+      ['empresa_operadora', 'Empresa operadora'],
+      ['pais_origen_matriz', 'País de origen de la matriz'],
+      ['naturaleza_publico_privado', 'Naturaleza', v => NATURALEZA_LABELS[v] || v],
+      ['marco_legal_declarado', 'Marco legal declarado']
+    ]
+  },
+  {
+    title: 'Datos personales',
+    fields: [
+      ['datos_personales_recolectados', 'Datos recolectados', null, 'tags'],
+      ['comparte_datos_terceros', 'Comparte con terceros'],
+      ['transferencia_internacional_datos', 'Transferencia internacional'],
+      ['uso_publicitario_perfilamiento', 'Uso publicitario / perfilamiento'],
+      ['exposicion_publica_contenido_por_defecto', 'Exposición pública por defecto'],
+      ['mecanismo_consentimiento', 'Mecanismo de consentimiento'],
+      ['derecho_eliminacion_portabilidad_datos', 'Derecho de eliminación / portabilidad'],
+      ['resolucion_disputas', 'Resolución de disputas']
+    ]
+  },
+  {
+    title: 'Sociality algorítmica',
+    fields: [
+      ['usa_recomendacion_algoritmica_declarada', 'Recomendación algorítmica declarada'],
+      ['posibilidad_opt_out_personalizacion', 'Opt-out de personalización'],
+      ['datos_conductuales_para_personalizacion', 'Datos conductuales para personalización'],
+      ['menciona_ia_generativa', 'Menciona IA generativa'],
+      ['uso_declarado_ia_generativa', 'Uso declarado de IA generativa'],
+      ['version_localizada_chile', 'Versión localizada para Chile'],
+      ['gobernanza_moderacion_comportamiento', 'Gobernanza de moderación'],
+      ['regula_trabajo_creadores_o_relacional', 'Regula trabajo de creadores'],
+      ['menciona_bienestar_o_uso_saludable', 'Menciona bienestar / uso saludable']
+    ]
+  },
+  {
+    title: 'Notas y fuentes',
+    fields: [
+      ['notas', 'Notas'],
+      ['notas_ampliacion', 'Notas de ampliación'],
+      ['fecha_version_politica', 'Fecha / versión del documento'],
+      ['fecha_consulta', 'Fecha de consulta'],
+      ['url_politica_privacidad', 'Política de privacidad', null, 'link'],
+      ['url_fuente_adicional', 'Fuente adicional', null, 'link']
+    ]
+  }
+];
+
+function humanize(v) {
+  if (typeof v !== 'string') return v;
+  if (/^[a-z0-9]+(_[a-z0-9]+)*$/.test(v)) {
+    const s = v.replace(/_/g, ' ');
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+  return v;
+}
+
+function openDrawer(row) {
+  document.getElementById('drawer-cat').textContent = (CATEGORY_LABELS[row.categoria] || row.categoria) + ' · ' + (GRUPO_LABELS[row.grupo] || '');
+  document.getElementById('drawer-title').textContent = row.plataforma;
+  document.getElementById('drawer-operator').textContent = row.empresa_operadora;
+
+  const body = document.getElementById('drawer-body');
+  body.innerHTML = '';
+  FIELD_GROUPS.forEach(group => {
+    const g = el('div', 'dgroup');
+    g.appendChild(el('h4', null, group.title));
+    group.fields.forEach(([key, label, fmt, kind]) => {
+      const raw = row[key];
+      if (raw === undefined || raw === null || raw === '') return;
+      const f = el('div', 'dfield');
+      f.appendChild(el('div', 'dlabel', label));
+      if (kind === 'tags') {
+        const list = el('div', 'tag-list');
+        raw.split(';').map(s => s.trim()).filter(Boolean).forEach(t => list.appendChild(el('span', 'tag', t)));
+        f.appendChild(list);
+      } else if (kind === 'link') {
+        const a = document.createElement('a');
+        a.href = raw; a.target = '_blank'; a.rel = 'noopener';
+        a.textContent = raw.length > 54 ? raw.slice(0, 54) + '…' : raw;
+        a.style.fontSize = '12.5px';
+        const dv = el('div', 'dvalue');
+        dv.appendChild(a);
+        f.appendChild(dv);
+      } else {
+        const val = fmt ? fmt(raw) : humanize(raw);
+        f.appendChild(el('div', 'dvalue', val));
+      }
+      g.appendChild(f);
+    });
+    if (g.children.length > 1) body.appendChild(g);
+  });
+
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('scrim').classList.add('open');
+  document.getElementById('drawer').setAttribute('aria-hidden', 'false');
+}
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('scrim').classList.remove('open');
+  document.getElementById('drawer').setAttribute('aria-hidden', 'true');
+}
+document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+document.getElementById('scrim').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+/* ---------------- init ---------------- */
+computeKPIs();
+computeLocalizacionChart();
+computeOptoutChart();
+computeGobernanzaChart();
+computeIAChart();
+computeConductualChart();
+setupTableHeaders();
+setupFilters();
+renderTable();
+</script>
