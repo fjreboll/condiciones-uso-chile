@@ -134,8 +134,50 @@
   }
 
   .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  #resumen, #localizacion, #sociality, #explorar { scroll-margin-top: 68px; }
 
   a { color: var(--accent); }
+
+  /* ---------- Top nav ---------- */
+  .topnav {
+    position: sticky; top: 0; z-index: 40;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topnav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 24px;
+    height: 52px; display: flex; align-items: center; gap: 22px;
+  }
+  .topnav-brand {
+    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+    color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .topnav-links { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
+  .topnav-links a {
+    font-size: 13px; color: var(--ink-secondary); text-decoration: none;
+    padding: 7px 12px; border-radius: 7px; white-space: nowrap;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .topnav-links a:hover { background: var(--surface-2); color: var(--ink); }
+  .topnav-links a.active { color: var(--accent); font-weight: 600; background: var(--accent-soft); }
+  .theme-toggle {
+    flex: none; display: flex; align-items: center; gap: 6px;
+    font-family: var(--font-body); font-size: 12.5px; color: var(--ink-secondary);
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 12px 6px 9px; cursor: pointer;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--border-strong); }
+  .theme-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+  @media (max-width: 700px) {
+    .topnav-inner { flex-wrap: wrap; height: auto; padding: 10px 16px; row-gap: 6px; }
+    .topnav-brand { order: 1; }
+    .theme-toggle { order: 2; margin-left: auto; }
+    .topnav-links { order: 3; flex: 1 1 100%; }
+  }
 
   /* ---------- Masthead ---------- */
   .masthead {
@@ -209,14 +251,19 @@
     position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
     border-radius: var(--radius) 0 0 var(--radius);
   }
+  .kpi-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+  }
+  .kpi-icon svg { width: 16px; height: 16px; }
   .kpi-label {
-    font-size: 12px;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 600;
     margin-bottom: 8px;
     line-height: 1.35;
-    min-height: 32px;
+    min-height: 38px;
   }
   .kpi-value {
     font-family: var(--font-body);
@@ -508,9 +555,25 @@
   }
 </style>
 
-<div class="wrap">
+<nav class="topnav" id="topnav">
+  <div class="topnav-inner">
+    <a class="topnav-brand" href="#top">Condiciones de uso · Chile</a>
+    <div class="topnav-links">
+      <a href="#resumen" data-nav="resumen">Resumen</a>
+      <a href="#localizacion" data-nav="localizacion">Localización</a>
+      <a href="#sociality" data-nav="sociality">Sociality algorítmica</a>
+      <a href="#explorar" data-nav="explorar">Explorar datos</a>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro">
+      <svg id="theme-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v2M10 15v2M3 10h2M15 10h2M5.2 5.2l1.4 1.4M13.4 13.4l1.4 1.4M5.2 14.8l1.4-1.4M13.4 6.6l1.4-1.4"/><circle cx="10" cy="10" r="3.4"/></svg>
+      <span id="theme-label">Modo oscuro</span>
+    </button>
+  </div>
+</nav>
 
-  <header class="masthead">
+<div class="wrap" id="top">
+
+  <header class="masthead" id="resumen">
     <div class="eyebrow">Expediente comparado &middot; condiciones de uso digitales &middot; Chile</div>
     <h1>¿A quién le rinden cuentas las plataformas?</h1>
     <p class="dek">Veinte servicios digitales de uso masivo en Chile, leídos como infraestructura contractual: qué datos autorizan recolectar, si reconocen jurisdicción chilena, y qué declaran sobre recomendación algorítmica e inteligencia artificial generativa.</p>
@@ -524,15 +587,15 @@
 
   <section class="kpi-row" id="kpi-row"></section>
 
-  <section class="section">
+  <section class="section" id="localizacion">
     <div class="section-head">
       <div class="section-eyebrow">Hallazgo central</div>
-      <h2>La localización jurídica sigue al modelo de negocio, no al volumen de usuarios</h2>
-      <p>Comparación de si los términos de servicio tienen una versión redactada específicamente para Chile (idioma, entidad legal, jurisdicción) o si remiten a un documento global, por categoría de plataforma.</p>
+      <h2>Las redes sociales no reconocen las leyes chilenas; la banca y el comercio sí</h2>
+      <p>Comparamos si cada plataforma tiene una versión de sus términos escrita específicamente para Chile —en español, con una entidad legal y tribunales locales— o si solo remite a un documento global, categoría por categoría.</p>
     </div>
     <div class="card-grid">
       <div class="card" style="grid-column: 1 / -1;">
-        <h3>Localización de los términos para Chile, por categoría</h3>
+        <h3>¿Qué plataformas tienen términos pensados para Chile?</h3>
         <div class="card-note">Composición de cada categoría según si sus plataformas declaran una versión localizada, parcial, o ninguna.</div>
         <div class="legend" id="legend-localizacion"></div>
         <div class="chart-rows" id="chart-localizacion"></div>
@@ -543,19 +606,19 @@
   <section class="section">
     <div class="card-grid">
       <div class="card">
-        <h3>Opt-out de personalización algorítmica</h3>
+        <h3>¿Puedes desactivar la personalización algorítmica?</h3>
         <div class="card-note">Las 20 plataformas, según si el usuario puede desactivar la curación algorítmica del contenido que se le muestra.</div>
         <div class="chart-rows" id="chart-optout"></div>
       </div>
       <div class="card">
-        <h3>Gobernanza de moderación de comportamiento</h3>
-        <div class="card-note">Nivel de detalle con que el documento legal describe sus reglas de moderación.</div>
+        <h3>¿Qué tan claras son las reglas de moderación?</h3>
+        <div class="card-note">Nivel de detalle con que el documento legal describe sus reglas de moderación de comportamiento.</div>
         <div class="chart-rows" id="chart-gobernanza"></div>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="sociality">
     <div class="section-head">
       <div class="section-eyebrow">Sociality algorítmica</div>
       <h2>La lógica contractual se extiende más allá de las redes sociales</h2>
@@ -563,21 +626,21 @@
     </div>
     <div class="card-grid">
       <div class="card">
-        <h3>Reconocimiento contractual de IA generativa, por categoría</h3>
+        <h3>¿Qué sectores ya declaran usar IA generativa?</h3>
         <div class="card-note">Plataformas que declaran explícitamente el uso de IA generativa, sobre el total de cada categoría.</div>
         <div class="chart-rows" id="chart-ia"></div>
       </div>
       <div class="card">
-        <h3>Uso de datos de comportamiento para personalización</h3>
+        <h3>¿Tu actividad alimenta lo que te muestran?</h3>
         <div class="card-note">Si el documento reconoce que el comportamiento de navegación alimenta la personalización de contenido (distinto de publicidad).</div>
         <div class="chart-rows" id="chart-conductual"></div>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="explorar">
     <div class="section-head">
-      <div class="section-eyebrow">Explorar el corpus</div>
+      <div class="section-eyebrow">Explora los datos</div>
       <h2>Las 20 plataformas, variable por variable</h2>
       <p>Filtra y ordena la tabla; haz clic en una fila para ver el expediente completo de esa plataforma (30 variables).</p>
     </div>
@@ -596,7 +659,7 @@
         <select id="f-categoria"><option value="">Todas</option></select>
       </div>
       <div class="filter-group">
-        <label for="f-naturaleza">Naturaleza</label>
+        <label for="f-naturaleza">Tipo de entidad</label>
         <select id="f-naturaleza"><option value="">Todas</option></select>
       </div>
       <button class="reset-btn" id="reset-filters">Limpiar filtros</button>
@@ -610,10 +673,10 @@
             <th data-key="id" style="width:34px;">#</th>
             <th data-key="plataforma">Plataforma</th>
             <th data-key="categoria">Categoría</th>
-            <th data-key="naturaleza_publico_privado">Naturaleza</th>
-            <th data-key="version_localizada_chile">Localizada CL</th>
-            <th data-key="posibilidad_opt_out_personalizacion">Opt-out</th>
-            <th data-key="menciona_ia_generativa">IA generativa</th>
+            <th data-key="naturaleza_publico_privado">Tipo de entidad</th>
+            <th data-key="version_localizada_chile">Términos para Chile</th>
+            <th data-key="posibilidad_opt_out_personalizacion">Control del usuario</th>
+            <th data-key="menciona_ia_generativa">Usa IA generativa</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -659,8 +722,8 @@ const CATEGORY_LABELS = {
   servicios_generales: "Servicios generales"
 };
 const GRUPO_LABELS = {
-  atencion_algoritmica: "Economía de la atención",
-  transaccional: "Servicios transaccionales"
+  atencion_algoritmica: "Redes, mensajería y streaming",
+  transaccional: "Banca, comercio y gobierno"
 };
 const CATEGORY_ORDER = ["red_social","mensajeria","streaming","servicios_generales","ecommerce","delivery","banca","gobierno","salud"];
 const NATURALEZA_LABELS = {
@@ -755,30 +818,44 @@ function computeKPIs() {
   const optoutSi = DATA.filter(d => d.posibilidad_opt_out_personalizacion === 'si').length;
   const iaSi = DATA.filter(d => d.menciona_ia_generativa === 'si').length;
 
+  const ICONS = {
+    pin: '<path d="M10 18s6-5.686 6-10a6 6 0 10-12 0c0 4.314 6 10 6 10z"/><circle cx="10" cy="8" r="2.1"/>',
+    shield: '<path d="M10 2.2l6 2.4v4.6c0 4.3-2.6 7.5-6 8.8-3.4-1.3-6-4.5-6-8.8V4.6l6-2.4z"/><path d="M7.1 10.1l1.9 1.9 3.9-4.2"/>',
+    toggle: '<rect x="2" y="6.4" width="16" height="7.2" rx="3.6"/><circle cx="7" cy="10" r="2.3" fill="currentColor" stroke="none"/>',
+    spark: '<path d="M10 2.5l1.5 4.9L16.5 9l-5 1.6L10 15.5 8.5 10.6 3.5 9l5-1.6L10 2.5z" fill="currentColor" stroke="none"/>'
+  };
+  function iconSvg(name) {
+    return '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
+  }
+
   const kpis = [
     {
-      label: 'Localización CL — economía de la atención',
+      label: 'Redes, mensajería y streaming: casi ninguna reconoce las leyes chilenas',
       value: locAtencionSi + ' de ' + atencion.length,
-      sub: 'Redes sociales, mensajería, streaming, servicios generales',
-      color: 'var(--status-critical)'
+      sub: 'tiene términos escritos específicamente para Chile',
+      color: 'var(--status-critical)',
+      icon: 'pin'
     },
     {
-      label: 'Localización CL — servicios transaccionales',
+      label: 'Banca, comercio y gobierno: todas reconocen las leyes chilenas',
       value: locTransaccSi + ' de ' + transacc.length,
-      sub: 'E-commerce, delivery, banca, gobierno, salud',
-      color: 'var(--status-good)'
+      sub: 'tiene una versión de sus términos localizada para Chile',
+      color: 'var(--status-good)',
+      icon: 'shield'
     },
     {
-      label: 'Opt-out completo de personalización',
+      label: 'Casi nadie puede apagar la personalización algorítmica',
       value: optoutSi + ' de ' + DATA.length,
-      sub: 'El resto ofrece solo control parcial o ninguno',
-      color: 'var(--status-warning)'
+      sub: 'ofrece opt-out completo; el resto, solo parcial o ninguno',
+      color: 'var(--status-warning)',
+      icon: 'toggle'
     },
     {
-      label: 'Declaran uso de IA generativa',
+      label: 'La IA generativa ya se declara fuera de las redes sociales',
       value: iaSi + ' de ' + DATA.length,
-      sub: 'Incluye 3 de 4 bancos estudiados y el SII',
-      color: 'var(--accent)'
+      sub: 'declara usarla — incluye 3 de 4 bancos y el SII',
+      color: 'var(--accent)',
+      icon: 'spark'
     }
   ];
 
@@ -786,10 +863,12 @@ function computeKPIs() {
   kpis.forEach(k => {
     const card = el('div', 'kpi-card');
     const bar = el('div', 'bar'); bar.style.background = k.color;
+    const icon = el('div', 'kpi-icon'); icon.style.background = 'color-mix(in srgb, ' + k.color + ' 16%, transparent)'; icon.style.color = k.color;
+    icon.innerHTML = iconSvg(k.icon);
     const label = el('div', 'kpi-label', k.label);
     const value = el('div', 'kpi-value', k.value);
     const sub = el('div', 'kpi-sub'); sub.textContent = k.sub;
-    card.appendChild(bar); card.appendChild(label); card.appendChild(value); card.appendChild(sub);
+    card.appendChild(bar); card.appendChild(icon); card.appendChild(label); card.appendChild(value); card.appendChild(sub);
     row.appendChild(card);
   });
 }
@@ -1017,7 +1096,7 @@ const FIELD_GROUPS = [
     fields: [
       ['empresa_operadora', 'Empresa operadora'],
       ['pais_origen_matriz', 'País de origen de la matriz'],
-      ['naturaleza_publico_privado', 'Naturaleza', v => NATURALEZA_LABELS[v] || v],
+      ['naturaleza_publico_privado', 'Tipo de entidad', v => NATURALEZA_LABELS[v] || v],
       ['marco_legal_declarado', 'Marco legal declarado']
     ]
   },
@@ -1119,7 +1198,56 @@ document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 document.getElementById('scrim').addEventListener('click', closeDrawer);
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
 
+/* ---------------- theme toggle ---------------- */
+function readStoredTheme() {
+  try { return localStorage.getItem('cu-chile-theme'); } catch (e) { return null; }
+}
+function storeTheme(v) {
+  try { localStorage.setItem('cu-chile-theme', v); } catch (e) { /* ignore */ }
+}
+function effectiveIsDark() {
+  const stamped = document.documentElement.getAttribute('data-theme');
+  if (stamped === 'dark') return true;
+  if (stamped === 'light') return false;
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+function updateThemeButton() {
+  const dark = effectiveIsDark();
+  document.getElementById('theme-label').textContent = dark ? 'Modo claro' : 'Modo oscuro';
+}
+function setupThemeToggle() {
+  const stored = readStoredTheme();
+  if (stored === 'dark' || stored === 'light') document.documentElement.setAttribute('data-theme', stored);
+  updateThemeButton();
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = effectiveIsDark() ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    storeTheme(next);
+    updateThemeButton();
+  });
+}
+
+/* ---------------- scroll-spy nav ---------------- */
+function setupScrollSpy() {
+  const ids = ['resumen', 'localizacion', 'sociality', 'explorar'];
+  const links = {};
+  ids.forEach(id => { links[id] = document.querySelector('.topnav-links a[data-nav="' + id + '"]'); });
+  const targets = ids.map(id => document.getElementById(id)).filter(Boolean);
+  if (!('IntersectionObserver' in window) || !targets.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        ids.forEach(id => links[id] && links[id].classList.remove('active'));
+        const link = links[entry.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  targets.forEach(t => observer.observe(t));
+}
+
 /* ---------------- init ---------------- */
+setupThemeToggle();
 computeKPIs();
 computeLocalizacionChart();
 computeOptoutChart();
@@ -1129,4 +1257,5 @@ computeConductualChart();
 setupTableHeaders();
 setupFilters();
 renderTable();
+setupScrollSpy();
 </script>
