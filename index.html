@@ -1,6 +1,6 @@
 <title>¿A quién le rinden cuentas?</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Roboto+Mono:wght@400;500;600&display=swap');
 
   :root {
     color-scheme: light;
@@ -39,10 +39,11 @@
     --ord-4: #0d366b;
 
     --shadow: 0 1px 2px rgba(18,21,28,0.04), 0 6px 20px -8px rgba(18,21,28,0.12);
-    --radius: 12px;
-    --font-display: 'Spectral', Georgia, 'Times New Roman', serif;
-    --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --radius: 20px;
+    --radius-sm: 12px;
+    --font-display: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -135,7 +136,7 @@
 
   .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
   @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-  #resumen, #localizacion, #sociality, #explorar { scroll-margin-top: 68px; }
+  #resumen, #rastreo, #gobernanza, #explorar { scroll-margin-top: 68px; }
 
   a { color: var(--accent); }
 
@@ -159,7 +160,7 @@
   .topnav-links { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
   .topnav-links a {
     font-size: 13px; color: var(--ink-secondary); text-decoration: none;
-    padding: 7px 12px; border-radius: 7px; white-space: nowrap;
+    padding: 7px 14px; border-radius: 999px; white-space: nowrap;
     transition: background 0.12s ease, color 0.12s ease;
   }
   .topnav-links a:hover { background: var(--surface-2); color: var(--ink); }
@@ -241,22 +242,17 @@
   }
   .kpi-card {
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: none;
     border-radius: var(--radius);
-    padding: 18px 20px;
-    box-shadow: var(--shadow);
+    padding: 20px 22px;
     position: relative;
   }
-  .kpi-card .bar {
-    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-    border-radius: var(--radius) 0 0 var(--radius);
-  }
   .kpi-icon {
-    width: 28px; height: 28px; border-radius: 8px;
+    width: 40px; height: 40px; border-radius: var(--radius-sm);
     display: flex; align-items: center; justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
   }
-  .kpi-icon svg { width: 16px; height: 16px; }
+  .kpi-icon svg { width: 20px; height: 20px; }
   .kpi-label {
     font-size: 13px;
     color: var(--ink);
@@ -314,7 +310,10 @@
     gap: 8px;
   }
   .card .card-note { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 16px; }
-  .h-icon { width: 18px; height: 18px; flex: none; color: var(--accent); }
+  .h-icon {
+    width: 30px; height: 30px; padding: 6px; box-sizing: border-box; flex: none;
+    color: var(--accent); background: var(--accent-soft); border-radius: 999px;
+  }
 
   /* legend */
   .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 14px; }
@@ -330,7 +329,7 @@
     position: relative;
     height: 20px;
     background: var(--surface-2);
-    border-radius: 4px;
+    border-radius: 8px;
     display: flex;
     gap: 2px;
     overflow: visible;
@@ -342,9 +341,9 @@
     cursor: pointer;
     transition: filter 0.12s ease;
   }
-  .bar-seg:first-child { border-radius: 4px 0 0 4px; }
-  .bar-seg:last-child { border-radius: 0 4px 4px 0; }
-  .bar-seg:only-child { border-radius: 4px; }
+  .bar-seg:first-child { border-radius: 8px 0 0 8px; }
+  .bar-seg:last-child { border-radius: 0 8px 8px 0; }
+  .bar-seg:only-child { border-radius: 8px; }
   .bar-seg:hover, .bar-seg:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ink); }
   .bar-tip-label {
     position: absolute;
@@ -375,7 +374,7 @@
     color: var(--bg);
     font-size: 12.5px;
     padding: 7px 10px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     box-shadow: var(--shadow);
     max-width: 240px;
     opacity: 0;
@@ -405,16 +404,16 @@
     color: var(--ink);
     background: var(--surface-2);
     border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    padding: 7px 12px;
   }
   .filters input[type="search"] { min-width: 220px; }
   .filters label { font-size: 11.5px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
   .filter-group { display: flex; align-items: center; gap: 6px; }
   .result-count { margin-left: auto; font-size: 12.5px; color: var(--ink-muted); font-family: var(--font-mono); }
   .reset-btn {
-    font-family: var(--font-body); font-size: 12.5px; color: var(--accent);
-    background: var(--accent-soft); border: none; border-radius: 7px; padding: 7px 12px; cursor: pointer;
+    font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); border: none; border-radius: 999px; padding: 7px 14px; cursor: pointer;
   }
   .reset-btn:hover { filter: brightness(0.97); }
 
@@ -529,7 +528,7 @@
   .dfield .dvalue { font-size: 13.5px; color: var(--ink); line-height: 1.45; }
   .dfield .dvalue.mono { font-family: var(--font-mono); font-size: 12.5px; }
   .tag-list { display: flex; flex-wrap: wrap; gap: 5px; }
-  .tag { font-size: 11px; background: var(--surface-2); border: 1px solid var(--border); padding: 3px 8px; border-radius: 6px; color: var(--ink-secondary); }
+  .tag { font-size: 11px; background: var(--surface-2); border: none; padding: 4px 10px; border-radius: 999px; color: var(--ink-secondary); }
 
   /* ---------- Callout / footer ---------- */
   .callout {
@@ -582,8 +581,8 @@
     <a class="topnav-brand" href="#top">Condiciones de uso · Chile</a>
     <div class="topnav-links">
       <a href="#resumen" data-nav="resumen">Resumen</a>
+      <a href="#rastreo" data-nav="rastreo">Datos rastreados</a>
       <a href="#gobernanza" data-nav="gobernanza">Gobernanza de datos</a>
-      <a href="#localizacion" data-nav="localizacion">Localización</a>
       <a href="#explorar" data-nav="explorar">Explorar datos</a>
     </div>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro">
@@ -607,13 +606,31 @@
     </div>
   </header>
 
+  <section class="section hero-graph" id="rastreo">
+    <div class="section-head">
+      <div class="section-eyebrow">Datos rastreados</div>
+      <h2>¿Qué rastrean más: las redes sociales u otras plataformas?</h2>
+      <p>Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato — redes sociales y mensajería (n=5) frente al resto del corpus (n=15) — con base en un <a href="docs/analisis_discurso_tos.md">análisis de discurso</a> de las 20 condiciones de uso.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10s3-5.2 8-5.2 8 5.2 8 5.2-3 5.2-8 5.2-8-5.2-8-5.2z"/><circle cx="10" cy="10" r="2.4"/></svg>Uso de datos personales entre plataformas</h3>
+        <div class="card-note">Cada nodo de la izquierda es un grupo de plataformas; cada nodo de la derecha, un tipo de dato personal. El grosor de la línea es la proporción del grupo que lo declara.</div>
+        <div class="graph-legend" id="legend-tracked"></div>
+        <figure class="graph-figure">
+          <svg class="graph-svg" id="graph-tracked" viewBox="0 0 680 420" role="img" aria-label="Actividades rastreadas: redes sociales y mensajería declaran recolectar identificación, contacto, ubicación, contenido generado, comportamiento de navegación y datos del dispositivo en el 100% de los casos; el resto del corpus lo hace en una proporción menor mediante datos financieros y biométricos."></svg>
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <section class="kpi-row" id="kpi-row"></section>
 
   <section class="section" id="gobernanza">
     <div class="section-head">
       <div class="section-eyebrow">Gobernanza de datos</div>
       <h2>El control sobre tus datos es la excepción, no la regla</h2>
-      <p>Cómo se pide tu consentimiento, si puedes apagar la personalización, quién controla cada plataforma, con quién comparte tus datos y qué actividad rastrea — con base en un <a href="docs/analisis_discurso_tos.md">análisis de discurso</a> de las 20 condiciones de uso.</p>
+      <p>Cómo se pide tu consentimiento, si puedes apagar la personalización algorítmica, y qué tan claras son las reglas que rigen tu comportamiento en cada plataforma.</p>
     </div>
     <div class="card-grid">
       <div class="card">
@@ -635,48 +652,6 @@
         <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.2v13.6M4.6 6h10.8"/><path d="M4.6 6L2.4 10.6a2.3 2.3 0 004.4 0L4.6 6zM15.4 6l-2.2 4.6a2.3 2.3 0 004.4 0L15.4 6z"/><path d="M6.6 16.8h6.8"/></svg>¿Qué tan claras son las reglas de moderación?</h3>
         <div class="card-note">Nivel de detalle con que el documento describe sus reglas de moderación de comportamiento.</div>
         <div class="chart-rows" id="chart-gobernanza"></div>
-      </div>
-      <div class="card" style="grid-column: 1 / -1;">
-        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="9.5" width="4" height="7.5"/><rect x="8" y="4.5" width="4" height="12.5"/><rect x="13.5" y="11.5" width="4" height="5.5"/></svg>¿Quién controla realmente estas 20 plataformas?</h3>
-        <div class="card-note">Los 10 controladores corporativos o estatales con más plataformas en el corpus, y las que operan. Verificado desde <code>empresa_operadora</code> y <code>pais_origen_matriz</code>.</div>
-        <div class="graph-legend" id="legend-ownership"></div>
-        <figure class="graph-figure">
-          <svg class="graph-svg" id="graph-ownership" viewBox="0 0 740 470" role="img" aria-label="Red de propiedad corporativa: el Estado de Chile controla 4 plataformas (BancoEstado, ClaveÚnica/ChileAtiende, SII, Fonasa); Meta y Alphabet controlan 2 cada una; los otros 7 controladores del top 10, 1 cada uno."></svg>
-          <figcaption>Cubre 15 de las 20 plataformas del corpus. Las 5 restantes (Rappi, Banco Santander Chile, Banco de Chile, BCI, Spotify) tienen controladores individuales fuera del top 10.</figcaption>
-        </figure>
-      </div>
-      <div class="card" style="grid-column: 1 / -1;">
-        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="10" r="2.1"/><circle cx="15" cy="5.2" r="2.1"/><circle cx="15" cy="14.8" r="2.1"/><path d="M6.8 9.1l6.3-3M6.8 10.9l6.3 3"/></svg>¿Con quién declaran compartir tus datos?</h3>
-        <div class="card-note">Las 20 plataformas conectadas a las tres prácticas de circulación de datos que el corpus permite codificar de forma comparable. Línea sólida = declarado; línea punteada = declarado parcialmente.</div>
-        <div class="graph-legend" id="legend-thirdparty"></div>
-        <figure class="graph-figure">
-          <svg class="graph-svg" id="graph-thirdparty" viewBox="0 0 760 560" role="img" aria-label="Red de intercambio de datos con terceros: la gran mayoría de las 20 plataformas declara compartir datos con terceros y transferirlos fuera de Chile; el perfilamiento publicitario es la práctica menos extendida y no aplica a la banca ni al Estado."></svg>
-        </figure>
-        <div class="card-note" style="margin-top:10px; margin-bottom:0;">Límite de método: los ToS rara vez nombran al tercero específico — hablan de "empresas afiliadas", "proveedores de servicios" o "socios comerciales". El grafo muestra la práctica declarada, no la identidad del receptor (ver análisis de discurso).</div>
-      </div>
-      <div class="card" style="grid-column: 1 / -1;">
-        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10s3-5.2 8-5.2 8 5.2 8 5.2-3 5.2-8 5.2-8-5.2-8-5.2z"/><circle cx="10" cy="10" r="2.4"/></svg>¿Qué rastrean más: las redes sociales u otras plataformas?</h3>
-        <div class="card-note">Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato. Redes sociales y mensajería (n=5) frente al resto del corpus — comercio, delivery, banca, gobierno, salud y streaming (n=15).</div>
-        <div class="graph-legend" id="legend-tracked"></div>
-        <figure class="graph-figure">
-          <svg class="graph-svg" id="graph-tracked" viewBox="0 0 680 420" role="img" aria-label="Actividades rastreadas: redes sociales y mensajería declaran recolectar identificación, contacto, ubicación, contenido generado, comportamiento de navegación y datos del dispositivo en el 100% de los casos; el resto del corpus lo hace en una proporción menor mediante datos financieros y biométricos."></svg>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="localizacion">
-    <div class="section-head">
-      <div class="section-eyebrow">Jurisdicción</div>
-      <h2>Las redes sociales no reconocen las leyes chilenas; la banca y el comercio sí</h2>
-      <p>Si cada plataforma tiene una versión de sus términos escrita para Chile —en español, con entidad legal y tribunales locales— o si solo remite a un documento global.</p>
-    </div>
-    <div class="card-grid">
-      <div class="card" style="grid-column: 1 / -1;">
-        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 18s6-5.686 6-10a6 6 0 10-12 0c0 4.314 6 10 6 10z"/><circle cx="10" cy="8" r="2.1"/></svg>¿Qué plataformas tienen términos pensados para Chile?</h3>
-        <div class="card-note">Composición de cada categoría según si declara versión localizada, parcial, o ninguna.</div>
-        <div class="legend" id="legend-localizacion"></div>
-        <div class="chart-rows" id="chart-localizacion"></div>
       </div>
     </div>
   </section>
@@ -908,48 +883,14 @@ function computeKPIs() {
   const row = document.getElementById('kpi-row');
   kpis.forEach(k => {
     const card = el('div', 'kpi-card');
-    const bar = el('div', 'bar'); bar.style.background = k.color;
-    const icon = el('div', 'kpi-icon'); icon.style.background = 'color-mix(in srgb, ' + k.color + ' 16%, transparent)'; icon.style.color = k.color;
+    card.style.background = 'color-mix(in srgb, ' + k.color + ' 9%, var(--surface))';
+    const icon = el('div', 'kpi-icon'); icon.style.background = 'color-mix(in srgb, ' + k.color + ' 18%, transparent)'; icon.style.color = k.color;
     icon.innerHTML = iconSvg(k.icon);
     const label = el('div', 'kpi-label', k.label);
-    const value = el('div', 'kpi-value', k.value);
+    const value = el('div', 'kpi-value', k.value); value.style.color = k.color;
     const sub = el('div', 'kpi-sub'); sub.textContent = k.sub;
-    card.appendChild(bar); card.appendChild(icon); card.appendChild(label); card.appendChild(value); card.appendChild(sub);
+    card.appendChild(icon); card.appendChild(label); card.appendChild(value); card.appendChild(sub);
     row.appendChild(card);
-  });
-}
-
-/* ---------------- Chart: localización por categoría (stacked) ---------------- */
-function computeLocalizacionChart() {
-  const legend = document.getElementById('legend-localizacion');
-  const items = [
-    { key: 'si', label: 'Versión localizada', cls: 'good', color: 'var(--status-good)' },
-    { key: 'parcial', label: 'Parcial', cls: 'warning', color: 'var(--status-warning)' },
-    { key: 'no', label: 'Sin localizar', cls: 'critical', color: 'var(--status-critical)' },
-    { key: 'no_especifica', label: 'No especifica', cls: 'neutral', color: 'var(--status-neutral)' }
-  ];
-  items.forEach(it => {
-    const li = el('div', 'legend-item');
-    const sw = el('span', 'legend-swatch'); sw.style.background = it.color;
-    li.appendChild(sw); li.appendChild(document.createTextNode(it.label));
-    legend.appendChild(li);
-  });
-
-  const container = document.getElementById('chart-localizacion');
-  let lastGrupo = null;
-  CATEGORY_ORDER.forEach(cat => {
-    const rows = DATA.filter(d => d.categoria === cat);
-    if (!rows.length) return;
-    const grupo = rows[0].grupo;
-    if (grupo !== lastGrupo) {
-      const div = el('div', 'group-divider', GRUPO_LABELS[grupo]);
-      container.appendChild(div);
-      lastGrupo = grupo;
-    }
-    const counts = { si: 0, parcial: 0, no: 0, no_especifica: 0 };
-    rows.forEach(r => { counts[r.version_localizada_chile] = (counts[r.version_localizada_chile] || 0) + 1; });
-    const segments = items.map(it => ({ value: counts[it.key] || 0, color: it.color, label: it.label }));
-    renderStackedRow(container, CATEGORY_LABELS[cat], rows.length + ' plataforma' + (rows.length > 1 ? 's' : ''), segments, rows.length);
   });
 }
 
@@ -1036,149 +977,6 @@ function legendSwatch(container, label, color, shape) {
   span.appendChild(sw);
   span.appendChild(document.createTextNode(label));
   container.appendChild(span);
-}
-
-/* Verificado contra empresa_operadora / pais_origen_matriz del CSV (2-sep-2026).
-   Cubre los 10 controladores con más plataformas del corpus; ids referencian DATA. */
-const OWNERSHIP = [
-  { owner: 'Estado de Chile', country: 'Chile', ids: ['13','14','15','16'] },
-  { owner: 'Meta Platforms, Inc.', country: 'Extranjero', ids: ['1','2'] },
-  { owner: 'Alphabet Inc. (Google LLC)', country: 'Extranjero', ids: ['18','19'] },
-  { owner: 'ByteDance Ltd.', country: 'Extranjero', ids: ['3'] },
-  { owner: 'Microsoft Corporation', country: 'Extranjero', ids: ['5'] },
-  { owner: 'X Holdings Corp.', country: 'Extranjero', ids: ['4'] },
-  { owner: 'MercadoLibre Inc.', country: 'Extranjero', ids: ['6'] },
-  { owner: 'Uber Technologies, Inc.', country: 'Extranjero', ids: ['8'] },
-  { owner: 'S.A.C.I. Falabella', country: 'Chile', ids: ['7'] },
-  { owner: 'Netflix, Inc.', country: 'Extranjero', ids: ['17'] }
-];
-
-function computeOwnershipGraph() {
-  const svg = document.getElementById('graph-ownership');
-  const W = 740, H = 470, leftX = 190, rightX = 480, topPad = 26, botPad = 26;
-
-  const legend = document.getElementById('legend-ownership');
-  legendSwatch(legend, 'Matriz en Chile', 'var(--status-good)');
-  legendSwatch(legend, 'Matriz extranjera', 'var(--accent)');
-
-  const platformRows = [];
-  OWNERSHIP.forEach(o => o.ids.forEach(id => platformRows.push({ id: id, owner: o.owner })));
-  const n = platformRows.length;
-
-  const ownerY = {};
-  OWNERSHIP.forEach((o, i) => { ownerY[o.owner] = topPad + i * ((H - topPad - botPad) / (OWNERSHIP.length - 1)); });
-  const platY = {};
-  platformRows.forEach((p, i) => { platY[p.id] = topPad + i * ((H - topPad - botPad) / (n - 1)); });
-
-  OWNERSHIP.forEach(o => {
-    const color = o.country === 'Chile' ? 'var(--status-good)' : 'var(--accent)';
-    const y1 = ownerY[o.owner];
-    o.ids.forEach(id => {
-      const y2 = platY[id];
-      const x1 = leftX + 10, x2 = rightX - 7, mx = (x1 + x2) / 2;
-      svg.appendChild(sEl('path', { d: 'M ' + x1 + ',' + y1 + ' C ' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2, fill: 'none', stroke: color, 'stroke-width': 1.3, opacity: 0.38 }));
-    });
-  });
-
-  OWNERSHIP.forEach(o => {
-    const color = o.country === 'Chile' ? 'var(--status-good)' : 'var(--accent)';
-    const y = ownerY[o.owner];
-    const r = 7 + o.ids.length * 2.2;
-    const g = sEl('g', {});
-    g.appendChild(sEl('circle', { cx: leftX, cy: y, r: r, fill: color }));
-    const count = sEl('text', { x: leftX, y: y + 3.6, 'text-anchor': 'middle', class: 'graph-node-count' });
-    count.textContent = o.ids.length;
-    g.appendChild(count);
-    const label = sEl('text', { x: leftX - r - 8, y: y + 3.6, class: 'graph-node-label right' });
-    label.textContent = o.owner;
-    g.appendChild(label);
-    attachTip(g, o.owner, o.ids.length + ' plataforma' + (o.ids.length > 1 ? 's' : '') + ' en el corpus · matriz: ' + (o.country === 'Chile' ? 'Chile' : 'extranjera'));
-    svg.appendChild(g);
-  });
-
-  platformRows.forEach(p => {
-    const y = platY[p.id];
-    const row = DATA.find(d => d.id === p.id);
-    const g = sEl('g', {});
-    g.appendChild(sEl('circle', { cx: rightX, cy: y, r: 4, fill: 'var(--surface)', stroke: 'var(--ink-muted)', 'stroke-width': 1.3 }));
-    const label = sEl('text', { x: rightX + 10, y: y + 3.6, class: 'graph-node-label' });
-    const fullName = row ? row.plataforma : p.id;
-    label.textContent = fullName.length > 34 ? fullName.slice(0, 32) + '…' : fullName;
-    g.appendChild(label);
-    if (row) attachTip(g, row.plataforma, row.empresa_operadora);
-    svg.appendChild(g);
-  });
-}
-
-const PRACTICES = [
-  { key: 'comparte_datos_terceros', label: 'Comparte con terceros' },
-  { key: 'transferencia_internacional_datos', label: 'Transferencia internacional' },
-  { key: 'uso_publicitario_perfilamiento', label: 'Perfilamiento publicitario' }
-];
-
-function computeThirdPartyGraph() {
-  const svg = document.getElementById('graph-thirdparty');
-  const W = 760, H = 560, leftX = 230, rightX = 540, topPad = 20, botPad = 20;
-
-  const legend = document.getElementById('legend-thirdparty');
-  legendSwatch(legend, 'Declarado ("sí")', 'var(--accent)', 'line');
-  legendSwatch(legend, 'Declarado parcialmente', 'var(--accent)', 'dashed');
-
-  const rows = [];
-  CATEGORY_ORDER.forEach(cat => DATA.filter(d => d.categoria === cat).forEach(d => rows.push(d)));
-  const n = rows.length;
-  const platY = {};
-  rows.forEach((r, i) => { platY[r.id] = topPad + i * ((H - topPad - botPad) / (n - 1)); });
-  const practiceY = {};
-  PRACTICES.forEach((p, i) => { practiceY[p.key] = 70 + i * ((H - 140) / (PRACTICES.length - 1)); });
-
-  const counts = {};
-  PRACTICES.forEach(p => { counts[p.key] = { si: 0, parcial: 0 }; });
-
-  rows.forEach(r => {
-    const y1 = platY[r.id];
-    PRACTICES.forEach(p => {
-      const val = r[p.key];
-      if (val !== 'si' && val !== 'parcial') return;
-      counts[p.key][val]++;
-      const y2 = practiceY[p.key];
-      const x1 = leftX + 6, x2 = rightX - 10, mx = (x1 + x2) / 2;
-      const attrs = { d: 'M ' + x1 + ',' + y1 + ' C ' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2, fill: 'none', stroke: 'var(--accent)' };
-      if (val === 'si') { attrs['stroke-width'] = 1.1; attrs.opacity = 0.4; }
-      else { attrs['stroke-width'] = 1; attrs.opacity = 0.28; attrs['stroke-dasharray'] = '3,3'; }
-      svg.appendChild(sEl('path', attrs));
-    });
-  });
-
-  rows.forEach(r => {
-    const y = platY[r.id];
-    const g = sEl('g', {});
-    g.appendChild(sEl('circle', { cx: leftX, cy: y, r: 3.2, fill: 'var(--surface)', stroke: 'var(--ink-muted)', 'stroke-width': 1.1 }));
-    const label = sEl('text', { x: leftX - 11, y: y + 3.2, class: 'graph-node-label right', style: 'font-size:9.5px;' });
-    label.textContent = r.plataforma.length > 26 ? r.plataforma.slice(0, 24) + '…' : r.plataforma;
-    g.appendChild(label);
-    attachTip(g, r.plataforma, CATEGORY_LABELS[r.categoria]);
-    svg.appendChild(g);
-  });
-
-  PRACTICES.forEach(p => {
-    const y = practiceY[p.key];
-    const total = counts[p.key].si + counts[p.key].parcial;
-    const r = 11 + total * 0.9;
-    const g = sEl('g', {});
-    g.appendChild(sEl('circle', { cx: rightX, cy: y, r: r, fill: 'var(--accent)' }));
-    const count = sEl('text', { x: rightX, y: y + 3.6, 'text-anchor': 'middle', class: 'graph-node-count' });
-    count.textContent = total;
-    g.appendChild(count);
-    const label = sEl('text', { x: rightX + r + 10, y: y - 2, class: 'graph-node-label' });
-    label.textContent = p.label;
-    g.appendChild(label);
-    const sub = sEl('text', { x: rightX + r + 10, y: y + 12, class: 'graph-node-sub' });
-    sub.textContent = counts[p.key].si + ' declaran · ' + counts[p.key].parcial + ' parcial';
-    g.appendChild(sub);
-    attachTip(g, p.label, total + ' de 20 plataformas (' + counts[p.key].si + ' sí, ' + counts[p.key].parcial + ' parcial)');
-    svg.appendChild(g);
-  });
 }
 
 const RRSS_CATS = ['red_social', 'mensajeria'];
@@ -1536,7 +1334,7 @@ function setupThemeToggle() {
 
 /* ---------------- scroll-spy nav ---------------- */
 function setupScrollSpy() {
-  const ids = ['resumen', 'gobernanza', 'localizacion', 'explorar'];
+  const ids = ['resumen', 'rastreo', 'gobernanza', 'explorar'];
   const links = {};
   ids.forEach(id => { links[id] = document.querySelector('.topnav-links a[data-nav="' + id + '"]'); });
   const targets = ids.map(id => document.getElementById(id)).filter(Boolean);
@@ -1556,14 +1354,11 @@ function setupScrollSpy() {
 /* ---------------- init ---------------- */
 setupThemeToggle();
 computeKPIs();
-computeLocalizacionChart();
+computeTrackedActivitiesGraph();
 computeOptoutChart();
 computeGobernanzaChart();
 computeConsentimientoChart();
 computeConductualChart();
-computeOwnershipGraph();
-computeThirdPartyGraph();
-computeTrackedActivitiesGraph();
 setupTableHeaders();
 setupFilters();
 renderTable();

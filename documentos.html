@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Documentos — Condiciones de uso digitales en Chile</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Roboto+Mono:wght@400;500;600&display=swap');
 
   :root {
     color-scheme: light;
@@ -21,10 +21,10 @@
     --accent-panel: #1F3864;
     --accent-panel-ink: #FFFFFF;
     --shadow: 0 1px 2px rgba(18,21,28,0.04), 0 6px 20px -8px rgba(18,21,28,0.12);
-    --radius: 12px;
-    --font-display: 'Spectral', Georgia, 'Times New Roman', serif;
-    --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --radius: 20px;
+    --font-display: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -55,11 +55,11 @@
   .masthead p { color:rgba(255,255,255,0.85); font-size:14px; max-width:60ch; }
   .group { margin-bottom:30px; }
   .group h2 { font-family:var(--font-display); font-size:18px; font-weight:600; margin-bottom:12px; }
-  .doc-card { display:flex; justify-content:space-between; align-items:center; gap:16px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; box-shadow:var(--shadow); margin-bottom:10px; }
+  .doc-card { display:flex; justify-content:space-between; align-items:center; gap:16px; background:var(--surface-2); border:none; border-radius:var(--radius); padding:16px 20px; margin-bottom:10px; }
   .doc-card .meta h3 { font-size:15px; font-weight:600; margin-bottom:3px; }
   .doc-card .meta p { font-size:13px; color:var(--ink-secondary); }
-  .doc-card .tag { font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-muted); background:var(--surface-2); border:1px solid var(--border); padding:2px 7px; border-radius:5px; margin-right:8px; }
-  .dl-btn { flex:none; font-size:13px; font-weight:600; color:var(--accent); background:var(--accent-soft); border-radius:8px; padding:8px 14px; text-decoration:none; white-space:nowrap; }
+  .doc-card .tag { font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-muted); background:var(--surface); border:none; padding:3px 9px; border-radius:999px; margin-right:8px; }
+  .dl-btn { flex:none; font-size:13px; font-weight:600; color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:8px 16px; text-decoration:none; white-space:nowrap; }
   .dl-btn:hover { filter:brightness(0.97); }
   footer { margin-top:30px; padding-top:18px; border-top:1px solid var(--border); font-size:12.5px; color:var(--ink-muted); }
 </style>
