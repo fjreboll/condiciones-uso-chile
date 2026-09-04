@@ -5,57 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Documentos — Condiciones de uso digitales en Chile</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&family=Roboto+Mono:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700&display=swap');
 
   :root {
-    color-scheme: light;
-    --bg: #EEF1F5;
-    --surface: #FFFFFF;
-    --surface-2: #F4F6F9;
-    --ink: #12151C;
-    --ink-secondary: #4B5568;
-    --ink-muted: #7A8394;
-    --border: #DBE1E8;
-    --accent: #1F3864;
-    --accent-soft: #DCE5F2;
-    --accent-panel: #1F3864;
-    --accent-panel-ink: #FFFFFF;
-    --shadow: 0 1px 2px rgba(18,21,28,0.04), 0 6px 20px -8px rgba(18,21,28,0.12);
-    --radius: 20px;
-    --font-display: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --font-body: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --font-mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --bg: #0F131A; --surface: #171B24; --surface-2: #1C212C;
-      --ink: #EDEFF3; --ink-secondary: #B7BFCC; --ink-muted: #8891A0;
-      --border: #2B3140; --accent: #8FADDD; --accent-soft: #1E2A3E;
-      --accent-panel: #1B2C4D; --accent-panel-ink: #F3F6FC;
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
-    }
-  }
-  :root[data-theme="dark"] {
     color-scheme: dark;
     --bg: #0F131A; --surface: #171B24; --surface-2: #1C212C;
     --ink: #EDEFF3; --ink-secondary: #B7BFCC; --ink-muted: #8891A0;
     --border: #2B3140; --accent: #8FADDD; --accent-soft: #1E2A3E;
-    --accent-panel: #1B2C4D; --accent-panel-ink: #F3F6FC;
+    --accent-panel: #1F3864; --accent-panel-ink: #FFFFFF;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+    --radius: 20px;
+    --font-display: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:15px; line-height:1.55; }
   .wrap { max-width:900px; margin:0 auto; padding:28px 24px 80px; }
   a { color:var(--accent); }
-  .masthead { background:var(--accent-panel); color:var(--accent-panel-ink); border-radius:var(--radius); padding:26px 30px; box-shadow:var(--shadow); margin-bottom:28px; }
+  .masthead { background:var(--accent-panel); color:var(--accent-panel-ink); border-radius:var(--radius); padding:34px 38px; box-shadow:var(--shadow); margin-bottom:28px; }
   .masthead a.back { font-family:var(--font-mono); font-size:12px; color:rgba(255,255,255,0.75); text-decoration:none; }
   .masthead a.back:hover { color:#fff; }
   .masthead h1 { font-family:var(--font-display); font-weight:600; font-size:28px; margin:10px 0 6px; text-wrap:balance; }
   .masthead p { color:rgba(255,255,255,0.85); font-size:14px; max-width:60ch; }
   .group { margin-bottom:30px; }
   .group h2 { font-family:var(--font-display); font-size:18px; font-weight:600; margin-bottom:12px; }
-  .doc-card { display:flex; justify-content:space-between; align-items:center; gap:16px; background:var(--surface-2); border:none; border-radius:var(--radius); padding:16px 20px; margin-bottom:10px; }
+  .doc-card { display:flex; justify-content:space-between; align-items:center; gap:16px; background:var(--surface-2); border:none; border-radius:var(--radius); padding:22px 26px; margin-bottom:10px; }
   .doc-card .meta h3 { font-size:15px; font-weight:600; margin-bottom:3px; }
   .doc-card .meta p { font-size:13px; color:var(--ink-secondary); }
   .doc-card .tag { font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-muted); background:var(--surface); border:none; padding:3px 9px; border-radius:999px; margin-right:8px; }
@@ -69,7 +44,7 @@
   <header class="masthead">
     <a class="back" href="index.html">&larr; Volver al dashboard</a>
     <h1>Documentos del proyecto</h1>
-    <p>Marco teórico, propuesta de paper y datos crudos del repositorio de condiciones de uso digitales en Chile — proyecto "Agentes de especulación".</p>
+    <p>Marco teórico y documentos de análisis del repositorio de condiciones de uso digitales en Chile — proyecto "Agentes de especulación".</p>
   </header>
 
   <div class="group">
@@ -81,14 +56,6 @@
         <p>Capítulo teórico extenso (APA 7) que sustenta la construcción de la base de datos.</p>
       </div>
       <a class="dl-btn" href="docs/Marco_teorico_condiciones_de_uso.docx">Descargar</a>
-    </div>
-    <div class="doc-card">
-      <div class="meta">
-        <span class="tag">DOCX</span>
-        <h3>Propuesta de paper — "Algorithmic Sociality" (Convergence, SAGE)</h3>
-        <p>Extended abstract, biografía de autor/a, evidencia empírica y estructura de paper completo.</p>
-      </div>
-      <a class="dl-btn" href="docs/Propuesta_paper_algorithmic_sociality.docx">Descargar</a>
     </div>
     <div class="doc-card">
       <div class="meta">
@@ -113,18 +80,6 @@
         <p>Lectura crítica del discurso de las 20 condiciones de uso: aceptación tácita, vaguedad sobre terceros, localización cosmética y otros patrones.</p>
       </div>
       <a class="dl-btn" href="docs/analisis_discurso_tos.md">Descargar</a>
-    </div>
-  </div>
-
-  <div class="group">
-    <h2>Datos</h2>
-    <div class="doc-card">
-      <div class="meta">
-        <span class="tag">CSV</span>
-        <h3>condiciones_de_uso_chile.csv</h3>
-        <p>20 plataformas × 30 variables — los datos que alimentan el dashboard.</p>
-      </div>
-      <a class="dl-btn" href="data/condiciones_de_uso_chile.csv">Descargar</a>
     </div>
   </div>
 

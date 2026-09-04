@@ -3,90 +3,6 @@
   @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700;8..144,800&display=swap');
 
   :root {
-    color-scheme: light;
-    --bg: #EEF1F5;
-    --surface: #FFFFFF;
-    --surface-2: #F4F6F9;
-    --ink: #12151C;
-    --ink-secondary: #4B5568;
-    --ink-muted: #7A8394;
-    --border: #DBE1E8;
-    --border-strong: #C3CBD6;
-
-    --accent: #1F3864;
-    --accent-soft: #DCE5F2;
-    --accent-ink: #14264A;
-    --accent-panel: #1F3864;
-    --accent-panel-ink: #FFFFFF;
-
-    --cat-atencion: #2a78d6;
-    --cat-atencion-soft: #DBEAFC;
-    --cat-transaccional: #b2551e;
-    --cat-transaccional-soft: #F7E4D5;
-
-    --status-good: #0c8f0c;
-    --status-good-soft: #DFF3DE;
-    --status-warning: #a8730b;
-    --status-warning-soft: #FBEDD2;
-    --status-critical: #bd3232;
-    --status-critical-soft: #FAE1E1;
-    --status-neutral: #7A8394;
-    --status-neutral-soft: #E7EAEF;
-
-    --ord-1: #86b6ef;
-    --ord-2: #2a78d6;
-    --ord-3: #104281;
-    --ord-4: #0d366b;
-
-    --shadow: 0 1px 2px rgba(18,21,28,0.04), 0 6px 20px -8px rgba(18,21,28,0.12);
-    --radius: 20px;
-    --radius-sm: 12px;
-    --font-display: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --font-body: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --font-mono: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --bg: #0F131A;
-      --surface: #171B24;
-      --surface-2: #1C212C;
-      --ink: #EDEFF3;
-      --ink-secondary: #B7BFCC;
-      --ink-muted: #8891A0;
-      --border: #2B3140;
-      --border-strong: #3A4152;
-
-      --accent: #8FADDD;
-      --accent-soft: #1E2A3E;
-      --accent-ink: #DCE7F8;
-      --accent-panel: #1B2C4D;
-      --accent-panel-ink: #F3F6FC;
-
-      --cat-atencion: #4a94ea;
-      --cat-atencion-soft: #1B2E47;
-      --cat-transaccional: #e0975a;
-      --cat-transaccional-soft: #3A2A1C;
-
-      --status-good: #4fbf4f;
-      --status-good-soft: #17301A;
-      --status-warning: #e0ac3e;
-      --status-warning-soft: #34290F;
-      --status-critical: #e2726b;
-      --status-critical-soft: #3A1B1B;
-      --status-neutral: #8891A0;
-      --status-neutral-soft: #262C38;
-
-      --ord-1: #2c496e;
-      --ord-2: #3987e5;
-      --ord-3: #6da7ec;
-      --ord-4: #b7d3f6;
-
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
-    }
-  }
-  :root[data-theme="dark"] {
     color-scheme: dark;
     --bg: #0F131A;
     --surface: #171B24;
@@ -100,6 +16,8 @@
     --accent: #8FADDD;
     --accent-soft: #1E2A3E;
     --accent-ink: #DCE7F8;
+    --accent-panel: #1F3864;
+    --accent-panel-ink: #FFFFFF;
 
     --cat-atencion: #4a94ea;
     --cat-atencion-soft: #1B2E47;
@@ -121,6 +39,11 @@
     --ord-4: #b7d3f6;
 
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+    --radius: 20px;
+    --radius-sm: 12px;
+    --font-display: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -137,7 +60,7 @@
 
   .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
   @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-  #resumen, #rastreo, #gobernanza, #explorar { scroll-margin-top: 68px; }
+  #resumen, #rastreo, #gobernanza, #explorar, #tdc { scroll-margin-top: 68px; }
 
   a { color: var(--accent); }
 
@@ -166,19 +89,10 @@
   }
   .topnav-links a:hover { background: var(--surface-2); color: var(--ink); }
   .topnav-links a.active { color: var(--accent); font-weight: 600; background: var(--accent-soft); }
-  .theme-toggle {
-    flex: none; display: flex; align-items: center; gap: 6px;
-    font-family: var(--font-body); font-size: 12.5px; color: var(--ink-secondary);
-    background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px;
-    padding: 6px 12px 6px 9px; cursor: pointer;
-  }
-  .theme-toggle:hover { color: var(--ink); border-color: var(--border-strong); }
-  .theme-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.7; }
   @media (max-width: 700px) {
     .topnav-inner { flex-wrap: wrap; height: auto; padding: 10px 16px; row-gap: 6px; }
     .topnav-brand { order: 1; }
-    .theme-toggle { order: 2; margin-left: auto; }
-    .topnav-links { order: 3; flex: 1 1 100%; }
+    .topnav-links { order: 2; flex: 1 1 100%; }
   }
 
   /* ---------- Masthead ---------- */
@@ -186,7 +100,7 @@
     background: #0A0A0C;
     color: #fff;
     border-radius: var(--radius);
-    padding: 52px 34px 30px;
+    padding: 60px 44px 38px;
     box-shadow: var(--shadow);
     position: relative;
     overflow: hidden;
@@ -250,7 +164,7 @@
     background: var(--surface);
     border: none;
     border-radius: var(--radius);
-    padding: 20px 22px;
+    padding: 28px 26px;
     position: relative;
   }
   .kpi-icon {
@@ -296,7 +210,7 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 20px 22px 18px;
+    padding: 28px 30px 26px;
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
@@ -394,7 +308,7 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 12px 14px;
+    padding: 18px 20px;
     box-shadow: var(--shadow);
     margin-bottom: 14px;
   }
@@ -496,7 +410,7 @@
   }
   .drawer.open { transform: translateX(0); }
   .drawer-head {
-    padding: 20px 24px 16px;
+    padding: 26px 28px 20px;
     border-bottom: 1px solid var(--border);
     background: var(--accent-panel);
     color: var(--accent-panel-ink);
@@ -515,7 +429,7 @@
     font-size: 15px; cursor: pointer; line-height: 1;
   }
   .drawer-close:hover { background: rgba(255,255,255,0.24); }
-  .drawer-body { padding: 18px 24px 32px; overflow-y: auto; flex: 1; }
+  .drawer-body { padding: 24px 28px 36px; overflow-y: auto; flex: 1; }
   .dgroup { margin-bottom: 22px; }
   .dgroup:last-child { margin-bottom: 0; }
   .dgroup h4 {
@@ -535,7 +449,7 @@
     background: var(--status-warning-soft);
     border: 1px solid color-mix(in srgb, var(--status-warning) 35%, var(--border));
     border-radius: var(--radius);
-    padding: 16px 20px;
+    padding: 22px 26px;
     font-size: 13.5px;
     color: var(--ink-secondary);
     margin-top: 40px;
@@ -603,6 +517,52 @@
   .graph-legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
   .graph-legend .sw.line { border-radius: 0; height: 2px; width: 16px; vertical-align: 2px; }
   .graph-legend .sw.dashed { background: none; border-top: 2px dashed currentColor; height: 0; }
+
+  /* ---------------- tooltip: data-type examples ---------------- */
+  #chart-tooltip { max-width: 260px; }
+  .tt-examples { display: block; margin-top: 4px; font-size: 11.5px; color: color-mix(in srgb, var(--bg) 75%, transparent); line-height: 1.35; }
+
+  /* ---------------- TDC access grid ---------------- */
+  .tdc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(122px, 1fr)); gap: 10px; }
+  .tdc-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    text-align: center;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .tdc-item:hover, .tdc-item:focus-visible { border-color: var(--border-strong); background: var(--surface-2); outline: none; }
+  .tdc-item.active { border-color: var(--accent); background: var(--accent-soft); }
+  .tdc-icon {
+    width: 36px; height: 36px; border-radius: 50%; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .tdc-item.active .tdc-icon { background: var(--accent); color: var(--surface); }
+  .tdc-icon svg { width: 17px; height: 17px; }
+  .tdc-name { font-size: 11.5px; font-weight: 600; line-height: 1.28; color: var(--ink); }
+  .tdc-detail {
+    margin-top: 18px;
+    padding: 22px 24px;
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tdc-detail h4 { font-family: var(--font-display); font-size: 16.5px; font-weight: 600; color: var(--ink); }
+  .tdc-detail .tdc-meta { font-size: 12.5px; color: var(--ink-muted); }
+  .tdc-detail a.tdc-link {
+    align-self: flex-start; margin-top: 8px; font-size: 13px; font-weight: 600;
+    color: var(--accent); display: inline-flex; align-items: center; gap: 5px;
+  }
 </style>
 
 <nav class="topnav" id="topnav">
@@ -613,11 +573,8 @@
       <a href="#rastreo" data-nav="rastreo">Datos rastreados</a>
       <a href="#gobernanza" data-nav="gobernanza">Gobernanza de datos</a>
       <a href="#explorar" data-nav="explorar">Explorar datos</a>
+      <a href="#tdc" data-nav="tdc">Términos y condiciones</a>
     </div>
-    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro">
-      <svg id="theme-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v2M10 15v2M3 10h2M15 10h2M5.2 5.2l1.4 1.4M13.4 13.4l1.4 1.4M5.2 14.8l1.4-1.4M13.4 6.6l1.4-1.4"/><circle cx="10" cy="10" r="3.4"/></svg>
-      <span id="theme-label">Modo oscuro</span>
-    </button>
   </div>
 </nav>
 
@@ -751,6 +708,15 @@
     </div>
   </section>
 
+  <section class="section" id="tdc">
+    <div class="section-head">
+      <h2>Acceso directo a los términos y condiciones</h2>
+      <p>Isotipo de cada una de las 20 plataformas sondeadas: haz clic para ver la fuente exacta consultada, su fecha de versión y el enlace directo al documento original.</p>
+    </div>
+    <div class="tdc-grid" id="tdc-grid"></div>
+    <div class="tdc-detail" id="tdc-detail" hidden></div>
+  </section>
+
   <div class="callout">
     <svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7.3"/><path d="M10 9v4.6M10 6.6v.05"/></svg>
     <span><strong>Nota de método.</strong> Los datos provienen de lectura directa de los documentos legales publicados por cada plataforma (política de privacidad y términos de servicio), consultados entre agosto y septiembre de 2026. Meta, TikTok y LinkedIn bloquearon el acceso automatizado (robots.txt), por lo que esas filas combinan fuentes primarias con reportes secundarios verificados. BancoEstado y ChileAtiende devolvieron errores de acceso persistentes (404/403) y quedan marcados para verificación manual. Donde el documento no permite determinar un valor, se registra como <code>no_especifica</code> en vez de inferirlo.</span>
@@ -758,7 +724,7 @@
 
   <footer class="page-footer">
     <span>Proyecto <b>Agentes de especulación</b> — repositorio de condiciones de uso digitales</span>
-    <span><a href="documentos.html">Marco teórico, propuesta de paper y CSV &rarr;</a></span>
+    <span><a href="documentos.html">Marco teórico y documentos &rarr;</a></span>
   </footer>
 </div>
 
@@ -802,11 +768,15 @@ const NATURALEZA_LABELS = {
 
 /* ---------------- tooltip ---------------- */
 const tt = document.getElementById('chart-tooltip');
-function showTip(evt, label, value) {
+function showTip(evt, label, value, examples) {
   tt.innerHTML = "";
   const v = document.createElement('span'); v.className = 'tt-value'; v.textContent = value;
   const l = document.createElement('span'); l.className = 'tt-label'; l.textContent = ' — ' + label;
   tt.appendChild(v); tt.appendChild(l);
+  if (examples) {
+    const ex = document.createElement('span'); ex.className = 'tt-examples'; ex.textContent = 'Ej.: ' + examples;
+    tt.appendChild(ex);
+  }
   const r = evt.currentTarget.getBoundingClientRect();
   tt.style.left = (r.left + r.width/2) + 'px';
   tt.style.top = r.top + 'px';
@@ -814,12 +784,12 @@ function showTip(evt, label, value) {
 }
 function hideTip() { tt.classList.remove('visible'); }
 
-function attachTip(el, label, value) {
+function attachTip(el, label, value, examples) {
   el.tabIndex = 0;
   el.setAttribute('role', 'img');
-  el.setAttribute('aria-label', label + ': ' + value);
-  el.addEventListener('pointerenter', (e) => showTip(e, label, value));
-  el.addEventListener('focus', (e) => showTip(e, label, value));
+  el.setAttribute('aria-label', label + ': ' + value + (examples ? '. Ejemplos: ' + examples : ''));
+  el.addEventListener('pointerenter', (e) => showTip(e, label, value, examples));
+  el.addEventListener('focus', (e) => showTip(e, label, value, examples));
   el.addEventListener('pointerleave', hideTip);
   el.addEventListener('blur', hideTip);
 }
@@ -1022,6 +992,18 @@ const TRACKED_TYPE_LABELS = {
   datos_laborales: 'Datos laborales',
   datos_salud: 'Datos de salud'
 };
+const TRACKED_TYPE_EXAMPLES = {
+  identificacion: 'nombre, RUT/cédula, fecha de nacimiento, foto de perfil',
+  contacto: 'correo electrónico, número de teléfono, dirección postal',
+  ubicacion: 'GPS en tiempo real, dirección IP, ciudad o país inferido',
+  contenido_generado: 'publicaciones, mensajes, fotos y videos que subes',
+  comportamiento_navegacion: 'clics, tiempo de visualización, búsquedas, historial de scroll',
+  datos_dispositivo: 'modelo del equipo, sistema operativo, identificador de publicidad',
+  biometricos: 'reconocimiento facial, huella dactilar, verificación de voz',
+  financieros: 'número de tarjeta, historial de compras, ingresos declarados',
+  datos_laborales: 'cargo, empresa, historial profesional',
+  datos_salud: 'condiciones médicas, recetas, historial de atención'
+};
 
 function computeTrackedActivitiesGraph() {
   const svg = document.getElementById('graph-tracked');
@@ -1105,7 +1087,7 @@ function computeTrackedActivitiesGraph() {
     const sub = sEl('text', { x: rightX + 11, y: y + 12, class: 'graph-node-sub' });
     sub.textContent = 'RRSS ' + rrssCount + '/5 · Resto ' + otrasCount + '/15';
     g.appendChild(sub);
-    attachTip(g, TRACKED_TYPE_LABELS[t] || t, 'RRSS: ' + rrssCount + ' de 5 · Resto: ' + otrasCount + ' de 15');
+    attachTip(g, TRACKED_TYPE_LABELS[t] || t, 'RRSS: ' + rrssCount + ' de 5 · Resto: ' + otrasCount + ' de 15', TRACKED_TYPE_EXAMPLES[t]);
     svg.appendChild(g);
   });
 }
@@ -1337,32 +1319,42 @@ document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 document.getElementById('scrim').addEventListener('click', closeDrawer);
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
 
-/* ---------------- theme toggle ---------------- */
-function readStoredTheme() {
-  try { return localStorage.getItem('cu-chile-theme'); } catch (e) { return null; }
-}
-function storeTheme(v) {
-  try { localStorage.setItem('cu-chile-theme', v); } catch (e) { /* ignore */ }
-}
-function effectiveIsDark() {
-  const stamped = document.documentElement.getAttribute('data-theme');
-  if (stamped === 'dark') return true;
-  if (stamped === 'light') return false;
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-}
-function updateThemeButton() {
-  const dark = effectiveIsDark();
-  document.getElementById('theme-label').textContent = dark ? 'Modo claro' : 'Modo oscuro';
-}
-function setupThemeToggle() {
-  const stored = readStoredTheme();
-  if (stored === 'dark' || stored === 'light') document.documentElement.setAttribute('data-theme', stored);
-  updateThemeButton();
-  document.getElementById('theme-toggle').addEventListener('click', () => {
-    const next = effectiveIsDark() ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    storeTheme(next);
-    updateThemeButton();
+/* ---------------- acceso a TDC (términos y condiciones) ---------------- */
+function setupTdcAccess() {
+  const grid = document.getElementById('tdc-grid');
+  const detail = document.getElementById('tdc-detail');
+  if (!grid || !detail) return;
+  const ICON = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 2.3h6.4l3.6 3.6v11.8h-10z"/><path d="M11.9 2.3v3.6h3.6"/><path d="M7.3 10.2h5.4M7.3 12.9h5.4M7.3 15.6h3"/></svg>';
+  DATA.forEach(d => {
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'tdc-item';
+    const icon = el('div', 'tdc-icon'); icon.innerHTML = ICON;
+    const name = el('div', 'tdc-name', d.plataforma);
+    item.appendChild(icon);
+    item.appendChild(name);
+    item.setAttribute('aria-label', 'Ver términos y condiciones de ' + d.plataforma);
+    item.addEventListener('click', () => {
+      grid.querySelectorAll('.tdc-item.active').forEach(x => x.classList.remove('active'));
+      item.classList.add('active');
+      detail.innerHTML = '';
+      detail.hidden = false;
+      detail.appendChild(el('h4', null, d.plataforma));
+      detail.appendChild(el('div', 'tdc-meta', 'Empresa operadora: ' + d.empresa_operadora));
+      detail.appendChild(el('div', 'tdc-meta', 'Versión / fecha del documento: ' + humanize(d.fecha_version_politica || 'no especifica')));
+      detail.appendChild(el('div', 'tdc-meta', 'Fecha de consulta: ' + (d.fecha_consulta || 'no especifica')));
+      if (d.url_politica_privacidad) {
+        const a = document.createElement('a');
+        a.className = 'tdc-link';
+        a.href = d.url_politica_privacidad;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'Ver política de privacidad / términos ↗';
+        detail.appendChild(a);
+      }
+      detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    grid.appendChild(item);
   });
 }
 
@@ -1422,7 +1414,7 @@ function setupMastheadParallax() {
 
 /* ---------------- scroll-spy nav ---------------- */
 function setupScrollSpy() {
-  const ids = ['resumen', 'rastreo', 'gobernanza', 'explorar'];
+  const ids = ['resumen', 'rastreo', 'gobernanza', 'explorar', 'tdc'];
   const links = {};
   ids.forEach(id => { links[id] = document.querySelector('.topnav-links a[data-nav="' + id + '"]'); });
   const targets = ids.map(id => document.getElementById(id)).filter(Boolean);
@@ -1440,7 +1432,6 @@ function setupScrollSpy() {
 }
 
 /* ---------------- init ---------------- */
-setupThemeToggle();
 computeKPIs();
 computeTrackedActivitiesGraph();
 computeOptoutChart();
@@ -1450,6 +1441,7 @@ computeConductualChart();
 setupTableHeaders();
 setupFilters();
 renderTable();
+setupTdcAccess();
 setupScrollSpy();
 setupReveal();
 setupMastheadParallax();
