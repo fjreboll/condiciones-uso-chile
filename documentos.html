@@ -9,10 +9,10 @@
 
   :root {
     color-scheme: dark;
-    --bg: #0F131A; --surface: #171B24; --surface-2: #1C212C;
-    --ink: #EDEFF3; --ink-secondary: #B7BFCC; --ink-muted: #8891A0;
-    --border: #2B3140; --accent: #8FADDD; --accent-soft: #1E2A3E;
-    --accent-panel: #1F3864; --accent-panel-ink: #FFFFFF;
+    --bg: #000000; --surface: #0D0D0D; --surface-2: #1A1A1A;
+    --ink: #FFFFFF; --ink-secondary: #ABABAB; --ink-muted: #757575;
+    --border: #2A2A2A; --accent: #FFFFFF; --accent-soft: #242424;
+    --accent-panel: #000000; --accent-panel-ink: #FFFFFF;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
     --radius: 20px;
     --font-display: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -22,12 +22,13 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:15px; line-height:1.55; }
   .wrap { max-width:900px; margin:0 auto; padding:28px 24px 80px; }
-  a { color:var(--accent); }
-  .masthead { background:var(--accent-panel); color:var(--accent-panel-ink); border-radius:var(--radius); padding:34px 38px; box-shadow:var(--shadow); margin-bottom:28px; }
-  .masthead a.back { font-family:var(--font-mono); font-size:12px; color:rgba(255,255,255,0.75); text-decoration:none; }
+  a { color:var(--accent); text-decoration:underline; text-underline-offset:2px; text-decoration-color:var(--border); }
+  a:hover { text-decoration-color: var(--accent); }
+  .masthead { background:var(--accent-panel); color:var(--accent-panel-ink); border:1px solid var(--border); border-radius:var(--radius); padding:34px 38px; box-shadow:var(--shadow); margin-bottom:28px; }
+  .masthead a.back { font-family:var(--font-mono); font-size:12px; color:rgba(255,255,255,0.7); text-decoration:none; }
   .masthead a.back:hover { color:#fff; }
-  .masthead h1 { font-family:var(--font-display); font-weight:600; font-size:28px; margin:10px 0 6px; text-wrap:balance; }
-  .masthead p { color:rgba(255,255,255,0.85); font-size:14px; max-width:60ch; }
+  .masthead h1 { font-family:var(--font-display); font-weight:800; letter-spacing:-0.01em; font-size:28px; margin:10px 0 6px; text-wrap:balance; }
+  .masthead p { color:rgba(255,255,255,0.8); font-size:14px; max-width:60ch; }
   .group { margin-bottom:30px; }
   .group h2 { font-family:var(--font-display); font-size:18px; font-weight:600; margin-bottom:12px; }
   .doc-card { display:flex; justify-content:space-between; align-items:center; gap:16px; background:var(--surface-2); border:none; border-radius:var(--radius); padding:22px 26px; margin-bottom:10px; }
