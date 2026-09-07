@@ -157,6 +157,7 @@
     max-width: none;
     text-align: justify;
     text-align-last: left;
+    text-wrap: pretty;
     font-size: 17.5px;
     line-height: 1.5;
     color: rgba(255,255,255,0.82);
@@ -236,6 +237,7 @@
     line-height: 1.55;
     text-align: justify;
     text-align-last: left;
+    text-wrap: pretty;
     margin: 10px 0 6px;
   }
   .doc-link {
@@ -1557,20 +1559,32 @@ function buildSiteBackground() {
   if (!svg) return;
   const W = 1600, H = 900;
   const rnd = makeRnd(2024);
-  const group = sEl('g', {});
-  // A single calm bundle spanning the whole page height, well below the
-  // intensity of the masthead — a watermark, not a second focal point.
-  buildThreadBundle(group, rnd, W, H, {
-    axis: 'vertical',
-    count: 46,
-    waistFrac: 0.5,
-    edgeSpread: 1.3,
-    wobble: 0.015,
-    drift: 0.06,
-    overshoot: 0.08,
-    opacity: [0.09, 0.22],
-    strokeWidth: [0.55, 0.95]
-  });
+  const group = sEl('g', { fill: 'none', stroke: '#fff' });
+  // Deliberately NOT a buildThreadBundle() call: that helper converges every
+  // strand toward one shared waist, which — pinned to a fixed, full-viewport
+  // layer — reads as a hard bowtie sitting dead-center of the screen at every
+  // scroll position, i.e. exactly the figural "divider" look this background
+  // is supposed to avoid. Here each thread bows independently with its own
+  // random midpoint and endpoint, so nothing lines up into a shared shape —
+  // a true ambient watermark, texture rather than illustration.
+  const N = 54;
+  for (let i = 0; i < N; i++) {
+    const t = N === 1 ? 0.5 : i / (N - 1);
+    const x0 = t * W + (rnd() - 0.5) * (W / N) * 1.6;
+    const bow = (rnd() - 0.5) * W * 0.16;
+    const drift = (rnd() - 0.5) * W * 0.2;
+    const midX = x0 + bow;
+    const endX = x0 + drift;
+    const d = 'M ' + x0.toFixed(1) + ',' + (-H * 0.06).toFixed(1) +
+      ' C ' + midX.toFixed(1) + ',' + (H * 0.32).toFixed(1) + ' ' +
+      midX.toFixed(1) + ',' + (H * 0.68).toFixed(1) + ' ' +
+      endX.toFixed(1) + ',' + (H * 1.06).toFixed(1);
+    group.appendChild(sEl('path', {
+      d: d,
+      'stroke-width': (0.5 + rnd() * 0.45).toFixed(2),
+      opacity: (0.07 + rnd() * 0.12).toFixed(2)
+    }));
+  }
   svg.appendChild(group);
 }
 

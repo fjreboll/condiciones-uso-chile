@@ -62,7 +62,7 @@
   article h2:first-child { margin-top: 0; }
   article p {
     color: var(--ink-secondary); margin: 0 0 16px; text-align: justify; text-align-last: left;
-    overflow-wrap: break-word;
+    text-wrap: pretty; overflow-wrap: break-word;
   }
   article p strong { color: var(--ink); font-weight: 600; }
   article code {
@@ -77,6 +77,7 @@
   .callout-note {
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
     padding: 18px 22px; margin: 0 0 24px; font-size: 14px; color: var(--ink-secondary);
+    text-align: justify; text-align-last: left; text-wrap: pretty;
   }
   .callout-note strong { color: var(--ink); }
 
@@ -98,6 +99,7 @@
   }
   article ul li {
     color: var(--ink-secondary); padding-left: 18px; position: relative; text-align: justify; text-align-last: left;
+    text-wrap: pretty;
   }
   article ul li::before {
     content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px;
