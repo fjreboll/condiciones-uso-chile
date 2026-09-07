@@ -72,17 +72,28 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border);
+    overflow: hidden;
   }
+  .topnav-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .topnav-bg svg { width: 100%; height: 100%; display: block; }
   .topnav-inner {
+    position: relative;
+    z-index: 1;
     max-width: 1180px; margin: 0 auto; padding: 0 24px;
     height: 52px; display: flex; align-items: center; gap: 22px;
   }
   .topnav-brand {
+    position: relative;
     font-family: var(--font-mono); font-size: 12px; font-weight: 600;
     color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
     white-space: nowrap;
   }
-  .topnav-links { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
+  .topnav-links { position: relative; display: flex; gap: 4px; flex: 1; overflow-x: auto; }
   .topnav-links a {
     font-size: 13px; color: var(--ink-secondary); text-decoration: none;
     padding: 7px 14px; border-radius: 999px; white-space: nowrap;
@@ -591,6 +602,9 @@
 </div>
 
 <nav class="topnav" id="topnav">
+  <div class="topnav-bg" id="topnav-bg" aria-hidden="true">
+    <svg id="topnav-art" viewBox="0 0 1180 52" preserveAspectRatio="none"></svg>
+  </div>
   <div class="topnav-inner">
     <a class="topnav-brand" href="#top">Condiciones de uso · Chile</a>
     <div class="topnav-links">
@@ -1407,51 +1421,48 @@ function makeRnd(seed) {
   return function rnd() { s = (s * 9301 + 49297) % 233280; return s / 233280; };
 }
 
-// a node-link network scattered across a W×H canvas: nearest-neighbor edges
-// plus a few long-range links, node radius scaled by a rough "degree".
+// a pure line network scattered across a W×H canvas: nearest-neighbor links
+// plus a few long-range links. No node markers — the lines and their
+// crossing density carry the whole pattern, closer to the thin converging
+// linework of "Morisawa 1" than a literal node graph.
 function buildNodeNetwork(group, rnd, W, H, count, opts) {
   opts = opts || {};
-  const nodeOpacity = opts.nodeOpacity || [0.35, 0.75];
-  const edgeOpacity = opts.edgeOpacity || [0.08, 0.28];
+  const edgeOpacity = opts.edgeOpacity || [0.22, 0.5];
+  const strokeWidth = opts.strokeWidth || [0.7, 1.3];
   const maxLinkDist = opts.maxLinkDist || Math.max(W, H) * 0.22;
-  const nodes = [];
+  const linkChance = opts.linkChance != null ? opts.linkChance : 0.6;
+  const longRangeRatio = opts.longRangeRatio != null ? opts.longRangeRatio : 0.5;
+  const points = [];
   for (let i = 0; i < count; i++) {
-    nodes.push({ x: rnd() * W, y: rnd() * H, r: 1.6 + rnd() * 2.6 });
+    points.push({ x: rnd() * W, y: rnd() * H });
   }
   const edgeGroup = sEl('g', { stroke: '#fff', fill: 'none' });
-  const nodeGroup = sEl('g', { fill: '#fff' });
-  for (let i = 0; i < nodes.length; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
-      const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+  for (let i = 0; i < points.length; i++) {
+    for (let j = i + 1; j < points.length; j++) {
+      const dx = points[i].x - points[j].x, dy = points[i].y - points[j].y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < maxLinkDist && rnd() < 0.55) {
+      if (dist < maxLinkDist && rnd() < linkChance) {
         edgeGroup.appendChild(sEl('line', {
-          x1: nodes[i].x.toFixed(1), y1: nodes[i].y.toFixed(1),
-          x2: nodes[j].x.toFixed(1), y2: nodes[j].y.toFixed(1),
-          'stroke-width': (0.5 + rnd() * 0.5).toFixed(2),
+          x1: points[i].x.toFixed(1), y1: points[i].y.toFixed(1),
+          x2: points[j].x.toFixed(1), y2: points[j].y.toFixed(1),
+          'stroke-width': (strokeWidth[0] + rnd() * (strokeWidth[1] - strokeWidth[0])).toFixed(2),
           opacity: (edgeOpacity[0] + rnd() * (edgeOpacity[1] - edgeOpacity[0])).toFixed(2)
         }));
       }
     }
   }
   // a handful of longer-range links to keep the network feeling connected
-  for (let k = 0; k < Math.round(count * 0.4); k++) {
-    const a = nodes[Math.floor(rnd() * nodes.length)];
-    const b = nodes[Math.floor(rnd() * nodes.length)];
+  for (let k = 0; k < Math.round(count * longRangeRatio); k++) {
+    const a = points[Math.floor(rnd() * points.length)];
+    const b = points[Math.floor(rnd() * points.length)];
     if (a === b) continue;
     edgeGroup.appendChild(sEl('line', {
       x1: a.x.toFixed(1), y1: a.y.toFixed(1), x2: b.x.toFixed(1), y2: b.y.toFixed(1),
-      'stroke-width': 0.5, opacity: (edgeOpacity[0] * 0.7).toFixed(2)
+      'stroke-width': (strokeWidth[0] * 0.85).toFixed(2),
+      opacity: (edgeOpacity[0] * 0.85).toFixed(2)
     }));
   }
-  nodes.forEach(n => {
-    nodeGroup.appendChild(sEl('circle', {
-      cx: n.x.toFixed(1), cy: n.y.toFixed(1), r: n.r.toFixed(1),
-      opacity: (nodeOpacity[0] + rnd() * (nodeOpacity[1] - nodeOpacity[0])).toFixed(2)
-    }));
-  });
   group.appendChild(edgeGroup);
-  group.appendChild(nodeGroup);
 }
 
 /* ---------------- masthead generative art ---------------- */
@@ -1463,8 +1474,10 @@ function buildMastheadArt() {
 
   // woven thread bundle converging to a waist, then flaring out again —
   // an abstraction of many data flows funnelling through few platforms.
+  // Pushed markedly bolder than the ambient background art: this is the
+  // primary "Morisawa 1" quotation and needs to read clearly at a glance.
   const waistX = W * 0.66, waistY = H * 0.5;
-  const N = 72;
+  const N = 84;
   const meshGroup = sEl('g', { fill: 'none', stroke: '#fff' });
   for (let i = 0; i < N; i++) {
     const t = i / (N - 1);
@@ -1478,63 +1491,54 @@ function buildMastheadArt() {
       botX.toFixed(1) + ',' + (H + 30).toFixed(1);
     meshGroup.appendChild(sEl('path', {
       d: d,
-      'stroke-width': (0.55 + rnd() * 0.75).toFixed(2),
-      opacity: (0.09 + rnd() * 0.28).toFixed(2)
+      'stroke-width': (0.75 + rnd() * 1.05).toFixed(2),
+      opacity: (0.18 + rnd() * 0.42).toFixed(2)
     }));
   }
   svg.appendChild(meshGroup);
 
-  // a literal node-link network layered over the mesh, concentrated on the
-  // right-hand side of the masthead — the "network of platforms and data
-  // types" the mesh alludes to, made explicit.
+  // a pure line-network layered over the mesh, concentrated on the
+  // right-hand side of the masthead — no node markers, just denser,
+  // brighter crossing lines to make the network reading unmistakable.
   const netGroup = sEl('g', {});
   const netNodes = [];
-  const netCount = 30;
+  const netCount = 34;
   for (let i = 0; i < netCount; i++) {
     netNodes.push({
       x: W * 0.42 + rnd() * W * 0.62,
-      y: rnd() * H,
-      r: 1.8 + rnd() * 3.2
+      y: rnd() * H
     });
   }
   const netEdges = sEl('g', { stroke: '#fff', fill: 'none' });
-  const netDots = sEl('g', { fill: '#fff' });
   for (let i = 0; i < netNodes.length; i++) {
     for (let j = i + 1; j < netNodes.length; j++) {
       const dx = netNodes[i].x - netNodes[j].x, dy = netNodes[i].y - netNodes[j].y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 150 && rnd() < 0.5) {
+      if (dist < 165 && rnd() < 0.55) {
         netEdges.appendChild(sEl('line', {
           x1: netNodes[i].x.toFixed(1), y1: netNodes[i].y.toFixed(1),
           x2: netNodes[j].x.toFixed(1), y2: netNodes[j].y.toFixed(1),
-          'stroke-width': (0.6 + rnd() * 0.5).toFixed(2),
-          opacity: (0.14 + rnd() * 0.22).toFixed(2)
+          'stroke-width': (0.9 + rnd() * 0.75).toFixed(2),
+          opacity: (0.3 + rnd() * 0.4).toFixed(2)
         }));
       }
     }
   }
-  netNodes.forEach(n => {
-    netDots.appendChild(sEl('circle', {
-      cx: n.x.toFixed(1), cy: n.y.toFixed(1), r: n.r.toFixed(1),
-      opacity: (0.4 + rnd() * 0.45).toFixed(2)
-    }));
-  });
   netGroup.appendChild(netEdges);
-  netGroup.appendChild(netDots);
   svg.appendChild(netGroup);
 
   // scattered particle field, denser near a focal point — an abstraction
   // of the density gradients in the charts themselves.
-  const focalX = W * 0.82, focalY = H * 0.2, spread = 260;
+  const focalX = W * 0.82, focalY = H * 0.2, spread = 270;
   const particleGroup = sEl('g', { fill: '#fff' });
-  for (let i = 0; i < 560; i++) {
+  for (let i = 0; i < 640; i++) {
     const ang = rnd() * Math.PI * 2;
     const rad = Math.pow(rnd(), 1.7) * spread;
     const x = focalX + Math.cos(ang) * rad * (0.85 + rnd() * 0.3);
     const y = focalY + Math.sin(ang) * rad * 0.65 * (0.85 + rnd() * 0.3);
     if (x < -8 || x > W + 8 || y < -8 || y > H + 8) continue;
-    const s = 1.4 + rnd() * 1.9;
-    const op = Math.max(0.05, 0.55 - (rad / spread) * 0.48) * (0.6 + rnd() * 0.4);
+    const s = 1.5 + rnd() * 2.1;
+    const op = Math.max(0.08, 0.68 - (rad / spread) * 0.52) * (0.6 + rnd() * 0.4);
     particleGroup.appendChild(sEl('rect', {
       x: (x - s / 2).toFixed(1), y: (y - s / 2).toFixed(1),
       width: s.toFixed(1), height: s.toFixed(1),
@@ -1551,11 +1555,39 @@ function buildNetworkDivider() {
   const W = 1180, H = 132;
   const rnd = makeRnd(101);
   const group = sEl('g', {});
-  buildNodeNetwork(group, rnd, W, H, 26, {
-    nodeOpacity: [0.45, 0.85],
-    edgeOpacity: [0.16, 0.36],
-    maxLinkDist: 190
+  buildNodeNetwork(group, rnd, W, H, 30, {
+    edgeOpacity: [0.32, 0.6],
+    strokeWidth: [0.8, 1.4],
+    maxLinkDist: 200,
+    linkChance: 0.65
   });
+  svg.appendChild(group);
+}
+
+/* ---------------- top nav header accent (ref. J. Maeda, "Morisawa 1") ----------------
+   Thin converging lines that funnel toward the brand wordmark at the left
+   of the nav — a direct, compact quotation of the Morisawa 1 poster's
+   "bold mark + converging thin-line mesh" composition, in the site header. */
+function buildTopnavArt() {
+  const svg = document.getElementById('topnav-art');
+  if (!svg) return;
+  const W = 1180, H = 52;
+  const rnd = makeRnd(404);
+  const waistX = 78, waistY = H * 0.5;
+  const N = 30;
+  const group = sEl('g', { fill: 'none', stroke: '#fff' });
+  for (let i = 0; i < N; i++) {
+    const t = i / (N - 1);
+    const endX = 60 + t * (W - 40);
+    const wob = (rnd() - 0.5) * 10;
+    const d = 'M ' + (waistX + wob).toFixed(1) + ',' + waistY.toFixed(1) + ' ' +
+      'L ' + endX.toFixed(1) + ',' + (rnd() * H).toFixed(1);
+    group.appendChild(sEl('path', {
+      d: d,
+      'stroke-width': (0.6 + rnd() * 0.8).toFixed(2),
+      opacity: (0.14 + rnd() * 0.26).toFixed(2)
+    }));
+  }
   svg.appendChild(group);
 }
 
@@ -1566,10 +1598,11 @@ function buildSiteBackground() {
   const W = 1600, H = 900;
   const rnd = makeRnd(2024);
   const group = sEl('g', {});
-  buildNodeNetwork(group, rnd, W, H, 46, {
-    nodeOpacity: [0.12, 0.3],
-    edgeOpacity: [0.04, 0.11],
-    maxLinkDist: 260
+  buildNodeNetwork(group, rnd, W, H, 58, {
+    edgeOpacity: [0.16, 0.34],
+    strokeWidth: [0.6, 1.1],
+    maxLinkDist: 280,
+    linkChance: 0.5
   });
   svg.appendChild(group);
 }
@@ -1616,6 +1649,7 @@ function setupScrollSpy() {
 
 /* ---------------- init ---------------- */
 buildSiteBackground();
+buildTopnavArt();
 buildMastheadArt();
 buildNetworkDivider();
 computeKPIs();
