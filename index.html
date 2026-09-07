@@ -72,6 +72,16 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  /* JS-driven pin: .topnav gets this class once the page has scrolled past
+     it, switching from in-flow sticky to a fixed anchor at the very top
+     edge so it stays there deterministically (see setupStickyNav()). */
+  .topnav.is-pinned {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    border-bottom-color: var(--border-strong);
+    box-shadow: 0 14px 30px -18px rgba(0,0,0,0.8);
   }
   .topnav-inner {
     position: relative;
@@ -1445,48 +1455,56 @@ function makeRnd(seed) {
   return function rnd() { s = (s * 9301 + 49297) % 233280; return s / 233280; };
 }
 
-// a pure line network scattered across a W×H canvas: nearest-neighbor links
-// plus a few long-range links. No node markers — the lines and their
-// crossing density carry the whole pattern, closer to the thin converging
-// linework of "Morisawa 1" than a literal node graph.
-function buildNodeNetwork(group, rnd, W, H, count, opts) {
+// A woven thread bundle: N evenly-spaced strands flow along one axis,
+// pinch toward a shared "waist" partway through, then fan back out. This
+// is the actual figure in "Morisawa 1" — a single disciplined family of
+// converging lines, not a random web. Threads are placed by index (evenly
+// spaced), and rnd() only nudges them slightly — order first, noise second.
+// That's what keeps this read as a composition instead of static.
+function buildThreadBundle(group, rnd, W, H, opts) {
   opts = opts || {};
-  const edgeOpacity = opts.edgeOpacity || [0.22, 0.5];
-  const strokeWidth = opts.strokeWidth || [0.7, 1.3];
-  const maxLinkDist = opts.maxLinkDist || Math.max(W, H) * 0.22;
-  const linkChance = opts.linkChance != null ? opts.linkChance : 0.6;
-  const longRangeRatio = opts.longRangeRatio != null ? opts.longRangeRatio : 0.5;
-  const points = [];
-  for (let i = 0; i < count; i++) {
-    points.push({ x: rnd() * W, y: rnd() * H });
-  }
-  const edgeGroup = sEl('g', { stroke: '#fff', fill: 'none' });
-  for (let i = 0; i < points.length; i++) {
-    for (let j = i + 1; j < points.length; j++) {
-      const dx = points[i].x - points[j].x, dy = points[i].y - points[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < maxLinkDist && rnd() < linkChance) {
-        edgeGroup.appendChild(sEl('line', {
-          x1: points[i].x.toFixed(1), y1: points[i].y.toFixed(1),
-          x2: points[j].x.toFixed(1), y2: points[j].y.toFixed(1),
-          'stroke-width': (strokeWidth[0] + rnd() * (strokeWidth[1] - strokeWidth[0])).toFixed(2),
-          opacity: (edgeOpacity[0] + rnd() * (edgeOpacity[1] - edgeOpacity[0])).toFixed(2)
-        }));
-      }
-    }
-  }
-  // a handful of longer-range links to keep the network feeling connected
-  for (let k = 0; k < Math.round(count * longRangeRatio); k++) {
-    const a = points[Math.floor(rnd() * points.length)];
-    const b = points[Math.floor(rnd() * points.length)];
-    if (a === b) continue;
-    edgeGroup.appendChild(sEl('line', {
-      x1: a.x.toFixed(1), y1: a.y.toFixed(1), x2: b.x.toFixed(1), y2: b.y.toFixed(1),
-      'stroke-width': (strokeWidth[0] * 0.85).toFixed(2),
-      opacity: (edgeOpacity[0] * 0.85).toFixed(2)
+  const axis = opts.axis || 'vertical';           // 'vertical': flows top→bottom; 'horizontal': flows left→right
+  const N = opts.count || 40;
+  const waistFrac = opts.waistFrac != null ? opts.waistFrac : 0.55;   // where the pinch sits along the flow, 0–1
+  const edgeSpread = opts.edgeSpread != null ? opts.edgeSpread : 1.1; // how wide the strands start/end, × across-size
+  const wobble = opts.wobble != null ? opts.wobble : 0.025;           // per-thread jitter at the waist, × across-size
+  const drift = opts.drift != null ? opts.drift : 0.1;                // how far the end can drift from the start, × across-size
+  const overshoot = opts.overshoot != null ? opts.overshoot : 0.05;   // run start/end past the canvas edge, × along-size
+  const opacity = opts.opacity || [0.12, 0.3];
+  const strokeWidth = opts.strokeWidth || [0.6, 1.05];
+
+  const along = axis === 'vertical' ? H : W;
+  const across = axis === 'vertical' ? W : H;
+  const waistAlong = along * waistFrac;
+  const waistAcross = across * 0.5;
+  const startAlong = -along * overshoot;
+  const endAlong = along * (1 + overshoot);
+  const c1Along = waistAlong * 0.55;
+  const c2Along = waistAlong + (along - waistAlong) * 0.4;
+  const strandGroup = sEl('g', { fill: 'none', stroke: '#fff' });
+
+  for (let i = 0; i < N; i++) {
+    const t = N === 1 ? 0.5 : i / (N - 1);
+    const startAcross = (t - 0.5) * across * edgeSpread + waistAcross;
+    const endAcross = startAcross + (rnd() - 0.5) * across * drift * 2;
+    const wob = (rnd() - 0.5) * across * wobble * 2;
+    const wa = waistAcross + wob;
+    const d = axis === 'vertical'
+      ? 'M ' + startAcross.toFixed(1) + ',' + startAlong.toFixed(1) +
+        ' C ' + wa.toFixed(1) + ',' + c1Along.toFixed(1) + ' ' +
+        wa.toFixed(1) + ',' + c2Along.toFixed(1) + ' ' +
+        endAcross.toFixed(1) + ',' + endAlong.toFixed(1)
+      : 'M ' + startAlong.toFixed(1) + ',' + startAcross.toFixed(1) +
+        ' C ' + c1Along.toFixed(1) + ',' + wa.toFixed(1) + ' ' +
+        c2Along.toFixed(1) + ',' + wa.toFixed(1) + ' ' +
+        endAlong.toFixed(1) + ',' + endAcross.toFixed(1);
+    strandGroup.appendChild(sEl('path', {
+      d: d,
+      'stroke-width': (strokeWidth[0] + rnd() * (strokeWidth[1] - strokeWidth[0])).toFixed(2),
+      opacity: (opacity[0] + rnd() * (opacity[1] - opacity[0])).toFixed(2)
     }));
   }
-  group.appendChild(edgeGroup);
+  group.appendChild(strandGroup);
 }
 
 /* ---------------- masthead generative art ---------------- */
@@ -1496,73 +1514,35 @@ function buildMastheadArt() {
   const W = 900, H = 620;
   const rnd = makeRnd(7);
 
-  // woven thread bundle converging to a waist, then flaring out again —
-  // an abstraction of many data flows funnelling through few platforms.
-  // Pushed markedly bolder than the ambient background art: this is the
-  // primary "Morisawa 1" quotation and needs to read clearly at a glance.
-  const waistX = W * 0.66, waistY = H * 0.5;
-  const N = 84;
-  const meshGroup = sEl('g', { fill: 'none', stroke: '#fff' });
-  for (let i = 0; i < N; i++) {
-    const t = i / (N - 1);
-    const topX = -60 + t * (W + 120) + (rnd() - 0.5) * 34;
-    const botT = (t + 0.12 + rnd() * 0.14) % 1;
-    const botX = -60 + botT * (W + 120);
-    const wob = (rnd() - 0.5) * 30;
-    const d = 'M ' + topX.toFixed(1) + ',-30 ' +
-      'C ' + (waistX + wob).toFixed(1) + ',' + (waistY * 0.42).toFixed(1) + ' ' +
-      (waistX + wob).toFixed(1) + ',' + (waistY * 1.5).toFixed(1) + ' ' +
-      botX.toFixed(1) + ',' + (H + 30).toFixed(1);
-    meshGroup.appendChild(sEl('path', {
-      d: d,
-      'stroke-width': (0.75 + rnd() * 1.05).toFixed(2),
-      opacity: (0.18 + rnd() * 0.42).toFixed(2)
-    }));
-  }
-  svg.appendChild(meshGroup);
+  // One disciplined thread bundle — the entire "Morisawa 1" quotation
+  // lives in this single figure. No second, independently-random layer
+  // competing with it: that's what was reading as noise.
+  const mesh = sEl('g', {});
+  buildThreadBundle(mesh, rnd, W, H, {
+    axis: 'vertical',
+    count: 58,
+    waistFrac: 0.56,
+    edgeSpread: 1.35,
+    wobble: 0.018,
+    drift: 0.09,
+    overshoot: 0.06,
+    opacity: [0.14, 0.38],
+    strokeWidth: [0.6, 1.15]
+  });
+  svg.appendChild(mesh);
 
-  // a pure line-network layered over the mesh, concentrated on the
-  // right-hand side of the masthead — no node markers, just denser,
-  // brighter crossing lines to make the network reading unmistakable.
-  const netGroup = sEl('g', {});
-  const netNodes = [];
-  const netCount = 34;
-  for (let i = 0; i < netCount; i++) {
-    netNodes.push({
-      x: W * 0.42 + rnd() * W * 0.62,
-      y: rnd() * H
-    });
-  }
-  const netEdges = sEl('g', { stroke: '#fff', fill: 'none' });
-  for (let i = 0; i < netNodes.length; i++) {
-    for (let j = i + 1; j < netNodes.length; j++) {
-      const dx = netNodes[i].x - netNodes[j].x, dy = netNodes[i].y - netNodes[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 165 && rnd() < 0.55) {
-        netEdges.appendChild(sEl('line', {
-          x1: netNodes[i].x.toFixed(1), y1: netNodes[i].y.toFixed(1),
-          x2: netNodes[j].x.toFixed(1), y2: netNodes[j].y.toFixed(1),
-          'stroke-width': (0.9 + rnd() * 0.75).toFixed(2),
-          opacity: (0.3 + rnd() * 0.4).toFixed(2)
-        }));
-      }
-    }
-  }
-  netGroup.appendChild(netEdges);
-  svg.appendChild(netGroup);
-
-  // scattered particle field, denser near a focal point — an abstraction
-  // of the density gradients in the charts themselves.
-  const focalX = W * 0.82, focalY = H * 0.2, spread = 270;
+  // A light scatter of fine points near the waist — texture, not a second
+  // pattern: kept sparse and low-contrast on purpose.
+  const focalX = W * 0.6, focalY = H * 0.52, spread = 200;
   const particleGroup = sEl('g', { fill: '#fff' });
-  for (let i = 0; i < 640; i++) {
+  for (let i = 0; i < 220; i++) {
     const ang = rnd() * Math.PI * 2;
-    const rad = Math.pow(rnd(), 1.7) * spread;
-    const x = focalX + Math.cos(ang) * rad * (0.85 + rnd() * 0.3);
-    const y = focalY + Math.sin(ang) * rad * 0.65 * (0.85 + rnd() * 0.3);
+    const rad = Math.pow(rnd(), 1.9) * spread;
+    const x = focalX + Math.cos(ang) * rad;
+    const y = focalY + Math.sin(ang) * rad * 0.6;
     if (x < -8 || x > W + 8 || y < -8 || y > H + 8) continue;
-    const s = 1.5 + rnd() * 2.1;
-    const op = Math.max(0.08, 0.68 - (rad / spread) * 0.52) * (0.6 + rnd() * 0.4);
+    const s = 1.2 + rnd() * 1.5;
+    const op = Math.max(0.05, 0.34 - (rad / spread) * 0.26) * (0.6 + rnd() * 0.4);
     particleGroup.appendChild(sEl('rect', {
       x: (x - s / 2).toFixed(1), y: (y - s / 2).toFixed(1),
       width: s.toFixed(1), height: s.toFixed(1),
@@ -1582,21 +1562,19 @@ function buildSectionMark(id, seed) {
   if (!svg) return;
   const W = 68, H = 26;
   const rnd = makeRnd(seed);
-  const waistX = W * 0.14, waistY = H * 0.5;
-  const N = 16;
-  const group = sEl('g', { fill: 'none', stroke: '#fff' });
-  for (let i = 0; i < N; i++) {
-    const t = i / (N - 1);
-    const endX = W * 0.3 + t * (W * 0.7);
-    const wob = (rnd() - 0.5) * 4;
-    group.appendChild(sEl('path', {
-      d: 'M ' + (waistX + wob).toFixed(1) + ',' + waistY.toFixed(1) +
-        ' L ' + endX.toFixed(1) + ',' + (rnd() * H).toFixed(1),
-      'stroke-width': (0.55 + rnd() * 0.5).toFixed(2),
-      opacity: (0.3 + rnd() * 0.35).toFixed(2)
-    }));
-  }
-  svg.appendChild(group);
+  const mark = sEl('g', {});
+  buildThreadBundle(mark, rnd, W, H, {
+    axis: 'vertical',
+    count: 12,
+    waistFrac: 0.15,
+    edgeSpread: 2.1,
+    wobble: 0.03,
+    drift: 0.06,
+    overshoot: 0.08,
+    opacity: [0.32, 0.58],
+    strokeWidth: [0.55, 0.95]
+  });
+  svg.appendChild(mark);
 }
 
 function buildNetworkDivider() {
@@ -1605,11 +1583,16 @@ function buildNetworkDivider() {
   const W = 1180, H = 132;
   const rnd = makeRnd(101);
   const group = sEl('g', {});
-  buildNodeNetwork(group, rnd, W, H, 30, {
-    edgeOpacity: [0.32, 0.6],
-    strokeWidth: [0.8, 1.4],
-    maxLinkDist: 200,
-    linkChance: 0.65
+  buildThreadBundle(group, rnd, W, H, {
+    axis: 'vertical',
+    count: 40,
+    waistFrac: 0.5,
+    edgeSpread: 1.25,
+    wobble: 0.02,
+    drift: 0.07,
+    overshoot: 0.1,
+    opacity: [0.2, 0.44],
+    strokeWidth: [0.6, 1.05]
   });
   svg.appendChild(group);
 }
@@ -1621,31 +1604,23 @@ function buildNetworkDivider() {
 function buildTopnavArt() {
   const svg = document.getElementById('topnav-art');
   if (!svg) return;
-  // Confined to the brand-mark's own box (see .topnav-brand-wrap): thin
-  // lines fanning in from both edges toward a waist behind the wordmark,
-  // then flaring out again — the same converging-mesh figure as the
-  // masthead and divider, at a compact scale, never crossing the nav links.
+  // Confined to the brand-mark's own box (see .topnav-brand-wrap): the
+  // same disciplined thread bundle as the masthead, at a compact scale,
+  // never crossing the nav links.
   const W = 260, H = 52;
   const rnd = makeRnd(404);
-  const waistX = W * 0.52, waistY = H * 0.5;
-  const N = 22;
-  const group = sEl('g', { fill: 'none', stroke: '#fff' });
-  for (let i = 0; i < N; i++) {
-    const t = i / (N - 1);
-    const topX = -20 + t * (W + 40);
-    const botT = (t + 0.15 + rnd() * 0.12) % 1;
-    const botX = -20 + botT * (W + 40);
-    const wob = (rnd() - 0.5) * 8;
-    const d = 'M ' + topX.toFixed(1) + ',-6 ' +
-      'C ' + (waistX + wob).toFixed(1) + ',' + (waistY * 0.5).toFixed(1) + ' ' +
-      (waistX + wob).toFixed(1) + ',' + (waistY * 1.5).toFixed(1) + ' ' +
-      botX.toFixed(1) + ',' + (H + 6).toFixed(1);
-    group.appendChild(sEl('path', {
-      d: d,
-      'stroke-width': (0.55 + rnd() * 0.55).toFixed(2),
-      opacity: (0.16 + rnd() * 0.24).toFixed(2)
-    }));
-  }
+  const group = sEl('g', {});
+  buildThreadBundle(group, rnd, W, H, {
+    axis: 'vertical',
+    count: 20,
+    waistFrac: 0.5,
+    edgeSpread: 1.2,
+    wobble: 0.035,
+    drift: 0.12,
+    overshoot: 0.1,
+    opacity: [0.16, 0.32],
+    strokeWidth: [0.5, 0.85]
+  });
   svg.appendChild(group);
 }
 
@@ -1656,11 +1631,18 @@ function buildSiteBackground() {
   const W = 1600, H = 900;
   const rnd = makeRnd(2024);
   const group = sEl('g', {});
-  buildNodeNetwork(group, rnd, W, H, 58, {
-    edgeOpacity: [0.16, 0.34],
-    strokeWidth: [0.6, 1.1],
-    maxLinkDist: 280,
-    linkChance: 0.5
+  // A single calm bundle spanning the whole page height, well below the
+  // intensity of the masthead — a watermark, not a second focal point.
+  buildThreadBundle(group, rnd, W, H, {
+    axis: 'vertical',
+    count: 46,
+    waistFrac: 0.5,
+    edgeSpread: 1.3,
+    wobble: 0.015,
+    drift: 0.06,
+    overshoot: 0.08,
+    opacity: [0.05, 0.14],
+    strokeWidth: [0.5, 0.85]
   });
   svg.appendChild(group);
 }
@@ -1705,6 +1687,36 @@ function setupScrollSpy() {
   targets.forEach(t => observer.observe(t));
 }
 
+/* ---------------- sticky header, driven explicitly by JS ---------------- */
+function setupStickyNav() {
+  const nav = document.getElementById('topnav');
+  if (!nav) return;
+  let spacer = document.getElementById('topnav-spacer');
+  if (!spacer) {
+    spacer = document.createElement('div');
+    spacer.id = 'topnav-spacer';
+    spacer.style.display = 'none';
+    nav.parentNode.insertBefore(spacer, nav);
+  }
+  let pinned = false;
+  function update() {
+    const shouldPin = window.scrollY > 2;
+    if (shouldPin && !pinned) {
+      spacer.style.height = nav.offsetHeight + 'px';
+      spacer.style.display = 'block';
+      nav.classList.add('is-pinned');
+      pinned = true;
+    } else if (!shouldPin && pinned) {
+      nav.classList.remove('is-pinned');
+      spacer.style.display = 'none';
+      pinned = false;
+    }
+  }
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+}
+
 /* ---------------- init ---------------- */
 buildSiteBackground();
 buildTopnavArt();
@@ -1725,6 +1737,7 @@ setupFilters();
 renderTable();
 setupTdcAccess();
 setupScrollSpy();
+setupStickyNav();
 setupReveal();
 setupMastheadParallax();
 </script>
