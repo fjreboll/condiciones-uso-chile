@@ -154,11 +154,13 @@
     margin-bottom: 18px;
   }
   .masthead p.dek {
-    max-width: 62ch;
+    max-width: none;
+    text-align: justify;
+    text-align-last: left;
     font-size: 17.5px;
     line-height: 1.5;
     color: rgba(255,255,255,0.82);
-    margin-bottom: 22px;
+    margin: 8px 0 24px;
   }
   .meta-row {
     display: flex;
@@ -218,7 +220,7 @@
      micro-caps 11px. Section rhythm widened so each block reads as a
      distinct beat while scrolling. */
   .section { margin-top: 92px; }
-  .section-head { margin-bottom: 22px; max-width: 74ch; }
+  .section-head { margin-bottom: 22px; }
   .section-head h2 {
     font-family: var(--font-display);
     font-weight: 700;
@@ -228,7 +230,29 @@
     text-wrap: balance;
     margin-bottom: 8px;
   }
-  .section-head p { color: var(--ink-secondary); font-size: 15px; line-height: 1.55; }
+  .section-head p {
+    color: var(--ink-secondary);
+    font-size: 15px;
+    line-height: 1.55;
+    text-align: justify;
+    text-align-last: left;
+    margin: 10px 0 6px;
+  }
+  .doc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 11px 2px 8px;
+    background: var(--accent-soft);
+    border-radius: 999px;
+    color: var(--accent) !important;
+    font-weight: 600;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+  .doc-link:hover { background: var(--surface-2); }
+  .doc-link svg { width: 13px; height: 13px; flex: none; }
 
   .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
   .card-stack { display: grid; grid-template-columns: 1fr; gap: 18px; }
@@ -527,6 +551,7 @@
     .graph-edge { transition: none !important; }
     .bar-seg { transition: filter 0.12s ease !important; }
     .masthead-bg { transform: none !important; }
+    .site-bg svg { transform: none !important; }
   }
 
   /* ---------------- network graphs ---------------- */
@@ -602,7 +627,7 @@
     pointer-events: none;
     overflow: hidden;
   }
-  .site-bg svg { width: 100%; height: 100%; display: block; }
+  .site-bg svg { width: 100%; height: 100%; display: block; transform-origin: 50% 50%; will-change: transform; }
 
   .network-divider {
     margin: 56px 0;
@@ -656,7 +681,7 @@
   <section class="section hero-graph" id="rastreo">
     <div class="section-head">
       <h2>¿Qué rastrean más: las redes sociales u otras plataformas?</h2>
-      <p>Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato — redes sociales y mensajería (n=5) frente al resto del corpus (n=15) — con base en un <a href="docs/analisis_discurso_tos.md">análisis de discurso</a> de las 20 condiciones de uso.</p>
+      <p>Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato — redes sociales y mensajería (n=5) frente al resto del corpus (n=15) — con base en un <a class="doc-link" href="docs/analisis_discurso_tos.md"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1V3.5a1 1 0 011-1z"/><path d="M12 2.5V6h3M7.5 10.5h5M7.5 13.5h5"/></svg>análisis de discurso</a> de las 20 condiciones de uso.</p>
     </div>
     <div class="card-stack">
       <div class="card reveal" id="card-tracked">
@@ -1601,6 +1626,39 @@ function setupMastheadParallax() {
   update();
 }
 
+/* ---------------- ambient background motion ---------------- */
+// A slow, continuous drift on the site-wide thread bundle — two
+// independent sine waves (different periods on X and Y) so the pattern
+// never repeats a visible loop. Amplitude is small and .site-bg clips
+// with overflow:hidden, so nothing reveals an edge. Respects
+// prefers-reduced-motion and pauses while the tab is hidden.
+function setupBackgroundMotion() {
+  const svg = document.getElementById('site-bg-svg');
+  if (!svg) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let start = null;
+  let raf = null;
+  function frame(ts) {
+    if (start === null) start = ts;
+    const t = (ts - start) / 1000;
+    const dx = Math.sin(t * 0.045) * 22;
+    const dy = Math.cos(t * 0.032) * 14;
+    const rot = Math.sin(t * 0.02) * 0.6;
+    svg.style.transform = 'translate(' + dx.toFixed(2) + 'px,' + dy.toFixed(2) + 'px) rotate(' + rot.toFixed(3) + 'deg)';
+    raf = requestAnimationFrame(frame);
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
+    } else if (!raf) {
+      start = null;
+      raf = requestAnimationFrame(frame);
+    }
+  });
+  raf = requestAnimationFrame(frame);
+}
+
 /* ---------------- scroll-spy nav ---------------- */
 function setupScrollSpy() {
   const ids = ['rastreo', 'gobernanza', 'explorar', 'tdc'];
@@ -1668,4 +1726,5 @@ setupScrollSpy();
 setupStickyNav();
 setupReveal();
 setupMastheadParallax();
+setupBackgroundMotion();
 </script>
