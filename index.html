@@ -88,31 +88,18 @@
     max-width: 1180px; margin: 0 auto; padding: 0 24px;
     height: 52px; display: flex; align-items: center; gap: 22px;
   }
-  /* Morisawa-1-style mark: thin lines converging on the wordmark, confined
-     to its own box so they never cross the nav links or hurt legibility. */
-  .topnav-brand-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 52px;
-    padding-left: 4px;
-    overflow: hidden;
+  /* Isotype mark — a fixed (non-generative) miniature of the same
+     converging-thread motif used everywhere else on the site, so the logo
+     itself is the "Morisawa 1" quotation rather than decorating around it. */
+  .topnav-logo {
+    flex: none;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
   }
-  .topnav-art {
-    position: absolute;
-    left: -14px; right: -18px; top: 0; bottom: 0;
-    width: calc(100% + 32px); height: 100%;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .topnav-brand {
-    position: relative;
-    z-index: 1;
-    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
-    color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
-    white-space: nowrap;
-    padding: 4px 8px 4px 2px;
-  }
+  .topnav-logo svg { width: 18px; height: 18px; }
   .topnav-links { position: relative; display: flex; gap: 4px; flex: 1; overflow-x: auto; }
   .topnav-links a {
     font-size: 13px; color: var(--ink-secondary); text-decoration: none;
@@ -122,9 +109,8 @@
   .topnav-links a:hover { background: var(--surface-2); color: var(--ink); }
   .topnav-links a.active { color: var(--accent); font-weight: 600; background: var(--accent-soft); }
   @media (max-width: 700px) {
-    .topnav-inner { flex-wrap: wrap; height: auto; padding: 10px 16px; row-gap: 6px; }
-    .topnav-brand { order: 1; }
-    .topnav-links { order: 2; flex: 1 1 100%; }
+    .topnav-inner { flex-wrap: nowrap; height: 52px; padding: 0 16px; }
+    .topnav-links { overflow-x: auto; }
   }
 
   /* ---------- Masthead ---------- */
@@ -631,12 +617,16 @@
 
 <nav class="topnav" id="topnav">
   <div class="topnav-inner">
-    <div class="topnav-brand-wrap">
-      <svg class="topnav-art" id="topnav-art" viewBox="0 0 260 52" preserveAspectRatio="none" aria-hidden="true"></svg>
-      <a class="topnav-brand" href="#top">Condiciones de uso · Chile</a>
-    </div>
+    <a class="topnav-logo" href="#top" aria-label="Inicio — Condiciones de uso digitales en Chile">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <line x1="3" y1="4" x2="21" y2="20" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="3" y1="8" x2="21" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="3" y1="16" x2="21" y2="8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="3" y1="20" x2="21" y2="4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </a>
     <div class="topnav-links">
-      <a href="#resumen" data-nav="resumen">Resumen</a>
       <a href="#rastreo" data-nav="rastreo">Datos rastreados</a>
       <a href="#gobernanza" data-nav="gobernanza">Gobernanza de datos</a>
       <a href="#explorar" data-nav="explorar">Explorar datos</a>
@@ -1567,33 +1557,6 @@ function buildNetworkDivider() {
   svg.appendChild(group);
 }
 
-/* ---------------- top nav header accent (ref. J. Maeda, "Morisawa 1") ----------------
-   Thin converging lines that funnel toward the brand wordmark at the left
-   of the nav — a direct, compact quotation of the Morisawa 1 poster's
-   "bold mark + converging thin-line mesh" composition, in the site header. */
-function buildTopnavArt() {
-  const svg = document.getElementById('topnav-art');
-  if (!svg) return;
-  // Confined to the brand-mark's own box (see .topnav-brand-wrap): the
-  // same disciplined thread bundle as the masthead, at a compact scale,
-  // never crossing the nav links.
-  const W = 260, H = 52;
-  const rnd = makeRnd(404);
-  const group = sEl('g', {});
-  buildThreadBundle(group, rnd, W, H, {
-    axis: 'vertical',
-    count: 20,
-    waistFrac: 0.5,
-    edgeSpread: 1.2,
-    wobble: 0.035,
-    drift: 0.12,
-    overshoot: 0.1,
-    opacity: [0.16, 0.32],
-    strokeWidth: [0.5, 0.85]
-  });
-  svg.appendChild(group);
-}
-
 /* ---------------- site-wide ambient network wallpaper ---------------- */
 function buildSiteBackground() {
   const svg = document.getElementById('site-bg-svg');
@@ -1640,7 +1603,7 @@ function setupMastheadParallax() {
 
 /* ---------------- scroll-spy nav ---------------- */
 function setupScrollSpy() {
-  const ids = ['resumen', 'rastreo', 'gobernanza', 'explorar', 'tdc'];
+  const ids = ['rastreo', 'gobernanza', 'explorar', 'tdc'];
   const links = {};
   ids.forEach(id => { links[id] = document.querySelector('.topnav-links a[data-nav="' + id + '"]'); });
   const targets = ids.map(id => document.getElementById(id)).filter(Boolean);
@@ -1689,7 +1652,6 @@ function setupStickyNav() {
 
 /* ---------------- init ---------------- */
 buildSiteBackground();
-buildTopnavArt();
 buildMastheadArt();
 buildNetworkDivider();
 computeKPIs();
