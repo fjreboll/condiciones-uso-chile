@@ -72,26 +72,36 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border);
-    overflow: hidden;
   }
-  .topnav-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .topnav-bg svg { width: 100%; height: 100%; display: block; }
   .topnav-inner {
     position: relative;
-    z-index: 1;
     max-width: 1180px; margin: 0 auto; padding: 0 24px;
     height: 52px; display: flex; align-items: center; gap: 22px;
   }
+  /* Morisawa-1-style mark: thin lines converging on the wordmark, confined
+     to its own box so they never cross the nav links or hurt legibility. */
+  .topnav-brand-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 52px;
+    padding-left: 4px;
+    overflow: hidden;
+  }
+  .topnav-art {
+    position: absolute;
+    left: -14px; right: -18px; top: 0; bottom: 0;
+    width: calc(100% + 32px); height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
   .topnav-brand {
     position: relative;
+    z-index: 1;
     font-family: var(--font-mono); font-size: 12px; font-weight: 600;
     color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
     white-space: nowrap;
+    padding: 4px 8px 4px 2px;
   }
   .topnav-links { position: relative; display: flex; gap: 4px; flex: 1; overflow-x: auto; }
   .topnav-links a {
@@ -140,18 +150,19 @@
   .masthead h1 {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(32px, 4.6vw, 47px);
-    line-height: 1.08;
-    letter-spacing: -0.015em;
+    font-size: clamp(36px, 5.4vw, 58px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
     text-wrap: balance;
     max-width: 23ch;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
   .masthead p.dek {
     max-width: 62ch;
-    font-size: 15.5px;
+    font-size: 17.5px;
+    line-height: 1.5;
     color: rgba(255,255,255,0.82);
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
   .meta-row {
     display: flex;
@@ -172,13 +183,13 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 14px;
-    margin-top: 18px;
+    margin-top: 22px;
   }
   .kpi-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 28px 26px;
+    padding: 30px 26px;
     position: relative;
   }
   .kpi-icon {
@@ -191,48 +202,57 @@
     font-size: 13px;
     color: var(--ink);
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     line-height: 1.35;
     min-height: 38px;
   }
   .kpi-value {
     font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 30px;
-    letter-spacing: -0.01em;
-    margin-bottom: 4px;
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: -0.015em;
+    margin-bottom: 5px;
   }
   .kpi-sub { font-size: 12.5px; color: var(--ink-secondary); }
   .kpi-sub b { color: var(--ink); font-weight: 600; }
 
-  /* ---------- Section framing ---------- */
-  .section { margin-top: 48px; }
-  .section-head { margin-bottom: 18px; max-width: 74ch; }
+  /* ---------- Section framing ----------
+     Type scale for landing hierarchy: h1 58px/800 > section h2 30px/700 >
+     card h3 16px/700 > body 15px/400 > card-note/meta 12.5-13px > table
+     micro-caps 11px. Section rhythm widened so each block reads as a
+     distinct beat while scrolling. */
+  .section { margin-top: 92px; }
+  .section-head { margin-bottom: 22px; max-width: 74ch; }
+  .section-mark { display: block; width: 68px; height: 26px; margin-bottom: 10px; overflow: visible; }
+  .section-mark path { stroke: var(--ink-muted); }
   .section-head h2 {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 24px;
+    font-size: clamp(24px, 2.6vw, 30px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
     text-wrap: balance;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
-  .section-head p { color: var(--ink-secondary); font-size: 14px; }
+  .section-head p { color: var(--ink-secondary); font-size: 15px; line-height: 1.55; }
 
-  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
-  .card-stack { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+  .card-stack { display: grid; grid-template-columns: 1fr; gap: 18px; }
   .card-grid > .card, .card-stack > .card { min-width: 0; }
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 28px 30px 26px;
+    padding: 30px 32px 28px;
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
   }
   .card h3 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 2px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    margin-bottom: 3px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -602,11 +622,11 @@
 </div>
 
 <nav class="topnav" id="topnav">
-  <div class="topnav-bg" id="topnav-bg" aria-hidden="true">
-    <svg id="topnav-art" viewBox="0 0 1180 52" preserveAspectRatio="none"></svg>
-  </div>
   <div class="topnav-inner">
-    <a class="topnav-brand" href="#top">Condiciones de uso · Chile</a>
+    <div class="topnav-brand-wrap">
+      <svg class="topnav-art" id="topnav-art" viewBox="0 0 260 52" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <a class="topnav-brand" href="#top">Condiciones de uso · Chile</a>
+    </div>
     <div class="topnav-links">
       <a href="#resumen" data-nav="resumen">Resumen</a>
       <a href="#rastreo" data-nav="rastreo">Datos rastreados</a>
@@ -637,6 +657,7 @@
 
   <section class="section hero-graph" id="rastreo">
     <div class="section-head">
+      <svg class="section-mark" id="mark-rastreo" viewBox="0 0 68 26" aria-hidden="true"></svg>
       <h2>¿Qué rastrean más: las redes sociales u otras plataformas?</h2>
       <p>Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato — redes sociales y mensajería (n=5) frente al resto del corpus (n=15) — con base en un <a href="docs/analisis_discurso_tos.md">análisis de discurso</a> de las 20 condiciones de uso.</p>
     </div>
@@ -656,6 +677,7 @@
 
   <section class="section" id="gobernanza">
     <div class="section-head">
+      <svg class="section-mark" id="mark-gobernanza" viewBox="0 0 68 26" aria-hidden="true"></svg>
       <h2>El control sobre tus datos es la excepción, no la regla</h2>
       <p>Cómo se pide tu consentimiento, si puedes apagar la personalización algorítmica, y qué tan claras son las reglas que rigen tu comportamiento en cada plataforma.</p>
     </div>
@@ -685,6 +707,7 @@
 
   <section class="section" id="explorar">
     <div class="section-head">
+      <svg class="section-mark" id="mark-explorar" viewBox="0 0 68 26" aria-hidden="true"></svg>
       <h2>Las 20 plataformas, variable por variable</h2>
       <p>Filtra y ordena la tabla; haz clic en una fila para ver el expediente completo de esa plataforma (30 variables).</p>
     </div>
@@ -734,6 +757,7 @@
 
   <section class="section" id="tdc">
     <div class="section-head">
+      <svg class="section-mark" id="mark-tdc" viewBox="0 0 68 26" aria-hidden="true"></svg>
       <h2>Acceso directo a los términos y condiciones</h2>
       <p>Isotipo de cada una de las 20 plataformas sondeadas: haz clic para ver la fuente exacta consultada, su fecha de versión y el enlace directo al documento original.</p>
     </div>
@@ -1549,6 +1573,32 @@ function buildMastheadArt() {
 }
 
 /* ---------------- mid-page network divider illustration ---------------- */
+/* ---------------- small section marks (ref. J. Maeda, "Morisawa 1") ----------------
+   A miniature converging-line flourish placed before each section heading,
+   so the same visual grammar reads as a system throughout the body, not
+   just in the masthead/divider/background. */
+function buildSectionMark(id, seed) {
+  const svg = document.getElementById(id);
+  if (!svg) return;
+  const W = 68, H = 26;
+  const rnd = makeRnd(seed);
+  const waistX = W * 0.14, waistY = H * 0.5;
+  const N = 16;
+  const group = sEl('g', { fill: 'none', stroke: '#fff' });
+  for (let i = 0; i < N; i++) {
+    const t = i / (N - 1);
+    const endX = W * 0.3 + t * (W * 0.7);
+    const wob = (rnd() - 0.5) * 4;
+    group.appendChild(sEl('path', {
+      d: 'M ' + (waistX + wob).toFixed(1) + ',' + waistY.toFixed(1) +
+        ' L ' + endX.toFixed(1) + ',' + (rnd() * H).toFixed(1),
+      'stroke-width': (0.55 + rnd() * 0.5).toFixed(2),
+      opacity: (0.3 + rnd() * 0.35).toFixed(2)
+    }));
+  }
+  svg.appendChild(group);
+}
+
 function buildNetworkDivider() {
   const svg = document.getElementById('network-divider-svg');
   if (!svg) return;
@@ -1571,21 +1621,29 @@ function buildNetworkDivider() {
 function buildTopnavArt() {
   const svg = document.getElementById('topnav-art');
   if (!svg) return;
-  const W = 1180, H = 52;
+  // Confined to the brand-mark's own box (see .topnav-brand-wrap): thin
+  // lines fanning in from both edges toward a waist behind the wordmark,
+  // then flaring out again — the same converging-mesh figure as the
+  // masthead and divider, at a compact scale, never crossing the nav links.
+  const W = 260, H = 52;
   const rnd = makeRnd(404);
-  const waistX = 78, waistY = H * 0.5;
-  const N = 30;
+  const waistX = W * 0.52, waistY = H * 0.5;
+  const N = 22;
   const group = sEl('g', { fill: 'none', stroke: '#fff' });
   for (let i = 0; i < N; i++) {
     const t = i / (N - 1);
-    const endX = 60 + t * (W - 40);
-    const wob = (rnd() - 0.5) * 10;
-    const d = 'M ' + (waistX + wob).toFixed(1) + ',' + waistY.toFixed(1) + ' ' +
-      'L ' + endX.toFixed(1) + ',' + (rnd() * H).toFixed(1);
+    const topX = -20 + t * (W + 40);
+    const botT = (t + 0.15 + rnd() * 0.12) % 1;
+    const botX = -20 + botT * (W + 40);
+    const wob = (rnd() - 0.5) * 8;
+    const d = 'M ' + topX.toFixed(1) + ',-6 ' +
+      'C ' + (waistX + wob).toFixed(1) + ',' + (waistY * 0.5).toFixed(1) + ' ' +
+      (waistX + wob).toFixed(1) + ',' + (waistY * 1.5).toFixed(1) + ' ' +
+      botX.toFixed(1) + ',' + (H + 6).toFixed(1);
     group.appendChild(sEl('path', {
       d: d,
-      'stroke-width': (0.6 + rnd() * 0.8).toFixed(2),
-      opacity: (0.14 + rnd() * 0.26).toFixed(2)
+      'stroke-width': (0.55 + rnd() * 0.55).toFixed(2),
+      opacity: (0.16 + rnd() * 0.24).toFixed(2)
     }));
   }
   svg.appendChild(group);
@@ -1652,6 +1710,10 @@ buildSiteBackground();
 buildTopnavArt();
 buildMastheadArt();
 buildNetworkDivider();
+buildSectionMark('mark-rastreo', 11);
+buildSectionMark('mark-gobernanza', 22);
+buildSectionMark('mark-explorar', 33);
+buildSectionMark('mark-tdc', 44);
 computeKPIs();
 computeTrackedActivitiesGraph();
 computeOptoutChart();
