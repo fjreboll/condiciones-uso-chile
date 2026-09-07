@@ -233,8 +233,6 @@
      distinct beat while scrolling. */
   .section { margin-top: 92px; }
   .section-head { margin-bottom: 22px; max-width: 74ch; }
-  .section-mark { display: block; width: 68px; height: 26px; margin-bottom: 10px; overflow: visible; }
-  .section-mark path { stroke: var(--ink-muted); }
   .section-head h2 {
     font-family: var(--font-display);
     font-weight: 700;
@@ -667,7 +665,6 @@
 
   <section class="section hero-graph" id="rastreo">
     <div class="section-head">
-      <svg class="section-mark" id="mark-rastreo" viewBox="0 0 68 26" aria-hidden="true"></svg>
       <h2>¿Qué rastrean más: las redes sociales u otras plataformas?</h2>
       <p>Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato — redes sociales y mensajería (n=5) frente al resto del corpus (n=15) — con base en un <a href="docs/analisis_discurso_tos.md">análisis de discurso</a> de las 20 condiciones de uso.</p>
     </div>
@@ -687,7 +684,6 @@
 
   <section class="section" id="gobernanza">
     <div class="section-head">
-      <svg class="section-mark" id="mark-gobernanza" viewBox="0 0 68 26" aria-hidden="true"></svg>
       <h2>El control sobre tus datos es la excepción, no la regla</h2>
       <p>Cómo se pide tu consentimiento, si puedes apagar la personalización algorítmica, y qué tan claras son las reglas que rigen tu comportamiento en cada plataforma.</p>
     </div>
@@ -717,7 +713,6 @@
 
   <section class="section" id="explorar">
     <div class="section-head">
-      <svg class="section-mark" id="mark-explorar" viewBox="0 0 68 26" aria-hidden="true"></svg>
       <h2>Las 20 plataformas, variable por variable</h2>
       <p>Filtra y ordena la tabla; haz clic en una fila para ver el expediente completo de esa plataforma (30 variables).</p>
     </div>
@@ -767,7 +762,6 @@
 
   <section class="section" id="tdc">
     <div class="section-head">
-      <svg class="section-mark" id="mark-tdc" viewBox="0 0 68 26" aria-hidden="true"></svg>
       <h2>Acceso directo a los términos y condiciones</h2>
       <p>Isotipo de cada una de las 20 plataformas sondeadas: haz clic para ver la fuente exacta consultada, su fecha de versión y el enlace directo al documento original.</p>
     </div>
@@ -1553,30 +1547,6 @@ function buildMastheadArt() {
 }
 
 /* ---------------- mid-page network divider illustration ---------------- */
-/* ---------------- small section marks (ref. J. Maeda, "Morisawa 1") ----------------
-   A miniature converging-line flourish placed before each section heading,
-   so the same visual grammar reads as a system throughout the body, not
-   just in the masthead/divider/background. */
-function buildSectionMark(id, seed) {
-  const svg = document.getElementById(id);
-  if (!svg) return;
-  const W = 68, H = 26;
-  const rnd = makeRnd(seed);
-  const mark = sEl('g', {});
-  buildThreadBundle(mark, rnd, W, H, {
-    axis: 'vertical',
-    count: 12,
-    waistFrac: 0.15,
-    edgeSpread: 2.1,
-    wobble: 0.03,
-    drift: 0.06,
-    overshoot: 0.08,
-    opacity: [0.32, 0.58],
-    strokeWidth: [0.55, 0.95]
-  });
-  svg.appendChild(mark);
-}
-
 function buildNetworkDivider() {
   const svg = document.getElementById('network-divider-svg');
   if (!svg) return;
@@ -1641,8 +1611,8 @@ function buildSiteBackground() {
     wobble: 0.015,
     drift: 0.06,
     overshoot: 0.08,
-    opacity: [0.05, 0.14],
-    strokeWidth: [0.5, 0.85]
+    opacity: [0.09, 0.22],
+    strokeWidth: [0.55, 0.95]
   });
   svg.appendChild(group);
 }
@@ -1722,10 +1692,6 @@ buildSiteBackground();
 buildTopnavArt();
 buildMastheadArt();
 buildNetworkDivider();
-buildSectionMark('mark-rastreo', 11);
-buildSectionMark('mark-gobernanza', 22);
-buildSectionMark('mark-explorar', 33);
-buildSectionMark('mark-tdc', 44);
 computeKPIs();
 computeTrackedActivitiesGraph();
 computeOptoutChart();
