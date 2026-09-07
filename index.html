@@ -283,6 +283,19 @@
     color: var(--accent); background: var(--accent-soft); border-radius: 999px;
   }
 
+  /* ---------- sayagata illustration (ilustración de la sección "rastreo") ----------
+     Sayagata (紗綾形): motivo textil japonés tradicional de ganchos "manji"
+     (esvástica) que se entrelazan formando una malla continua de giros a 90°.
+     Se usa aquí, y solo aquí, como textura de fondo de esta tarjeta — a
+     diferencia del "haz de hilos" (Morisawa 1) que ilustra el resto del
+     sitio, para darle a esta sección una identidad visual propia. */
+  #card-tracked { position: relative; overflow: hidden; }
+  #card-tracked .card-pattern {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  }
+  #card-tracked .card-pattern svg { width: 100%; height: 100%; display: block; }
+  #card-tracked .card-content { position: relative; z-index: 1; }
+
   /* legend */
   .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 14px; }
   .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-secondary); }
@@ -681,12 +694,29 @@
     </div>
     <div class="card-stack">
       <div class="card reveal" id="card-tracked">
-        <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10s3-5.2 8-5.2 8 5.2 8 5.2-3 5.2-8 5.2-8-5.2-8-5.2z"/><circle cx="10" cy="10" r="2.4"/></svg>Uso de datos personales entre plataformas</h3>
-        <div class="card-note">Cada nodo de la izquierda es un grupo de plataformas; cada nodo de la derecha, un tipo de dato personal. El grosor de la línea es la proporción del grupo que lo declara.</div>
-        <div class="graph-legend" id="legend-tracked"></div>
-        <figure class="graph-figure">
-          <svg class="graph-svg" id="graph-tracked" viewBox="0 0 680 420" role="img" aria-label="Actividades rastreadas: redes sociales y mensajería declaran recolectar identificación, contacto, ubicación, contenido generado, comportamiento de navegación y datos del dispositivo en el 100% de los casos; el resto del corpus lo hace en una proporción menor mediante datos financieros y biométricos."></svg>
-        </figure>
+        <div class="card-pattern" aria-hidden="true">
+          <svg viewBox="0 0 560 340" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <pattern id="sayagata-tracked" width="28" height="28" patternUnits="userSpaceOnUse">
+                <g fill="none" stroke="#fff" stroke-width="1">
+                  <path d="M 14,14 L 14,7 L 21,7 L 21,0" />
+                  <path d="M 14,14 L 21,14 L 21,21 L 28,21" />
+                  <path d="M 14,14 L 14,21 L 7,21 L 7,28" />
+                  <path d="M 14,14 L 7,14 L 7,7 L 0,7" />
+                </g>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#sayagata-tracked)" opacity="0.1"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10s3-5.2 8-5.2 8 5.2 8 5.2-3 5.2-8 5.2-8-5.2-8-5.2z"/><circle cx="10" cy="10" r="2.4"/></svg>Uso de datos personales entre plataformas</h3>
+          <div class="card-note">Cada nodo de la izquierda es un grupo de plataformas; cada nodo de la derecha, un tipo de dato personal. El grosor de la línea es la proporción del grupo que lo declara.</div>
+          <div class="graph-legend" id="legend-tracked"></div>
+          <figure class="graph-figure">
+            <svg class="graph-svg" id="graph-tracked" viewBox="0 0 680 420" role="img" aria-label="Actividades rastreadas: redes sociales y mensajería declaran recolectar identificación, contacto, ubicación, contenido generado, comportamiento de navegación y datos del dispositivo en el 100% de los casos; el resto del corpus lo hace en una proporción menor mediante datos financieros y biométricos."></svg>
+          </figure>
+        </div>
       </div>
     </div>
   </section>
