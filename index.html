@@ -695,19 +695,7 @@
     <div class="card-stack">
       <div class="card reveal" id="card-tracked">
         <div class="card-pattern" aria-hidden="true">
-          <svg viewBox="0 0 560 340" preserveAspectRatio="xMidYMid slice">
-            <defs>
-              <pattern id="sayagata-tracked" width="28" height="28" patternUnits="userSpaceOnUse">
-                <g fill="none" stroke="#fff" stroke-width="1">
-                  <path d="M 14,14 L 14,7 L 21,7 L 21,0" />
-                  <path d="M 14,14 L 21,14 L 21,21 L 28,21" />
-                  <path d="M 14,14 L 14,21 L 7,21 L 7,28" />
-                  <path d="M 14,14 L 7,14 L 7,7 L 0,7" />
-                </g>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#sayagata-tracked)" opacity="0.1"/>
-          </svg>
+          <svg id="sayagata-tracked-svg" viewBox="0 0 560 340" preserveAspectRatio="xMidYMid slice"></svg>
         </div>
         <div class="card-content">
           <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10s3-5.2 8-5.2 8 5.2 8 5.2-3 5.2-8 5.2-8-5.2-8-5.2z"/><circle cx="10" cy="10" r="2.4"/></svg>Uso de datos personales entre plataformas</h3>
@@ -1618,6 +1606,34 @@ function buildSiteBackground() {
   svg.appendChild(group);
 }
 
+/* ---------------- sayagata illustration (sección "rastreo") ----------------
+   Built as plain <path> elements, like every other illustration on this
+   page — deliberately NOT an SVG <pattern> + fill:url(#id). That technique
+   rendered fine in a local file, but fill:url(#fragment) references are a
+   known source of blank/failed paint in sandboxed iframes (e.g. how a
+   published Artifact is hosted) and in some browsers, since the fragment
+   can fail to resolve against the surrounding document. Individual paths
+   have no such dependency, so the fret tiles itself explicitly here. */
+function buildSayagataPattern() {
+  const svg = document.getElementById('sayagata-tracked-svg');
+  if (!svg) return;
+  const W = 560, H = 340, cell = 28;
+  const group = sEl('g', { fill: 'none', stroke: '#fff', 'stroke-width': '1', opacity: '0.1' });
+  let d1 = '', d2 = '', d3 = '', d4 = '';
+  for (let y = -cell; y < H + cell; y += cell) {
+    for (let x = -cell; x < W + cell; x += cell) {
+      d1 += 'M ' + (x + 14) + ',' + (y + 14) + ' L ' + (x + 14) + ',' + (y + 7) + ' L ' + (x + 21) + ',' + (y + 7) + ' L ' + (x + 21) + ',' + y + ' ';
+      d2 += 'M ' + (x + 14) + ',' + (y + 14) + ' L ' + (x + 21) + ',' + (y + 14) + ' L ' + (x + 21) + ',' + (y + 21) + ' L ' + (x + 28) + ',' + (y + 21) + ' ';
+      d3 += 'M ' + (x + 14) + ',' + (y + 14) + ' L ' + (x + 14) + ',' + (y + 21) + ' L ' + (x + 7) + ',' + (y + 21) + ' L ' + (x + 7) + ',' + (y + 28) + ' ';
+      d4 += 'M ' + (x + 14) + ',' + (y + 14) + ' L ' + (x + 7) + ',' + (y + 14) + ' L ' + (x + 7) + ',' + (y + 7) + ' L ' + x + ',' + (y + 7) + ' ';
+    }
+  }
+  [d1, d2, d3, d4].forEach(function (d) {
+    group.appendChild(sEl('path', { d: d.trim() }));
+  });
+  svg.appendChild(group);
+}
+
 /* ---------------- masthead parallax ---------------- */
 function setupMastheadParallax() {
   const bg = document.getElementById('masthead-bg');
@@ -1724,6 +1740,7 @@ function setupStickyNav() {
 /* ---------------- init ---------------- */
 buildSiteBackground();
 buildMastheadArt();
+buildSayagataPattern();
 computeKPIs();
 computeTrackedActivitiesGraph();
 computeOptoutChart();
