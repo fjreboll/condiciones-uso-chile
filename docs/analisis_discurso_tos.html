@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de discurso: control del usuario y rastreo de datos — Condiciones de uso digitales en Chile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600;8..144,700;8..144,800&display=swap');
+
+  :root {
+    color-scheme: dark;
+    --bg: #000000; --surface: #0D0D0D; --surface-2: #1A1A1A;
+    --ink: #FFFFFF; --ink-secondary: #ABABAB; --ink-muted: #757575;
+    --border: #2A2A2A; --border-strong: #454545;
+    --accent: #FFFFFF; --accent-soft: #242424;
+    --accent-panel: #000000; --accent-panel-ink: #FFFFFF;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 30px -10px rgba(0,0,0,0.5);
+    --radius: 20px; --radius-sm: 12px;
+    --font-display: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--ink); font-family: var(--font-body);
+    font-size: 15.5px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 840px; margin: 0 auto; padding: 28px 24px 96px; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--border-strong); }
+  a:hover { text-decoration-color: var(--accent); }
+
+  header.masthead {
+    background: var(--accent-panel); color: var(--accent-panel-ink);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 34px 38px; box-shadow: var(--shadow); margin-bottom: 34px;
+  }
+  header.masthead a.back {
+    font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,0.7);
+    text-decoration: none; display: inline-block; margin-bottom: 14px;
+  }
+  header.masthead a.back:hover { color: #fff; }
+  .doc-tag {
+    font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--ink-muted); margin-bottom: 10px;
+  }
+  header.masthead h1 {
+    font-family: var(--font-display); font-weight: 800; letter-spacing: -0.015em;
+    font-size: clamp(24px, 3.4vw, 32px); line-height: 1.18; margin-bottom: 16px; text-wrap: balance;
+  }
+  .doc-meta {
+    display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 12.5px;
+    color: rgba(255,255,255,0.75); border-top: 1px solid rgba(255,255,255,0.16);
+    padding-top: 14px; font-variant-numeric: tabular-nums;
+  }
+  .doc-meta strong { color: #fff; font-weight: 600; }
+
+  article h2 {
+    font-family: var(--font-display); font-weight: 700; font-size: 21px;
+    letter-spacing: -0.005em; color: var(--ink); margin: 44px 0 14px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  article h2:first-child { margin-top: 0; }
+  article p {
+    color: var(--ink-secondary); margin: 0 0 16px; text-align: justify; text-align-last: left;
+    overflow-wrap: break-word;
+  }
+  article p strong { color: var(--ink); font-weight: 600; }
+  article code {
+    font-family: 'Roboto Mono', 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.9em; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px;
+    word-break: break-word; overflow-wrap: anywhere;
+  }
+  article > .lede {
+    font-size: 17px; line-height: 1.55; color: var(--ink);
+  }
+  .callout-note {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 18px 22px; margin: 0 0 24px; font-size: 14px; color: var(--ink-secondary);
+  }
+  .callout-note strong { color: var(--ink); }
+
+  table.dist {
+    width: 100%; border-collapse: collapse; margin: 4px 0 24px; font-size: 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden;
+  }
+  table.dist caption { display: none; }
+  table.dist th, table.dist td { padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  table.dist thead th {
+    font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--ink-muted); background: var(--surface-2); font-weight: 600;
+  }
+  table.dist tbody tr:last-child td { border-bottom: none; }
+  table.dist td:last-child { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+
+  article ul {
+    margin: 0 0 20px; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 12px;
+  }
+  article ul li {
+    color: var(--ink-secondary); padding-left: 18px; position: relative; text-align: justify; text-align-last: left;
+  }
+  article ul li::before {
+    content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--ink-muted);
+  }
+  article ul li strong { color: var(--ink); font-weight: 600; }
+
+  .refs {
+    margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--border);
+  }
+  .refs h2 { border-bottom: none; margin-bottom: 16px; }
+  .refs ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .refs li {
+    color: var(--ink-secondary); font-size: 13.5px; line-height: 1.6;
+    padding-left: 0; text-indent: 0;
+  }
+  .refs li em { color: var(--ink); font-style: italic; }
+
+  footer.page-footer {
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+    font-size: 12.5px; color: var(--ink-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <a class="back" href="../index.html#rastreo">&larr; Volver al dashboard</a>
+    <div class="doc-tag">Análisis de discurso · Proyecto &ldquo;Agentes de especulación&rdquo;</div>
+    <h1>Análisis de discurso: control del usuario y rastreo de datos en las condiciones de uso digitales en Chile</h1>
+    <div class="doc-meta">
+      <span><strong>Fecha:</strong> 3 sep 2026</span>
+      <span><strong>Corpus:</strong> 20 plataformas · 30 variables codificadas</span>
+      <span><strong>Método:</strong> análisis crítico del discurso (Fairclough, van Dijk)</span>
+    </div>
+  </header>
+
+  <article>
+    <h2>1. Objeto, método y límites</h2>
+    <p class="lede">Este documento analiza cómo el lenguaje contractual de las 20 condiciones de uso y políticas de privacidad del corpus (<code>condiciones_de_uso_chile.csv</code>) enmarca dos problemas específicos: el control que la persona usuaria tiene sobre sus propios datos y sobre la personalización algorítmica, y la forma en que esos documentos declaran —o dejan de declarar— el rastreo y la circulación de esos datos.</p>
+    <p>Se inscribe en la tradición del análisis crítico del discurso (Fairclough, 1992; van Dijk, 1993), que entiende el lenguaje no como un vehículo neutro de información sino como una práctica social que naturaliza relaciones de poder: qué se nombra y qué se omite, quién aparece como agente y quién como objeto pasivo de una acción, qué se presenta como elección y qué como condición dada, son todas decisiones retóricas con consecuencias políticas. Aplicado a los ToS, este marco converge con la lectura que el marco teórico del proyecto ya hace de estos documentos como instrumento de gobernanza privada (Gillespie, 2018), como &ldquo;reglas secretas&rdquo; paralelas al derecho estatal (Suzor, 2019) y como infraestructura contractual de la sociedad de plataformas (van Dijck, Poell y de Waal, 2018).</p>
+    <div class="callout-note"><strong>Límite metodológico</strong>, declarado con la misma transparencia que rige el resto de la base de datos: este no es un análisis de corpus lingüístico exhaustivo sobre el texto íntegro de los 20 documentos legales (que no fueron capturados verbatim ni etiquetados oración por oración), sino una lectura cualitativa cercana de las 30 variables codificadas y, sobre todo, de los campos textuales libres del CSV —<code>notas</code>, <code>notas_ampliacion</code>, <code>mecanismo_consentimiento</code>, <code>uso_declarado_ia_generativa</code>, <code>marco_legal_declarado</code>— que sí registran, con cita indirecta o directa, el fraseo original de cada plataforma. Los patrones aquí descritos son observaciones grounded en los datos ya recolectados, no el resultado de una minería de texto automatizada sobre el corpus completo — esa sigue siendo una limitación de acceso pendiente (bloqueos por robots.txt en Meta, TikTok, LinkedIn; errores 404/403 en BancoEstado y ChileAtiende), documentada también en el CSV.</div>
+
+    <h2>2. La aceptación tácita como mecanismo de consentimiento por defecto</h2>
+    <p>El mecanismo de consentimiento declarado se distribuye así en el corpus:</p>
+    <table class="dist">
+      <thead><tr><th>Mecanismo</th><th>Plataformas</th></tr></thead>
+      <tbody>
+        <tr><td>Aceptación tácita</td><td>12 de 20</td></tr>
+        <tr><td>Opt-in explícito</td><td>5 de 20</td></tr>
+        <tr><td>Obligatorio por ley</td><td>2 de 20</td></tr>
+        <tr><td>No especifica</td><td>1 de 20</td></tr>
+      </tbody>
+    </table>
+    <p>La aceptación tácita —el uso continuado del servicio como prueba de consentimiento, sin un acto afirmativo distinguible— es el mecanismo modal del corpus, y domina con particular consistencia entre las redes sociales, la mensajería y el streaming (Facebook e Instagram, WhatsApp, TikTok, X, LinkedIn, Netflix, Google, YouTube, Spotify). Es, en los términos de van Dijk (1993), la opción discursiva que menos exige de quien detenta el poder contractual: no hay que persuadir ni informar activamente, basta con no impedir el uso. Las cinco plataformas con opt-in explícito son, significativamente, las de comercio y delivery con presencia local (Mercado Libre/Mercado Pago, Falabella.com, Rappi) y la banca (Banco Santander Chile, Banco de Chile, BCI aparecen bajo distintas variantes de opt-in), es decir, el mismo grupo que ya localiza jurídicamente sus términos para Chile. El patrón es consistente con el hallazgo central del dashboard: la accountability contractual —tanto jurisdiccional como en el mecanismo de consentimiento— sigue al modelo de negocio y no al volumen de usuarios ni a la sensibilidad de los datos tratados.</p>
+
+    <h2>3. Control del usuario: la retórica de la opción frente al diseño que la vacía</h2>
+    <p>Solo <strong>1 de 20</strong> plataformas (Uber/Uber Eats) ofrece opt-out completo de la personalización algorítmica; <strong>15 de 20</strong> ofrecen únicamente control parcial, y en 3 casos la variable no aplica. El campo <code>notas</code> de varias plataformas permite ver cómo ese &ldquo;parcial&rdquo; se construye discursivamente como si fuera una opción robusta cuando en realidad excluye justamente el mecanismo central de recolección:</p>
+    <ul>
+      <li><strong>Meta (Facebook e Instagram):</strong> desde diciembre de 2025, el contenido de las conversaciones con Meta AI se usa para personalizar anuncios &ldquo;sin opción clara de exclusión total&rdquo;; desde junio de 2026, los datos de &ldquo;actividad en otras empresas&rdquo; también alimentan el feed y las respuestas de IA, &ldquo;eliminando el control específico de esa fuente de datos&rdquo; que antes existía. El movimiento retórico no es prohibir el opt-out: es redefinir qué cuenta como parte del sistema que se puede desactivar, de modo que la superficie de control (pestañas &ldquo;Feeds&rdquo; vs. &ldquo;Home&rdquo;, &ldquo;Favoritos&rdquo;) permanece visible mientras el flujo de datos que la alimenta se amplía por debajo de ella.</li>
+      <li><strong>LinkedIn:</strong> ofrece &ldquo;opción de exclusión disponible en configuración&rdquo; para el uso de datos de perfil en el entrenamiento de modelos de IA de Microsoft — pero el mecanismo exacto de resolución de disputas del User Agreement &ldquo;no verificable por bloqueo de acceso directo&rdquo;, un patrón donde la opacidad documental refuerza la asimetría: el opt-out puntual es visible; el marco de rendición de cuentas que lo respalda, no.</li>
+      <li><strong>Netflix:</strong> mantiene un toggle específico para &ldquo;Behavioral Advertising&rdquo; (marco DAA/EDAA/DAAC) pero &ldquo;no hay opción de apagar el motor de recomendación de contenido&rdquo; — la distinción entre publicidad conductual y curación algorítmica del contenido mismo es la línea que casi ningún ToS del corpus permite cruzar.</li>
+      <li><strong>X (antes Twitter):</strong> Grok se entrena con posts públicos e interacciones del usuario, con &ldquo;opt-out en Privacidad y seguridad&rdquo;, mientras que los ToS de enero de 2026 amplían la definición de &ldquo;Contenido&rdquo; para incluir explícitamente prompts, inputs y outputs de IA bajo licencia mundial — el opt-out cubre el entrenamiento pasado, no la licencia contractual futura sobre lo que el usuario ya generó con la herramienta.</li>
+    </ul>
+    <p>El patrón recurrente es que el control ofrecido —cuando existe— se sitúa en la capa más visible y menos consecuente (qué anuncio se muestra) y no en la capa que efectivamente produce el perfil de comportamiento (qué dato se recolecta y para qué modelo se usa). Esto es consistente con lo que Suzor (2019) describe como reglas que se modifican unilateralmente y sin necesidad de renegociar el consentimiento original: el usuario &ldquo;consintió&rdquo; en 2021, y el alcance de ese consentimiento se ha expandido desde entonces sin un nuevo acto de aceptación equivalente.</p>
+
+    <h2>4. Rastreo de datos: la vaguedad deliberada del &ldquo;tercero&rdquo;</h2>
+    <p><strong>19 de 20</strong> plataformas declaran compartir datos con terceros (15 de forma plena, 4 parcial), y <strong>14 de 20</strong> declaran transferencia internacional de datos — prácticamente el corpus completo, con la única excepción parcial de las tres entidades estatales que no especifican (BancoEstado, y parcialmente SII y Fonasa). Pero el corpus también muestra un límite discursivo sistemático: los documentos casi nunca nombran al tercero específico. En su lugar, operan categorías genéricas que funcionan como lo que podría llamarse una &ldquo;vaguedad calculada&rdquo; — lo suficientemente concretas para cumplir el requisito formal de divulgación, lo suficientemente amplias para no comprometer a ningún socio comercial nombrado ni permitir auditoría externa:</p>
+    <ul>
+      <li>WhatsApp comparte metadata con <strong>&ldquo;Meta Companies&rdquo;</strong>, sin listarlas.</li>
+      <li>Falabella.com comparte datos &ldquo;entre empresas del grupo&rdquo; bajo un <strong>&ldquo;Habeas Data corporativo compartido&rdquo;</strong> con Banco Falabella, CMR, Sodimac, Tottus e Ikea Chile — la única plataforma del corpus que sí nombra explícitamente a los terceros, aunque solo a los del propio holding, no a proveedores externos.</li>
+      <li>Uber/Uber Eats es una excepción parcial en sentido inverso: su aviso de privacidad global sí identifica a <strong>&ldquo;socios de marketing (Meta, TikTok, Google) y procesadores de pago internacionales&rdquo;</strong> — de las 20 plataformas, la única que nombra terceros ajenos al propio grupo corporativo.</li>
+      <li>Rappi comparte datos con <strong>&ldquo;Itaú Corpbanca (RappiPay/RappiBank), Amplitude (analítica) y Jumio (verificación de identidad)&rdquo;</strong> — igual de específico, y también proveniente de una plataforma transaccional/delivery, no de una red social.</li>
+      <li>Banco de Chile y BCI describen comunicar deudas morosas a <strong>&ldquo;registros o bancos de datos personales&rdquo;</strong> — una fórmula funcional que remite a burós de crédito como DICOM/Boletín Comercial sin nombrarlos, pese a que la identidad de esos burós es de dominio público.</li>
+    </ul>
+    <p>El patrón cruzado con la categoría de plataforma es revelador: las tres plataformas que sí nombran terceros específicos (Falabella, Uber, Rappi) pertenecen todas al grupo transaccional que también localiza jurídicamente sus términos para Chile y usa mayoritariamente opt-in explícito. Las redes sociales, mensajería y streaming —el grupo con aceptación tácita y jurisdicción extranjera dominante— son, simétricamente, las que más recurren a categorías agregadas (&ldquo;empresas afiliadas&rdquo;, &ldquo;proveedores de servicios&rdquo;, &ldquo;socios&rdquo;) sin identificación. La opacidad sobre el tercero no es aleatoria: covaría con las mismas variables que ya covarían con la ausencia de localización jurídica y de opt-in, sugiriendo que forma parte del mismo patrón general de menor rendición de cuentas hacia usuarios chilenos por parte de las plataformas para las que Chile es un mercado secundario y no una jurisdicción a la que se responde directamente.</p>
+
+    <h2>5. El desplazamiento de la transparencia hacia documentos no contractuales</h2>
+    <p>Un hallazgo específico, registrado en <code>notas_ampliacion</code> para YouTube, nombra un patrón que aparece de forma menos explícita en otras filas del corpus: el sistema de recomendación de YouTube &ldquo;se declara en documentación separada (&lsquo;How YouTube Works&rsquo;), <strong>NO en el ToS mismo</strong>, que es notablemente escueto al respecto — un patrón de desplazamiento de la transparencia hacia documentos no contractuales que se repite en varias plataformas del corpus.&rdquo; TikTok exhibe la misma estructura en sentido inverso pero funcionalmente equivalente: su página de soporte &ldquo;declara explícitamente qué señales conductuales alimentan el &lsquo;For You&rsquo;&rdquo;, información que no forma parte del cuerpo contractual vinculante. El efecto discursivo es doble: por un lado, permite a la plataforma exhibir un compromiso aparente con la transparencia algorítmica (páginas de ayuda, centros de &ldquo;cómo funciona&rdquo;); por otro, mantiene esa información fuera del documento que genera obligaciones jurídicas exigibles y que puede invocarse en una disputa. La transparencia se vuelve, en ese desplazamiento, un gesto comunicacional antes que una garantía contractual.</p>
+
+    <h2>6. Localización cosmética: la traducción sin adecuación jurídica</h2>
+    <p>El hallazgo central del dashboard —0 de 9 plataformas de redes sociales, mensajería, streaming y servicios generales tienen términos localizados para Chile, frente a 11 de 11 transaccionales— tiene una zona intermedia que merece lectura discursiva propia. Google, YouTube y Spotify aparecen codificadas como <code>parcial</code> en localización, no como <code>no</code>: existe una URL en español (<code>spotify.com/cl/legal/end-user-agreement/</code>, por ejemplo) pero, según registra <code>notas_ampliacion</code> para Spotify, &ldquo;el contenido legal (<strong>ley sueca, arbitraje ICC</strong>) es idéntico al default internacional, sin cláusulas propias de Chile — mismo patrón de &lsquo;<strong>localización cosmética</strong>&rsquo; observado en Google/YouTube.&rdquo; La traducción del texto al español, y la existencia de una URL con el sufijo de país, funcionan discursivamente como significantes de adecuación local — activan la expectativa de que existe una versión pensada para el marco jurídico chileno— sin que el contenido normativo (ley aplicable, foro de resolución de disputas) cambie. Es una forma particular de lo que Fairclough llamaría un efecto de modalidad: el documento performa localización en su superficie (idioma, dominio) mientras retiene, en su núcleo normativo, la jurisdicción de origen.</p>
+
+    <h2>7. El framing positivo de la extracción de datos conductuales</h2>
+    <p><strong>12 de 20</strong> plataformas reconocen explícitamente que los datos de comportamiento de navegación alimentan la personalización (<code>datos_conductuales_para_personalizacion = si</code>); el resto no especifica. Cuando el corpus sí lo declara, el vocabulario dominante enmarca esa extracción en términos de beneficio para el usuario y no de vigilancia: &ldquo;mejor personalización&rdquo;, &ldquo;recomendaciones&rdquo;, &ldquo;experiencia mejorada&rdquo;, &ldquo;bienestar digital&rdquo; (Google promueve herramientas de &ldquo;Digital Wellbeing&rdquo; en el mismo documento que declara recolectar datos de salud, financieros y de comportamiento). El campo <code>notas</code> de TikTok es explícito sobre las señales usadas —&ldquo;compras, likes, tiempo visto, búsquedas&rdquo;— pero encuadra esa transparencia junto a herramientas de bienestar (&ldquo;Screen Time&rdquo;, &ldquo;Family Pairing&rdquo;) que desplazan el foco del flujo de datos hacia el autocontrol del tiempo de uso. El vocabulario de &ldquo;personalización&rdquo; y &ldquo;bienestar&rdquo; no es incorrecto como descripción parcial, pero opera, en los términos de van Dijk, como una estrategia de énfasis: destaca la consecuencia deseable para el usuario (contenido relevante, control del tiempo) y atenúa la consecuencia estructural (un perfil conductual acumulativo usado también, en el mismo documento, para publicidad y en varios casos para entrenar modelos de IA generativa).</p>
+
+    <h2>8. Síntesis: gobernanza de datos como orden discursivo</h2>
+    <p>Los seis patrones anteriores —aceptación tácita por defecto, control parcial que preserva la superficie y no el flujo, vaguedad calculada sobre el tercero, desplazamiento de la transparencia hacia documentos no vinculantes, localización cosmética y framing positivo de la extracción conductual— no son fallas de redacción aisladas sino un mismo orden discursivo, en el sentido de Fairclough: un conjunto de convenciones de lenguaje que una industria entera reproduce de manera suficientemente consistente como para constituir una norma implícita de cómo se le habla a la persona usuaria sobre el control de sus propios datos. Ese orden discursivo es, a la vez, el mecanismo lingüístico concreto a través del cual opera la gobernanza privada que describen Gillespie (2018), Suzor (2019) y van Dijck et al. (2018): no hace falta prohibir la lectura del contrato ni ocultar la información —de hecho, buena parte de esta información es técnicamente divulgada, como exige la ley— para que el resultado práctico sea una asimetría de poder sostenida. Basta con distribuir esa información de forma que quien la redacta controle qué se nombra, qué se agrega en categorías vagas, y en qué documento —contractual o no— cada dato aparece. Los tres grafos de esta sección (control corporativo, intercambio de datos con terceros, actividades rastreadas por categoría) visualizan la estructura material que este análisis de discurso describe en su dimensión lingüística: quién controla, qué se comparte y qué se rastrea, leído no solo como dato codificado sino como texto que decide, en cada elección de palabra, cuánto de esa estructura se vuelve visible para quien firma.</p>
+
+    <div class="refs">
+      <h2>Referencias</h2>
+      <ol>
+        <li>Fairclough, N. (1992). <em>Discourse and social change</em>. Polity Press.</li>
+        <li>Gillespie, T. (2018). <em>Custodians of the internet: Platforms, content moderation, and the hidden decisions that shape social media</em>. Yale University Press.</li>
+        <li>Suzor, N. P. (2019). <em>Lawless: The secret rules that govern our digital lives</em>. Cambridge University Press.</li>
+        <li>Van Dijck, J., Poell, T., &amp; de Waal, M. (2018). <em>The platform society: Public values in a connective world</em>. Oxford University Press.</li>
+        <li>Van Dijk, T. A. (1993). Principles of critical discourse analysis. <em>Discourse &amp; Society, 4</em>(2), 249–283. <a href="https://doi.org/10.1177/0957926593004002006">https://doi.org/10.1177/0957926593004002006</a></li>
+      </ol>
+    </div>
+  </article>
+
+  <footer class="page-footer">
+    <span>Proyecto <strong style="color:var(--ink-secondary)">Agentes de especulación</strong> — repositorio de condiciones de uso digitales en Chile</span>
+    <span><a href="../documentos.html">Marco teórico y documentos &rarr;</a></span>
+  </footer>
+</div>
+</body>
+</html>

@@ -628,12 +628,6 @@
     overflow: hidden;
   }
   .site-bg svg { width: 100%; height: 100%; display: block; transform-origin: 50% 50%; will-change: transform; }
-
-  .network-divider {
-    margin: 56px 0;
-    height: 132px;
-  }
-  .network-divider svg { width: 100%; height: 100%; display: block; overflow: visible; }
 </style>
 
 <div class="site-bg" id="site-bg" aria-hidden="true">
@@ -681,7 +675,7 @@
   <section class="section hero-graph" id="rastreo">
     <div class="section-head">
       <h2>¿Qué rastrean más: las redes sociales u otras plataformas?</h2>
-      <p>Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato — redes sociales y mensajería (n=5) frente al resto del corpus (n=15) — con base en un <a class="doc-link" href="docs/analisis_discurso_tos.md"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1V3.5a1 1 0 011-1z"/><path d="M12 2.5V6h3M7.5 10.5h5M7.5 13.5h5"/></svg>análisis de discurso</a> de las 20 condiciones de uso.</p>
+      <p>Proporción de plataformas de cada grupo que declara recolectar cada tipo de dato — redes sociales y mensajería (n=5) frente al resto del corpus (n=15) — con base en un <a class="doc-link" href="docs/analisis_discurso_tos.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1V3.5a1 1 0 011-1z"/><path d="M12 2.5V6h3M7.5 10.5h5M7.5 13.5h5"/></svg>análisis de discurso</a> de las 20 condiciones de uso.</p>
     </div>
     <div class="card-stack">
       <div class="card reveal" id="card-tracked">
@@ -770,10 +764,6 @@
       </table>
     </div>
   </section>
-
-  <div class="network-divider" id="network-divider" aria-hidden="true">
-    <svg id="network-divider-svg" viewBox="0 0 1180 132" preserveAspectRatio="none"></svg>
-  </div>
 
   <section class="section" id="tdc">
     <div class="section-head">
@@ -1561,27 +1551,6 @@ function buildMastheadArt() {
   svg.appendChild(particleGroup);
 }
 
-/* ---------------- mid-page network divider illustration ---------------- */
-function buildNetworkDivider() {
-  const svg = document.getElementById('network-divider-svg');
-  if (!svg) return;
-  const W = 1180, H = 132;
-  const rnd = makeRnd(101);
-  const group = sEl('g', {});
-  buildThreadBundle(group, rnd, W, H, {
-    axis: 'vertical',
-    count: 40,
-    waistFrac: 0.5,
-    edgeSpread: 1.25,
-    wobble: 0.02,
-    drift: 0.07,
-    overshoot: 0.1,
-    opacity: [0.2, 0.44],
-    strokeWidth: [0.6, 1.05]
-  });
-  svg.appendChild(group);
-}
-
 /* ---------------- site-wide ambient network wallpaper ---------------- */
 function buildSiteBackground() {
   const svg = document.getElementById('site-bg-svg');
@@ -1711,7 +1680,6 @@ function setupStickyNav() {
 /* ---------------- init ---------------- */
 buildSiteBackground();
 buildMastheadArt();
-buildNetworkDivider();
 computeKPIs();
 computeTrackedActivitiesGraph();
 computeOptoutChart();
