@@ -283,18 +283,29 @@
     color: var(--accent); background: var(--accent-soft); border-radius: 999px;
   }
 
-  /* ---------- sayagata illustration (ilustración de la sección "rastreo") ----------
-     Sayagata (紗綾形): motivo textil japonés tradicional de ganchos "manji"
-     (esvástica) que se entrelazan formando una malla continua de giros a 90°.
-     Se usa aquí, y solo aquí, como textura de fondo de esta tarjeta — a
-     diferencia del "haz de hilos" (Morisawa 1) que ilustra el resto del
-     sitio, para darle a esta sección una identidad visual propia. */
+  /* ---------- ilustración de tarjeta: gráfico de rastreo ----------
+     Esta tarjeta lleva su propio "haz de hilos" (Morisawa 1) contenido,
+     igual en espíritu al del masthead — no el fret sayagata, que ahora
+     vive en las tarjetas KPI. */
   #card-tracked { position: relative; overflow: hidden; }
   #card-tracked .card-pattern {
     position: absolute; inset: 0; z-index: 0; pointer-events: none;
   }
   #card-tracked .card-pattern svg { width: 100%; height: 100%; display: block; }
   #card-tracked .card-content { position: relative; z-index: 1; }
+
+  /* ---------- sayagata illustration (tarjetas KPI) ----------
+     Sayagata (紗綾形): motivo textil japonés tradicional de ganchos "manji"
+     (esvástica) que se entrelazan formando una malla continua de giros a 90°.
+     Vive en las 4 tarjetas KPI de la sección "rastreo" — datos puramente
+     numéricos, sin gráfico propio, así que la ilustración no compite con
+     ninguna visualización de datos. */
+  .kpi-card { overflow: hidden; }
+  .kpi-card .kpi-pattern {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  }
+  .kpi-card .kpi-pattern svg { width: 100%; height: 100%; display: block; }
+  .kpi-card .kpi-content { position: relative; z-index: 1; }
 
   /* legend */
   .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 14px; }
@@ -695,7 +706,7 @@
     <div class="card-stack">
       <div class="card reveal" id="card-tracked">
         <div class="card-pattern" aria-hidden="true">
-          <svg id="sayagata-tracked-svg" viewBox="0 0 560 340" preserveAspectRatio="xMidYMid slice"></svg>
+          <svg id="card-tracked-lines-svg" viewBox="0 0 560 340" preserveAspectRatio="xMidYMid slice"></svg>
         </div>
         <div class="card-content">
           <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10s3-5.2 8-5.2 8 5.2 8 5.2-3 5.2-8 5.2-8-5.2-8-5.2z"/><circle cx="10" cy="10" r="2.4"/></svg>Uso de datos personales entre plataformas</h3>
@@ -958,15 +969,26 @@ function computeKPIs() {
   ];
 
   const row = document.getElementById('kpi-row');
-  kpis.forEach(k => {
+  kpis.forEach((k, i) => {
     const card = el('div', 'kpi-card');
     card.style.background = 'color-mix(in srgb, ' + k.color + ' 9%, var(--surface))';
+
+    const patternWrap = el('div', 'kpi-pattern');
+    patternWrap.setAttribute('aria-hidden', 'true');
+    const patSvg = sEl('svg', { viewBox: '0 0 300 220', preserveAspectRatio: 'xMidYMid slice' });
+    patSvg.id = 'kpi-pattern-svg-' + i;
+    patternWrap.appendChild(patSvg);
+    card.appendChild(patternWrap);
+    buildSayagataPattern(patSvg, 300, 220);
+
+    const content = el('div', 'kpi-content');
     const icon = el('div', 'kpi-icon'); icon.style.background = 'color-mix(in srgb, ' + k.color + ' 18%, transparent)'; icon.style.color = k.color;
     icon.innerHTML = iconSvg(k.icon);
     const label = el('div', 'kpi-label', k.label);
     const value = el('div', 'kpi-value', k.value); value.style.color = k.color;
     const sub = el('div', 'kpi-sub'); sub.textContent = k.sub;
-    card.appendChild(icon); card.appendChild(label); card.appendChild(value); card.appendChild(sub);
+    content.appendChild(icon); content.appendChild(label); content.appendChild(value); content.appendChild(sub);
+    card.appendChild(content);
     row.appendChild(card);
   });
 }
@@ -1606,18 +1628,19 @@ function buildSiteBackground() {
   svg.appendChild(group);
 }
 
-/* ---------------- sayagata illustration (sección "rastreo") ----------------
+/* ---------------- sayagata illustration (tarjetas KPI) ----------------
    Built as plain <path> elements, like every other illustration on this
    page — deliberately NOT an SVG <pattern> + fill:url(#id). That technique
    rendered fine in a local file, but fill:url(#fragment) references are a
    known source of blank/failed paint in sandboxed iframes (e.g. how a
    published Artifact is hosted) and in some browsers, since the fragment
    can fail to resolve against the surrounding document. Individual paths
-   have no such dependency, so the fret tiles itself explicitly here. */
-function buildSayagataPattern() {
-  const svg = document.getElementById('sayagata-tracked-svg');
+   have no such dependency, so the fret tiles itself explicitly here.
+   Takes a target <svg> + its viewBox size so it can be reused across
+   several cards, each with its own element and id. */
+function buildSayagataPattern(svg, W, H) {
   if (!svg) return;
-  const W = 560, H = 340, cell = 28;
+  const cell = 28;
   const group = sEl('g', { fill: 'none', stroke: '#fff', 'stroke-width': '1', opacity: '0.1' });
   let d1 = '', d2 = '', d3 = '', d4 = '';
   for (let y = -cell; y < H + cell; y += cell) {
@@ -1630,6 +1653,30 @@ function buildSayagataPattern() {
   }
   [d1, d2, d3, d4].forEach(function (d) {
     group.appendChild(sEl('path', { d: d.trim() }));
+  });
+  svg.appendChild(group);
+}
+
+/* ---------------- card illustration: gráfico de rastreo ----------------
+   A contained "haz de hilos" (Morisawa 1) bundle scoped to this one card —
+   same spirit as the masthead's, just smaller and quieter, so the chart
+   drawn on top stays the clear focal point. */
+function buildCardTrackedLines() {
+  const svg = document.getElementById('card-tracked-lines-svg');
+  if (!svg) return;
+  const W = 560, H = 340;
+  const rnd = makeRnd(303);
+  const group = sEl('g', {});
+  buildThreadBundle(group, rnd, W, H, {
+    axis: 'vertical',
+    count: 26,
+    waistFrac: 0.5,
+    edgeSpread: 1.2,
+    wobble: 0.02,
+    drift: 0.08,
+    overshoot: 0.08,
+    opacity: [0.08, 0.16],
+    strokeWidth: [0.5, 0.9]
   });
   svg.appendChild(group);
 }
@@ -1740,7 +1787,7 @@ function setupStickyNav() {
 /* ---------------- init ---------------- */
 buildSiteBackground();
 buildMastheadArt();
-buildSayagataPattern();
+buildCardTrackedLines();
 computeKPIs();
 computeTrackedActivitiesGraph();
 computeOptoutChart();
