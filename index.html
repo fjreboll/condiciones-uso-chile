@@ -283,15 +283,11 @@
     color: var(--accent); background: var(--accent-soft); border-radius: 999px;
   }
 
-  /* ---------- ilustración de tarjeta: gráfico de rastreo ----------
-     Esta tarjeta lleva su propio "haz de hilos" (Morisawa 1) contenido,
-     igual en espíritu al del masthead — no el fret sayagata, que ahora
-     vive en las tarjetas KPI. */
+  /* ---------- tarjeta: gráfico de rastreo ----------
+     Fondo negro sólido, sin ilustración decorativa detrás: el propio
+     gráfico bipartito (#graph-tracked) ya es una figura con muchas líneas
+     cruzadas, así que un haz de hilos de fondo reducía su legibilidad. */
   #card-tracked { position: relative; overflow: hidden; background: #000000; }
-  #card-tracked .card-pattern {
-    position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  }
-  #card-tracked .card-pattern svg { width: 100%; height: 100%; display: block; }
   #card-tracked .card-content { position: relative; z-index: 1; }
 
   /* ---------- sayagata illustration (tarjetas KPI) ----------
@@ -705,9 +701,6 @@
     </div>
     <div class="card-stack">
       <div class="card reveal" id="card-tracked">
-        <div class="card-pattern" aria-hidden="true">
-          <svg id="card-tracked-lines-svg" viewBox="0 0 560 340" preserveAspectRatio="xMidYMid slice"></svg>
-        </div>
         <div class="card-content">
           <h3><svg class="h-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10s3-5.2 8-5.2 8 5.2 8 5.2-3 5.2-8 5.2-8-5.2-8-5.2z"/><circle cx="10" cy="10" r="2.4"/></svg>Uso de datos personales entre plataformas</h3>
           <div class="card-note">Cada nodo de la izquierda es un grupo de plataformas; cada nodo de la derecha, un tipo de dato personal. El grosor de la línea es la proporción del grupo que lo declara.</div>
@@ -1657,30 +1650,6 @@ function buildSayagataPattern(svg, W, H) {
   svg.appendChild(group);
 }
 
-/* ---------------- card illustration: gráfico de rastreo ----------------
-   A contained "haz de hilos" (Morisawa 1) bundle scoped to this one card —
-   same spirit as the masthead's, just smaller and quieter, so the chart
-   drawn on top stays the clear focal point. */
-function buildCardTrackedLines() {
-  const svg = document.getElementById('card-tracked-lines-svg');
-  if (!svg) return;
-  const W = 560, H = 340;
-  const rnd = makeRnd(303);
-  const group = sEl('g', {});
-  buildThreadBundle(group, rnd, W, H, {
-    axis: 'vertical',
-    count: 26,
-    waistFrac: 0.5,
-    edgeSpread: 1.2,
-    wobble: 0.02,
-    drift: 0.08,
-    overshoot: 0.08,
-    opacity: [0.08, 0.16],
-    strokeWidth: [0.5, 0.9]
-  });
-  svg.appendChild(group);
-}
-
 /* ---------------- masthead parallax ---------------- */
 function setupMastheadParallax() {
   const bg = document.getElementById('masthead-bg');
@@ -1787,7 +1756,6 @@ function setupStickyNav() {
 /* ---------------- init ---------------- */
 buildSiteBackground();
 buildMastheadArt();
-buildCardTrackedLines();
 computeKPIs();
 computeTrackedActivitiesGraph();
 computeOptoutChart();
